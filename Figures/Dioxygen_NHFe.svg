@@ -1,0 +1,120 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="698px" height="220px" viewBox="0 0 698 220" style="background-color: #ffffff00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" >
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 4.36998 47.7)" style="font:normal normal bold 240px 'Inter'" >
+Fe</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 32.7507 38.6)" style="font:normal normal bold 180px 'Inter'" >
+2+</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 56.3245 47.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 61.9245 47.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 67.5245 47.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 73.1245 47.7)" style="font:normal normal bold 240px 'Inter'" >
++ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 95.037 47.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 100.637 47.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 106.237 47.7)" style="font:normal normal bold 240px 'Inter'" >
+O</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 125.037 53.5)" style="font:normal normal bold 180px 'Inter'" >
+2</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2523,1150 L 1887,1150 L 1887,1130 L 2523,1130 Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2697,1140 C 2697,1140 2497,1191 2497,1191 C 2497,1191 2522,1162.31 2522,1140 C 2522,1117.25 2497,1088 2497,1088 C 2497,1088 2697,1140 2697,1140 C 2697,1140 2697,1140 2697,1140 " />
+<path stroke="#000000" stroke-width="1" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2697,1140 C 2697,1140 2497,1191 2497,1191 C 2497,1191 2522,1162.31 2522,1140 C 2522,1117.25 2497,1088 2497,1088 C 2497,1088 2697,1140 2697,1140 C 2697,1140 2697,1140 2697,1140 " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 252.27 47.44)" style="font:normal normal bold 240px 'Inter'" >
+Fe</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 280.651 38.34)" style="font:normal normal bold 180px 'Inter'" >
+(3+)</text>
+<path stroke="#000000" stroke-width="20" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 3613.4,1140 C 3686.4,1140 3653,1140 3796,1140 " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 337.93 45.7)" style="font:normal normal bold 240px 'Inter'" >
+[O</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 366.548 51.5)" style="font:normal normal bold 180px 'Inter'" >
+2</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 377.888 45.7)" style="font:normal normal bold 240px 'Inter'" >
+]</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 4358.78,985.4 A 16.6222,16.6222 0 1 0 4392.02,985.4A 16.6222,16.6222 0 1 0 4358.78,985.4Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 4257.36,977.4 L 4343.84,977.4 L 4343.84,993.4 L 4257.36,993.4 Z " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 269.69 76)" style="font:normal normal normal 240px 'Inter'" >
+Superoxo</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5293,1160 L 4657,1160 L 4657,1140 L 5293,1140 Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5467,1150 C 5467,1150 5267,1201 5267,1201 C 5267,1201 5292,1172.31 5292,1150 C 5292,1127.25 5267,1098 5267,1098 C 5267,1098 5467,1150 5467,1150 C 5467,1150 5467,1150 5467,1150 " />
+<path stroke="#000000" stroke-width="1" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5467,1150 C 5467,1150 5267,1201 5267,1201 C 5267,1201 5292,1172.31 5292,1150 C 5292,1127.25 5267,1098 5267,1098 C 5267,1098 5467,1150 5467,1150 C 5467,1150 5467,1150 5467,1150 " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 534.27 48.44)" style="font:normal normal bold 240px 'Inter'" >
+Fe</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 562.651 39.34)" style="font:normal normal bold 180px 'Inter'" >
+(3+)</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 624.43 46.7)" style="font:normal normal bold 240px 'Inter'" >
+[O</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 653.048 52.5)" style="font:normal normal bold 180px 'Inter'" >
+2</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 664.388 46.7)" style="font:normal normal bold 240px 'Inter'" >
+]</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 674.206 37.6)" style="font:normal normal bold 180px 'Inter'" >
+2-</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 572.03 80.66)" style="font:normal normal normal 240px 'Inter'" >
+Peroxo</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 453.37 33.66)" style="font:normal normal bold 240px 'Inter'" >
+e</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 467.714 24.56)" style="font:normal normal bold 180px 'Inter'" >
+-</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 399.27 175.44)" style="font:normal normal bold 240px 'Inter'" >
+Fe</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 427.651 166.34)" style="font:normal normal bold 180px 'Inter'" >
+(3+)</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 484.43 173.7)" style="font:normal normal bold 240px 'Inter'" >
+O</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 503.23 179.5)" style="font:normal normal bold 180px 'Inter'" >
+2</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 514.569 173.7)" style="font:normal normal bold 240px 'Inter'" >
+H</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 394.03 209)" style="font:normal normal normal 240px 'Inter'" >
+Hydroperoxo</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 6080.64,2122.36 L 6500,1703 L 6514,1717 L 6094.64,2136.36 Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5964.6,2252.4 C 5964.6,2252.4 6069.67,2074.62 6069.67,2074.62 C 6069.67,2074.62 6072.44,2112.75 6088.34,2128.66 C 6104.25,2144.56 6142.38,2147.33 6142.38,2147.33 C 6142.38,2147.33 5964.6,2252.4 5964.6,2252.4 C 5964.6,2252.4 5964.6,2252.4 5964.6,2252.4 " />
+<path stroke="#000000" stroke-width="1" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5964.6,2252.4 C 5964.6,2252.4 6069.67,2074.62 6069.67,2074.62 C 6069.67,2074.62 6072.44,2112.75 6088.34,2128.66 C 6104.25,2144.56 6142.38,2147.33 6142.38,2147.33 C 6142.38,2147.33 5964.6,2252.4 5964.6,2252.4 C 5964.6,2252.4 5964.6,2252.4 5964.6,2252.4 " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 4177.76,2144.76 L 3740,1707 L 3754,1693 L 4191.76,2130.76 Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 4307.8,2260.8 C 4307.8,2260.8 4130.02,2155.73 4130.02,2155.73 C 4130.02,2155.73 4168.15,2152.96 4184.06,2137.06 C 4199.96,2121.15 4202.73,2083.02 4202.73,2083.02 C 4202.73,2083.02 4307.8,2260.8 4307.8,2260.8 C 4307.8,2260.8 4307.8,2260.8 4307.8,2260.8 " />
+<path stroke="#000000" stroke-width="1" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 4307.8,2260.8 C 4307.8,2260.8 4130.02,2155.73 4130.02,2155.73 C 4130.02,2155.73 4168.15,2152.96 4184.06,2137.06 C 4199.96,2121.15 4202.73,2083.02 4202.73,2083.02 C 4202.73,2083.02 4307.8,2260.8 4307.8,2260.8 C 4307.8,2260.8 4307.8,2260.8 4307.8,2260.8 " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 597.42 134.7)" style="font:normal normal bold 240px 'Inter'" >
+H</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 615.326 125.6)" style="font:normal normal bold 180px 'Inter'" >
++</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 318.42 134.7)" style="font:normal normal bold 240px 'Inter'" >
+H</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 3807.93,1998.4 A 16.6667,16.6667 0 1 0 3841.27,1998.4A 16.6667,16.6667 0 1 0 3807.93,1998.4Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2963.2,2380 L 4237,2380 L 4237,2400 L 2963.2,2400 Z " />
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2789.2,2390 C 2789.2,2390 2989.2,2338 2989.2,2338 C 2989.2,2338 2964.2,2367.25 2964.2,2390 C 2964.2,2412.31 2989.2,2441 2989.2,2441 C 2989.2,2441 2789.2,2390 2789.2,2390 C 2789.2,2390 2789.2,2390 2789.2,2390 " />
+<path stroke="#000000" stroke-width="1" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2789.2,2390 C 2789.2,2390 2989.2,2338 2989.2,2338 C 2989.2,2338 2964.2,2367.25 2964.2,2390 C 2964.2,2412.31 2989.2,2441 2989.2,2441 C 2989.2,2441 2789.2,2390 2789.2,2390 C 2789.2,2390 2789.2,2390 2789.2,2390 " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 270.69 184.34)" style="font:normal normal normal 200px 'Inter'" >
+Homolysis</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 20.37 173.7)" style="font:normal normal bold 240px 'Inter'" >
+Fe</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 48.7507 164.6)" style="font:normal normal bold 180px 'Inter'" >
+(4+)</text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 87.9874 173.7)" style="font:normal normal bold 240px 'Inter'" >
+=O </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 128.7 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 134.3 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 139.9 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 145.5 173.7)" style="font:normal normal bold 240px 'Inter'" >
++ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 167.412 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 173.012 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 178.612 173.7)" style="font:normal normal bold 240px 'Inter'" >
+ </text>
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 184.212 173.7)" style="font:normal normal bold 240px 'Inter'" >
+OH</text>
+<path stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 2197.53,2386.8 A 16.6667,16.6667 0 1 0 2230.87,2386.8A 16.6667,16.6667 0 1 0 2197.53,2386.8Z " />
+<text x="0" y="0" stroke="transparent" fill="#000000" transform="matrix(0.1 0 0 0.1 48.03 210)" style="font:normal normal normal 240px 'Inter'" >
+Oxo</text>
+<path stroke="#000000" stroke-width="20" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 6470,1140 C 6543,1140 6509.6,1140 6652.6,1140 " />
+<path stroke="#000000" stroke-width="20" fill="transparent" transform="matrix(0.1 0 0 0.1 -42.67 -74)" d="M 5076.6,2416.6 C 5149.6,2416.6 5116.2,2416.6 5259.2,2416.6 " />
+</svg>
