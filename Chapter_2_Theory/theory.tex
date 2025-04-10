@@ -1,155 +1,46 @@
 \chapter{Theory}
-This chapter provides the theoretical background of methods used to study the selectivity and reactivity of SCD1. Firstly, classical molecular mechanics (MM) force fields and their development are explained. It is also possible to describe a part of the system on the quantum mechanical (QM) level, which is explained in the second section. Section three describes how the developed energy expressions can be used to run molecular dynamics (MD) simulations. Finally, section four describes the calculation of various properties from MD simulations with emphasis on free energies. The material in sections 2.1 and 2.3 is mostly based on ``Introduction to Computational Chemistry'' by Frank Jensen \cite{Jensen2007} and in section 2.2 on an excellent review article by Hans Martin Senn and Walter Thiel \cite{Senn2009}. The material in section 2.4 is based on the textbook ``Molecular Modelling (Principles and Applications)'' by Andrew R. Leach \cite{Leach}.
+% This chapter provides the theoretical background of methods used to study the selectivity and reactivity of SCD1. Firstly, classical molecular mechanics (MM) force fields and their development are explained. It is also possible to describe a part of the system on the quantum mechanical (QM) level, which is explained in the second section. Section three describes how the developed energy expressions can be used to run molecular dynamics (MD) simulations. Finally, section four describes the calculation of various properties from MD simulations with emphasis on free energies. The material in sections 2.1 and 2.3 is mostly based on ``Introduction to Computational Chemistry'' by Frank Jensen \cite{Jensen2007} and in section 2.2 on an excellent review article by Hans Martin Senn and Walter Thiel \cite{Senn2009}. The material in section 2.4 is based on the textbook ``Molecular Modelling (Principles and Applications)'' by Andrew R. Leach \cite{Leach}.
 
-\section{Classical force fields}
-Molecular modelling enables us to study the behaviour and properties of molecules on an atomic level which is challenging or even impossible with experiments. To gain meaningful results it is necessary to model the real physics of the system. One approach is to model the system quantum mechanically but this is often prohibitively expensive for large systems like biomolecules. A more affordable approach is to treat the system as a collection of classical atoms without an explicit description of electrons. This is called molecular mechanics and functions describing the potential energy are called force fields. The exclusion of electrons means that the bonding needs to be predefined. Equation \ref{eq:FF} shows the general form of most force fields.
-\begin{equation} \label{eq:FF}
-    E_{FF} = E_{bonds} + E_{angles} + E_{dihedrals} + E_{nb}
-\end{equation}
-$E_{bonds}$ describes the energy contribution of all bonded pairs of atoms (bond stretching). $E_{angles}$ includes terms from all triplets of consecutively bonded atoms A-B-C and describes energy contributions from changes in the angle around the central atom B (bending). $E_{dihedrals}$ accounts for energies due to rotations around bonds and has contributions from all quartets of consecutively bonded atoms A-B-C-D (torsion). Finally, $E_{nb}$ describes non-bonded interactions between all pairs of atoms separated by 3 or more bonds.
+\section{A brief introduction to statistical mechanics}
 
-The most common functional form of $E_{bonds}$ is shown in equation \ref{eq:bonded}.
-\begin{equation} \label{eq:bonded}
-    E_{bonds} = \sum_{bonds} k_b \left( r-r_{0} \right)^2
-\end{equation}
-All the bonds are treated as harmonic springs with a force constant of $k_b$ and an equilibrium length $r_0$. Formally it is a Taylor expansion in terms of the bond length around $r_0$ truncated at second order. The two parameters need to be provided for each bond. The harmonic approximation is adequate in most situations but this approach is not able to model bond dissociation. Anharmonicity can be modeled by including more terms in the Taylor expansion or using the Morse potential, but this increases the number of parameters for each bond.
+\subsection{Classical forcefields and molecular dynamics}
 
-The $E_{angles}$ term is described in a similar way (eq.\,\ref{eq:angles}) using a Taylor expansion around an equilibrium angle $\theta_0$.
-\begin{equation} \label{eq:angles}
-    E_{angles} = \sum_{angles} k_{\theta} \left( \theta-\theta_0 \right)^2
-\end{equation}
-The harmonic approximation is adequate because the angles do not deviate too much from their equilibrium values in chemically relevant contexts.
+\subsection{The canonical ensemble and free energy calculations}
 
-A simple Taylor expansion is not sufficient for $E_{dihedrals}$ because there are usually several minima corresponding to different values of a dihedral angle with low transition barriers. Furthermore, it is necessary to account for the periodicity. For example, there are three minimum conformations in terms of the H-C-C-H dihedral in ethane at $-60^{\circ}$, $+60^{\circ}$ and $180^{\circ}$ (if the range is taken as [$-180^{\circ}$,$180^{\circ}$]) which correspond to staggered conformations. In butane there are also three minimum conformations in terms of the C-C-C-C dihedral but the \textit{gauche} minima ($\pm 60^{\circ}$) are higher in energy than the \textit{anti} minimum at 180$^{\circ}$. The usual approach is to expand each dihedral contribution as a Fourier series (eq.\,\ref{eq:dihedrals}).
-\begin{equation} \label{eq:dihedrals}
-    E_{dihedrals} = \sum_{dihedrals} \sum_{n=1} V_n \left[ 1 + \cos(n\phi - \gamma) \right] 
-\end{equation}
-$V_n$ is half of the barrier height and $n$ determines the periodicity. The factor of one is added to shift the zero point of the energy and the phase $\gamma$ shifts the position of minima and maxima. The $n=1,2,3$ terms are sufficient to describe most situations encountered in biological molecules, so each dihedral contribution in principle requires the definition of three barrier heights and three phase factors. The phase factor is often just $0^{\circ}$ or $180^{\circ}$ and it is not always necessary to use three terms. For more complex bonding, like in octahedral transition metal complexes, additional terms in the Fourier series are necessary. The precision of dihedral terms is in general less important than the precision of bond and angle terms because part of the interaction is modelled by 1,4 non-bonded interactions.
+\subsection{Enhanced sampling techniques}
 
-The usual functional form of the non-bonded term is shown in equation \ref{eq:nb}.
-\begin{equation} \label{eq:nb}
-    E_{nb} = \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \left[ \frac{A_{i,j}}{r_{i,j}^{12}} - \frac{B_{i,j}}{r_{i,j}^{6}} + \frac{q_i q_j}{4 \pi \epsilon r_{i,j}} \right]
-\end{equation}
-The sum runs over all pairs of atoms but it is zero for pairs separated by one or two bonds. For pairs separated by 3 bonds the interaction is usually scaled down because part of it is already included in the dihedral term. A simple Coulomb potential is used for modelling the electrostatic interactions where each atom needs to be assigned a partial charge. The Leonard-Jones (LJ) potential is used to describe Pauli repulsion and induced dipole-induced dipole (dispersion) attraction. There is no reason to model Pauli repulsion with a $r^{-12}$ dependence but the polynomial form is very convenient. Better modelling of Pauli repulsion is not relevant in most chemical situations. The $r^{-6}$ dependence of dispersion interactions can be derived from theory. It is more convenient to rewrite the LJ potential in a different form (eq.\,\ref{eq:new_LJ}).
-\begin{equation} \label{eq:new_LJ}
-    E_{LJ} = \epsilon_{i,j} \left[ \left( \frac{R_{min,i,j}}{r_{i,j}} \right)^{12} - 2 \left( \frac{R_{min,i,j}}{r_{i,j}} \right)^6 \right]
-\end{equation}
-$R_{min,i,j}$ is the distance where the potential is minimal and it can be thought of as the sum of the van der Waals radii of atoms i and j. $\epsilon_{i,j}$ is the value of the potential at the minimum. Values of both parameters can be determined based on properties of individual atoms (eq.\,\ref{eq:R_min}, \ref{eq:epsilon})  which significantly reduces the number of necessary parameters.  
-\begin{equation} \label{eq:R_min}
-    R_{min,i,j} = 0.5(R_{min,i,i} + R_{min,j,j})
-\end{equation}
-\begin{equation} \label{eq:epsilon}
-    \epsilon_{i,j} = \sqrt{\epsilon_{i,i} \cdot \epsilon_{i,i}}
-\end{equation}
-$\epsilon_{i,i}$ and $R_{min,i,i}$ correspond to an interaction between two identical atoms i. 
+\subsubsection{Metadynamics and its well-tempered flavour}
 
-A practical limit for the maximum system size in simulations is usually hundreds of thousands of atoms. At this size many of the solvent molecules are at the surface which changes their properties compared to the bulk phase. A common solution to reduce surface effects is to use periodic boundary conditions (PBCs). The system is surrounded by infinite identical replicas of itself and the atoms in different replicas are allowed to interact with each other. This would mean that there is an infinite number of non-bonded interactions, so approximations are necessary. The LJ potential is short-ranged, so a common approach is to calculate only interactions for pairs of atoms which are closer than a certain cutoff distance. The electrostatic interaction is long-ranged and a very large cutoff is necessary before interactions between atoms become negligible. Fortunately, all interactions can be included using methods based on Fourier transforms, e.g., Ewald summation and particle mesh Ewald \cite{Petersen1995}. Ewald summation was originally developed for crystal systems, but it can be used for any system employing PBCs. 
-
-We can see that defining a force field requires many parameters whose determination is not straightforward. The number of parameters is reduced by assuming that molecules consist of units whose structural and energetic properties are transferable between different molecules. Usually a set of commonly appearing atom types is defined. For example, an sp$^3$-hybridized carbon can be one atom type and an sp$^2$-carbon another. Of course, an sp$^3$-carbon in methane is very different from an sp$^3$-carbon in acetaldehyde, so usually more atom types are needed. The more atom types, the better the force field, but with additional complexity of having to define more parameters. Parameters are usually determined by fitting to reproduce data from experiments and/or \textit{ab initio} calculations. Very well parameterized force fields exist for common biomolecules like the Amber force fields for proteins \cite{Tian2020}, lipids \cite{Dickson2022}, DNA \cite{Murillo2016}, RNA \cite{Zgarbova2011} and carbohydrates \cite{Kirschner2008}. The general Amber force field (GAFF, GAFF2) \cite{He2020} includes parameters for common small organic molecules which often function as ligands. Very good water and ion force fields are also available \cite{Xiong2020,Sengupta2021}. Still, there are many situations where there are no parameters available, most commonly for non-standard protein residues and cofactors. 
-
-The GAFF2 force field contains only the bonded parameters and does not include partial charges of each atom type because they vary a lot between different molecules and can even depend on the exact conformation. They usually need to be assigned from results of \textit{ab initio} electronic structure calculations. One approach is to assign them based on population analysis (Mulliken, L\"owdin \ldots), but a better approach is to reproduce the \textit{ab initio} electrostatic potential (ESP). The best set of partial charges is defined as the set that reproduces the reference ESP as best as possible. This can be done by sampling the reference ESP at a number of points close to the molecular surface and minimizing the difference between the reference ESP and the ESP generated by the partial charges (eq.\,\ref{eq:resp}).
-\begin{equation} \label{eq:resp}
-    Err = \sum_{r}^{N_{points}} \left(  \phi_{esp}(\textbf{r}) - \sum_{a}^{N_{atoms}} \frac{q_a}{\mid \textbf{R}_a - \textbf{r} \mid}  \right)^2 + penalty
-\end{equation}
-Minimization is very sensitive to partial charges of surface atoms but not to non-surface atoms. Because of this it is common to add a hyperbolic penalty term for non-zero partial charges to avoid unrealistically large partial charges of non-surface atoms and the method is called restrained electrostatic potential (RESP) fitting \cite{Bayly1993}. It is also a good practice to impose further restraints on the charges based on symmetry or chemical intuition. For very flexible molecules the RESP fitting should be performed on multiple conformations.
-
-
-\section{QM/MM Hamiltonian}
-One of the big drawbacks of classical force fields is their inability to model reactivity because of the fixed bonding. A solution would be to model the whole system on a QM level but in many cases we want to model systems containing tens of thousands of atoms. Most of the atoms are usually solvent molecules that are required to mimic the biological environment of the protein but which are unimportant for the reactivity. The idea of QM/MM is to partition the system (S) into a smaller inner region (I), where the reaction occurs and describe it on a QM level, and a larger outer region (O) described with MM. The partitioning is based on individual atoms and not on volumes in space. The total energy of the system can be written in two ways: substractive scheme (eg.\,\ref{eq:substrctive}) and additive scheme (eq.\,\ref{eq:additive}).
-\begin{equation} \label{eq:substrctive}
-    E_{\text{sub}}(\text{S}) = E_{\text{MM}}(\text{S}) + E_{\text{QM}}(\text{I}) - E_{\text{MM}}(\text{I}) 
-\end{equation}
-\begin{equation} \label{eq:additive}
-    E_{\text{add}}(\text{S}) = E_{\text{QM}}(\text{I}) + E_{\text{MM}}(\text{O}) + E_{\text{QM-MM}}(\text{I/O}) 
-\end{equation}
-The difference is in the treatment of interactions between the regions. The substractive scheme calculates the energy of the whole system with MM and of the inner region with QM. To avoid double counting, the energy of the inner region calculated with MM is subtracted. Effectively this means that the interactions between the two regions are calculated with MM. The electron density of the QM region is calculated in vacuum and thus is not polarized by the rest of the environment. Usually we want to model polarization, so improved schemes must be used.
-
-The additive scheme treats the interactions between the regions explicitly. The expression contains bonded (bonds, angles, dihedrals), van der Waals and electrostatic terms (eq.\,\ref{eq:qm/mm}). 
-\begin{equation} \label{eq:qm/mm}
-    E_{\text{QM-MM}}(\text{I/O}) = E_{\text{QM-MM}}^{\text{b}} + E_{\text{QM-MM}}^{\text{vdW}} + E_{\text{QM-MM}}^{\text{el}}
-\end{equation}
-Most methods calculate the bonded and van der Waals terms purely with MM which means that parameters for the atoms in the inner region are needed. Generally they are assigned based on similarities to known atom types. The electrostatic interactions can be calculated on a classical level (mechanical embedding) but this again would not model polarization of the inner region. Another disadvantage is the problematic assignment of partial charges to the inner region which in principle should be updated whenever the atoms move. Electrostatic embedding allows polarization of the electron density by including electrostatic terms to the QM Hamiltonian of the inner region (eq.\,\ref{eq:eff_H}, in atomic units).
-\begin{equation} \label{eq:eff_H}
-    \hat{H}_{\text{QM-MM}}^{\text{el}} = - \sum_i^N \sum_{J \in O}^L \frac{q_J}{\mid \textbf{r}_i - \textbf{R}_j \mid} + \sum_{\alpha \in I}^M \sum_{J \in O}^L \frac{Q_{\alpha} q_J}{\mid \textbf{R}_{\alpha} - \textbf{R}_J \mid} 
-\end{equation}
-$N$, $L$ and $M$ are the number of electrons, atoms in the outer region and nuclei in the inner region, respectively. $Q_{\alpha}$ is the nuclear charge of nuclei in the inner region at position $\textbf{R}_{\alpha}$ and $q_{J}$ are the atomic partial charges in the outer region at $\textbf{R}_J$. We can see that the additional terms include the interaction between the electron density and nuclear charges in the inner region with the MM atoms in the outer region.
-
-A situation which requires addressing is when the boundary passes through covalent bonds. If possible, we should avoid this situation because it creates a problem of dangling bonds in the QM region. The link-atom scheme provides a solution by completing the valence of the dangling bond with an additional link atom, most commonly hydrogen. The inserted atom is not part of the real system and requires special treatment. Its position is defined by the positions of the boundary atoms to not introduce additional degrees of freedom. In this way the link atom does not participate in optimization or molecular dynamics procedures. The MM boundary atom is now very close to the link atom and this can cause overpolarization of the electron density to the MM region. This can partly be alleviated by distributing the MM boundary atom charge onto neighbouring atoms.
-
-\section{Molecular dynamics simulations}
-The described energy expressions can be used to study dynamical properties of the system. Both in MM and QM/MM the nuclei are treated as classical particles. Under the Born-Oppenheimer approximation the motion of nuclei and electrons is decoupled and it is assumed that electrons instantaneously adapt to a new nuclear configuration. This is justified with the much larger mass of the nuclei compared to electrons. The positions of all nuclei in time (trajectory) can be obtained using Newton's second law (eq.\,\ref{2nd_law}). Equation~\ref{2nd_law_diff} is obtained after rewriting the force as the gradient of the potential energy $V$. \textbf{r}, \textbf{F} and \textbf{a} are 3N dimensional vectors.
-\begin{equation} \label{2nd_law}
-    \textbf{F} = m \textbf{a}
-\end{equation}
-\begin{equation} \label{2nd_law_diff}
-    - \nabla V(\textbf{r}) = m \frac{d^2 \textbf{r}}{dt^2}
-\end{equation}
-The trajectory \textbf{r}$(t)$ usually doesn't have an analytical expression and it can only be obtained by numerical integration of equation \ref{2nd_law_diff} using a small time step $\Delta t$. The time step should be small enough to capture the fastest motions in the system which are usually vibrations of bonds with hydrogen, but large enough to reduce the computational cost. Typically a time step of 1 fs is enough for most biological systems. It can be increased to 2 fs if the bonds with hydrogen are frozen (SHAKE algorithm \cite{Tobias1988}). This is justified because in most cases the properties of interest are not influenced by vibrations of bonds with hydrogen. There are several possible numerical integration methods to obtain \textbf{r}$(t)$. A commonly used method is the velocity Verlet algorithm. The position at the next time step can be obtained from the current velocity and acceleration (eq.\,\ref{verlet_postion}). The velocity at the next time step can be obtained from the accelerations at the current and next time step (eq.\,\ref{verlet_velocity}). In all cases the acceleration is determined from equation~\ref{2nd_law_diff}.
-\begin{gather} \label{verlet_postion}
-    \textbf{r}_{i+1} = \textbf{r}_{i} + \textbf{v}_{i} \Delta t + \frac{1}{2} \textbf{a}_{i} \Delta t^2
-\end{gather}
-\begin{equation} \label{verlet_velocity}
-    \textbf{v}_{i+1} = \textbf{v}_{i} + \frac{1}{2} (\textbf{a}_{i} + \textbf{a}_{i+1}) \Delta t
-\end{equation}
-The velocities at the initial step are usually assigned randomly based on a desired temperature.
-
-The mentioned integration procedure conserves the total energy if numerical integration is precise enough. Additionally, if the volume of the system's box is kept constant the integration generates a microcanonical ensemble (NVE). This does not correspond to most experimental or biological conditions where usually the temperature is constant, so more natural choices are the canonical (NVT) or isobaric-isothermal (NPT) ensembles. For condensed phases the differences between the NVT and NPT ensembles are small. The temperature is proportional to the average kinetic energy, so it is completely defined by the particle's velocities. It can be kept constant during a simulation using a temperature regulation algorithm, often called a thermostat. Thermostats usually reassign each particle's velocities at each time-step to maintain the desired temperature. Global thermostats uniformly change the velocities of all particles while local thermostats act on each particle individually. An example of a global thermostat is the Berendsen thermostat \cite{Berendsen1984} where the system is coupled to a fictional external heat bath at constant temperature $T_0$. The rate of change of the temperature is then assumed to be proportional to the temperature difference $T_0 - T$ with a proportionality constant $1/\tau$ (eq.\,\ref{berendsen_1}).
-\begin{equation} \label{berendsen_1}
-    \frac{dT}{dt} = \frac{1}{\tau} ( T_0 - T )
-\end{equation}
-It can be shown that the relation can be satisfied by multiplying each particle's momentum by a factor $\lambda$ given in eq.~\ref{berendsen_2}.
-\begin{equation} \label{berendsen_2}
-    \lambda = \sqrt{1 + \frac{\Delta t}{\tau} \left(\frac{T_0}{T} - 1 \right)}
-\end{equation}
-
-On the other hand, the Langevin thermostat is an example of a local thermostat \cite{Grest1986, Murtola2009}. The equation of motion of each particle is modified by adding a dissipating force with frictional coefficient $\Gamma$, and a random force $\xi(t)$ (eq.\,\ref{langevin}). $p^i_{\upsilon}$ is the momentum of particle i along a Cartesian coordinate $\upsilon$. 
-\begin{equation} \label{langevin}
-    \frac{d p^i_{\upsilon}}{dt} = - \frac{\partial V}{\partial r^i_{\upsilon}} - \Gamma v^i_{\upsilon} + \xi_{\upsilon}^{i}(t)
-\end{equation}
-The two additional terms account for random collisions with the heat bath that can either increase or decrease the particle's momentum. The random force is a Gaussian random variable with zero mean and variance $\sigma^2 = 2 \Gamma k T_0$ which is adjusted to model fluctuations present in a canonical ensemble where $k$ is the Boltzmann constant.
-
-Pressure can be computed from interatomic forces and it can be controlled in a similar way to the Berendsen thermostat with a Berendsen barostat by rescaling the system's box size at each time step \cite{Berendsen1984}. The rate of change of the pressure is assumed to be proportional to the difference between the target and current pressure (eq.\,\ref{barostat_1}). If a cubic box is used, with sides of same length, it results in multiplying the length of each side by a factor $\mu$ given in equation~\ref{barostat_2} where $\kappa$ is the system's compressibility. 
-\begin{equation} \label{barostat_1}
-    \frac{dP}{dt} = \frac{1}{\tau} ( P_0 - P )
-\end{equation}
-\begin{equation} \label{barostat_2}
-    \mu = \sqrt[3]{1 + \kappa \frac{\Delta t}{\tau} \left(P - P_0 \right)}
-\end{equation}
+\subsubsection{Kinetics from metadynamics}
 
 
 
-\section{Calculating properties from MD simulations}
-Depending on the ensemble, the state of a macroscopic system is described by a set of constant variables. In the canonical ensemble a macroscopic state is described with the number of particles $N$, temperature $T$ and volume $V$. Each macroscopic state corresponds to a large number of microscopic states which in classical mechanics are described by the positions and momenta of all particles ($\mathbf{r}^\text{N}$, $\mathbf{p}^\text{N}$). Positions and momenta are continuous variables and the vector space described by them is called the phase space. Each point in the phase space is a possible microscopic state. In theory the system can visit all microscopic states, but in reality it stays in a certain local low energy region of the phase space. Not all microscopic states are equally likely, so each can be assigned a probability density $\rho(\mathbf{r}^\text{N},\mathbf{p}^\text{N})$ which gives the probability of finding the system in an area of phase space around $\mathbf{r}^\text{N}$ and $\mathbf{p}^\text{N}$. The probability density for the canonical ensemble is shown in equation~\ref{nvt_pdf}.
-\begin{equation} \label{nvt_pdf}
-    \rho_{NVT}(\mathbf{r}^\text{N},\mathbf{p}^\text{N}) = \frac{\text{exp}\left(- \frac{E}{kT} \right)}{\int \cdots \int \text{exp}\left(- \frac{E}{kT} \right) d\mathbf{r}^\text{N} d\mathbf{p}^\text{N}}
-\end{equation}
-In theory, all properties of the macroscopic system can be calculated by knowing the probability density. Mechanical properties, properties which are also defined for each microscopic state, can be calculated as direct ensemble averages. For example, the average energy of the system can be calculated as an ensemble average of energies of each microscopic state like shown in equation~\ref{average_energy}. The brackets $\langle \cdots \rangle$ denote an ensemble average.
-\begin{equation} \label{average_energy}
-    E = \langle E \rangle = \int \cdots \int  E(\mathbf{r}^\text{N},\mathbf{p}^\text{N}) \rho(\mathbf{r}^\text{N},\mathbf{p}^\text{N}) d\mathbf{r}^\text{N} d\mathbf{p}^\text{N} 
-\end{equation}
-Thermal properties, like entropy and free energy, are not defined for individual microscopic states and cannot be calculated as direct ensemble averages. However, it is possible to connect the entropy and free energy to ensemble averages of other quantities. For example, the Helmholtz free energy in the canonical ensemble can be written as a function of the ensemble average of exp$(E/kT)$ (eq.\,\ref{a_as_average}).
-\begin{equation} \label{a_as_average}
-    A = k T \, \text{ln} \biggl \langle \text{exp} \left( \frac{E}{kT} \right)   \biggr \rangle 
-\end{equation}
+\section{Density functional theory}
 
-Unfortunately, the probability density cannot be determined analytically. Molecular dynamics simulations can be used to sample from the distribution. In principle the simulation should be infinitely long, but it is assumed that a representative ensemble can be generated in finite simulation time. In that case the ensemble average of a property X is just the average of the property over all $M$ members of the generated ensemble (eq.\,\ref{finite_average}).
-\begin{equation} \label{finite_average}
-    \langle X \rangle = \sum_{i=1}^{M} \frac{X_i}{M}
-\end{equation}
+\subsection{The Kohn-Sham approach}
 
-\subsection{Potential of mean force}
-Determination of the free energy is very desirable because it is the criterion of spontaneity of a chemical reaction under common experimental conditions. Its determination using equation~\ref{a_as_average} and ensembles generated with molecular dynamics simulations is not possible in practice. High energy structures make significant contributions to the average but are very rarely visited during a simulation. Instead, it is much easier to describe changes in the free energy. For example, a quantity which is easier to calculate is the potential of mean force (PMF) \cite{Roux1995}. The PMF describes the free energy change along a coordinate of the system $\xi(\mathbf{r}^{\text{N}})$. The coordinate can be an internal coordinate or a more complex function of the particle's Cartesian coordinates. When studying chemical reactions it is common to define it as the reaction coordinate to obtain the reaction's free energy profile. In that case the peak of the PMF corresponds to the transition state (TS). The PMF [$W(\xi)$] can be determined from the probability density $\rho(\xi)$ of finding the system at a particular value of the coordinate $\xi$ (eq.\,\ref{PMF}). The constant $C$ is arbitrary because in most cases we are only interested in free energy differences.
-\begin{equation} \label{PMF}
-    W(\xi) = C      - kT \, \text{ln}[\rho(\xi)]
-\end{equation}
-The probability density $\rho(\xi)$ can be determined from molecular dynamics simulations by counting the number of times the system had a value of $\xi$ between $\xi$ and $\xi + \Delta \xi$ [$N(\xi)$]. $\rho(\xi)$ is then given by equation \ref{pd_pmf} where $M$ is the total number of structures.
-\begin{equation} \label{pd_pmf}
-    \rho(\xi) = \frac{N(\xi)}{\Delta \xi M}
-\end{equation}
+\subsection{Generalised gradient approximation and PBE functional}
 
-\subsection{Umbrella sampling}
-Computing free energies is a story of endless problems because standard molecular dynamics simulations will only sample low energy regions of the coordinate $\xi$. Therefore, very long simulations are necessary to cross energy barriers along the reaction coordinate of most chemical reactions. A solution is to force the system to sample along the whole coordinate $\xi$ by introducing a series of usually harmonic biasing potentials $V^{\alpha}(\xi)$ centered at a specific value $\xi^{\alpha}$ with a force constant $k_u$ (eq.\,\ref{biasing_potential}). 
-\begin{equation} \label{biasing_potential}
-    V^{\alpha}(\xi) = \frac{1}{2} k_u (\xi - \xi^{\alpha})^2
-\end{equation}
-The method is called umbrella sampling \cite{Torrie1977}. The umbrella sampling windows result in a series of biased probability densities $\rho^{\alpha}(\xi)$ which can be used to reconstruct the original unbiased probability density $\rho(\xi)$. The unbiasing procedure relies on sufficient overlap between probability densities of neighbouring windows, so care is needed in the selection of the total number of windows and the force constant $k_u$. In addition, there is usually a trade-off between the number of simulation windows and the simulation time of each window. A commonly used unbiasing method is the weighted histogram analysis method (WHAM) \cite{Kumar1992}. 
+\subsection{\textit{Ab initio} molecular dynamics and GPW method}
+
+
+
+\section{Extended tight binding}
+
+
+
+\section{Neural network potentials}
+
+\subsection{Deep neural networks}
+
+\subsubsection{Multilayer perceptron}
+
+\subsubsection{Graph neural networks}
+
+\subsubsection{Message passing neural networks}
+
+\subsection{Invariance and equivariance}
+
+\subsection{Behler-Parrinello neural network potentials}
+
+\subsection{Equivariant neural network potentials}

@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2022)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Masterproef_EN_2012.aux
+A level-1 auxiliary file: copyright.aux
+A level-1 auxiliary file: Acknowledgments/acknowledgments.aux
+A level-1 auxiliary file: Summary/summary.aux
+A level-1 auxiliary file: Abbreviations/abbreviations.aux
+A level-1 auxiliary file: Chapter_1_Introduction/introduction.aux
+A level-1 auxiliary file: Chapter_2_Theory/theory.aux
+A level-1 auxiliary file: Chapter_3_Computational_details/computational_details.aux
+A level-1 auxiliary file: Chapter_4_Results/results.aux
+A level-1 auxiliary file: Chapter_6_Conclusion/conclusion.aux
+The style file: naturemag.bst
+A level-1 auxiliary file: Appendix/appendix.aux
+I found no \citation commands---while reading file Masterproef_EN_2012.aux
+Database file #1: References/references.bib
+You've used 0 entries,
+            2348 wiz_defined-function locations,
+            985 strings with 9076 characters,
+and the built_in function-call counts, 28 in all, are:
+= -- 0
+> -- 0
+< -- 0
++ -- 0
+- -- 0
+* -- 2
+:= -- 7
+add.period$ -- 0
+call.type$ -- 0
+change.case$ -- 0
+chr.to.int$ -- 0
+cite$ -- 0
+duplicate$ -- 0
+empty$ -- 1
+format.name$ -- 0
+if$ -- 1
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 8
+num.names$ -- 0
+pop$ -- 0
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 1
+stack$ -- 0
+substring$ -- 0
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 0
+while$ -- 0
+width$ -- 0
+write$ -- 7
+(There was 1 error message)
