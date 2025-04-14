@@ -1,12 +1,37 @@
 \chapter{Computational Details}
-% This chapter gives the computational details of all methods used in the thesis. The first section describes the system preparation and setup of classical molecular dynamics simulations. The MD simulations of the proposed reactive intermediate Int4$_{\text{A}-\alpha}$ suggest that it has unfavorable dynamical properties, so simulations of a newly proposed intermediate were also performed. From now on Int4$_{\text{A}-\alpha}$ is referred to as intermediate A while our newly proposed intermediate is referred to as intermediate B (Fig.\,\ref{fig:IntA_IntB}). They differ in the position of the oxo group on Fe$_{\text{B}}$. The second section gives details on the cluster model relaxed potential energy surface (PES) scan with GFN2-xTB \cite{Bannwarth2019,Grimme2017} for the HAA step by A which was used to assess the applicability of the GFN2-xTB method. The last section describes how QM/MM PES scans and MD simulations were used to study the reactivity of the newly proposed intermediate B.
+This chapter provides the details of the computational methods used in this work. The first section describes the generation of the training dataset, including the preparation of the system, initial equilibration using the molecular mechanics, exploration of the configuration space at the xTB level, further data labeling, and iterative training of the neural network potential. The second section discusses the production runs at different temperatures using the fitted neural network potential. The third section describes the workflow of validating the transition states obtained from the simulations following the partial Hessian formalism. Finally, the fourth section presents the data analysis and visualisation techniques employed to interpret the results.
 
 \section{Training dataset generation}
 
 \subsection{System preparation}
+The systems were prepared using the \texttt{CHARMM-GUI} webserver's functionality \citep{jo_charmm-gui_2008}. In particular, the \texttt{Multicomponent Assembler} interface \citep{kern_charmm-gui_2024} was utilised. 
 
-\subsection{Initial equillibration using the classifal forcefields}
+As a first step, the singly protonated and deprotonated forms of the methyl diphosphate were parametrised in \texttt{CGenFF} \citep{kim_charmm-gui_2017}, i.e. CHARMM General Forcefield. These states of the methyl diphosphate were chosen based on the fact that pyrophosphoric (diphosphoric) acid has the following dissociation constants \citep{haynes_crc_2016}:
+\begin{align*}
+    \mathrm{H_4P_2O_7} \rightleftharpoons \mathrm{[H_3P_2O_7]^-} + \mathrm{H^+},\quad \mathrm{p}K_\mathrm{a} = 0.91 \\
+    \mathrm{[H_3P_2O_7]^-} \rightleftharpoons \mathrm{[H_2P_2O_7]^{2-}} + \mathrm{H^+},\quad \mathrm{p}K_\mathrm{a} = 2.10 \\
+    \mathrm{[H_2P_2O_7]^{2-}} \rightleftharpoons \mathrm{[HP_2O_7]^{3-}} + \mathrm{H^+},\quad \mathrm{p}K_\mathrm{a} = 6.70 \\
+    \mathrm{[HP_2O_7]^{3-}} \rightleftharpoons \mathrm{[P_2O_7]^{4-}} + \mathrm{H^+},\quad \mathrm{p}K_\mathrm{a} = 9.32
+\end{align*}
+Thus, at the physiological pH of 7.4 this acid exists as an equillibrium between the doubly and singly protonated forms. As an assumption, the methyl group can be considered as a proton, therefore we condsidered the methyl diphosphate molecule to exist as a mixture of the singly (MeHDP) and deprotonated (MeDP) forms at the physiological pH.
 
+After succesfully parametrising the molecules, the system was solvated in a cubic box of water molecules together with the sodium counterions Na\textsuperscript{+} to neutralise the charge. The final system composition can be seen in Table \ref{tab:system-before-equillibration}.
+
+\subsection{Initial equillibration using the classical forcefields}
+
+\begin{table}[htbp]
+    \centering
+    \caption{System composition and simulation box details. \textsuperscript{1}The final dimensions were obtained after the NPT run using the CHARMM36m forcefield.}
+    \label{tab:system-before-equillibration}
+    \begin{tabular}{@{}lccc@{}}
+    \toprule
+    System & Equillibrated box dimensions\textsuperscript{1} (\AA) & No. of water molecules & No. of Na\textsuperscript{+} \\
+    \midrule
+    MeDP  & $15.877 \times 15.877 \times 15.877$ & 119 & 3 \\
+    MeHDP & $15.901 \times 15.901 \times 15.901$ & 124 & 2 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 \subsection{xTB based exploration of the configuration space}
 
 \subsection{Data labeling}
