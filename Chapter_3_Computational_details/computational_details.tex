@@ -28,8 +28,8 @@ Subsequently the system was equillibrated in the NVT (constant number of particl
 
 As a last step, the system was equilibrated in the NPT (constant number of particles, pressure, and temperature) ensemble for 45 ns. Throughout the whole protocol, the temperature was set to 300 K and the pressure was set to 1 bar. To ensure the constant temperature and pressure, the system was coupled to a $\nu$-rescale thermostat with a coupling constant of 1 ps and an isotropic \textit{c}-rescale barostat with a coupling constant of 5 ps. During the NPT run, the cut-off for the non-bonded interactions was set to 0.6 nm and the long-range electrostatics were treated using the Particle Mesh Ewald (PME) method.
 
-All simulations were conducted in GROMACS 2021.4 \citep{abraham_gromacs_2015} using the CHARMM36m forcefield \citep{huang_charmm36m_2017} and the leap-frog integration method with a time step of 1 fs. All hydrogen involving bonds were constrained using the LINCS algorithm. The final dimensions of the box for all further calculations were obtained after the NPT run and are shown in Table \ref{tab:system-before-equilibration}.
-\begin{table}[htbp]
+All simulations were conducted in GROMACS 2021.4 \citep{abraham_gromacs_2015} using the CHARMM36m forcefield \citep{huang_charmm36m_2017} and the leap-frog integration method with a time step of 1 fs. All hydrogen involving bonds were constrained using the LINCS algorithm. The final dimensions of the box for all further calculations were obtained after the NPT run and are shown in Table \ref{tab:system-before-equilibration}. The last frame of the NPT runs was used as a starting point in all further calculations unless stated otherwise.
+\begin{table}[hb]
     \centering
     \caption{System composition and simulation box details. \textsuperscript{1}The final dimensions were obtained after the NPT run using the CHARMM36m forcefield.}
     \label{tab:system-before-equilibration}
@@ -45,16 +45,66 @@ All simulations were conducted in GROMACS 2021.4 \citep{abraham_gromacs_2015} us
 
 
 
+\subsection{Collective variables}
+In order to properly sample the reaction space, we used two types of collective variables (CVs) to bias the system, e.g. distances and coordination numbers (CNs). The coordination number is defined as the smooth coordination number function:
+\begin{equation}
+    \sum_{i \in A} \sum_{j \in B} CN_{ij} = \frac{1 - \left( \frac{r_{ij} - d_0}{r_0} \right)^n}{1 - \left( \frac{r_{ij} - d_0}{r_0} \right)^m}
+    \label{eq:coordination_number}
+\end{equation}
+where $r_{ij}$ is the distance between the atoms $i$ and $j$ from the groups $A$ and $B$, $d_0$ is a shift in the distance where CN starts to decay, $r_0$ is a scaling parameter or a characteristic decay length that defines how fast the CN drops off with distance, and $n$ and $m$ are the positive integers that control the steepness of the function. Normally, $m > n$ and the purpose of these parameters is to control how quickly the neighbours stop contributing as the distance increases. Therefore, the $CN_{ij}$ ranges from $\approx1$ when $r_{ij} \le r_0$ and $\approx0$ when $r_{ij} \ge r_0$. The CVs used to bias the systems in this work are shown in Figure \ref{fig:collective_variables}. The corresponding parameters to describe each collective variable are as follows:
+
+\begin{itemize}
+    \item The distance between the $\beta$-phosphorus and the oxygen atom connecting it to the rest of the molecule (CV\textsubscript{1}, d(O\textsubscript{remaining} - P\textsubscript{leaving}),
+    \item The coordination number of all oxygens around the $\beta$-phosphorus atom (CV\textsubscript{2}, CN(P\textsubscript{leaving} - O\textsubscript{all}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item The coordination number of all hydrogens excluding the methyl ones around the oxygen atoms bound to the $\beta$-phosphorus atom (CV\textsubscript{3}, CN(O\textsubscript{leaving} - H\textsubscript{all}): $d_0 = 0$, $r_0 = 1.4$ \AA, $n = 6$, $m = 12$.
+\end{itemize}
+
+Besides the above mentioned CVs that were biased during the simulations, we also used the following collective variables to track the number of H\textsubscript{3}O\textsuperscript{+} and OH\textsuperscript{-} in the solution:
+\begin{itemize}
+    \item The number of H\textsubscript{3}O\textsuperscript{+} (n\textsubscript{H\textsubscript{3}O\textsuperscript{+}}): TODO,
+    \item The number of OH\textsuperscript{-} (n\textsubscript{OH\textsuperscript{-}}): TODO.
+\end{itemize}
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/collective_variables.pdf}
+    \caption{The definition of the collective variables (CVs) used in this work. CN stands for the coordination number.}
+    \label{fig:collective_variables}
+\end{figure}
+
+To prevent the system from exploring the unphysical regions of the potential energy surface, we additionally applied quadratic (harmonic-like) wall potentials to softly restrain the accessible regions of some of the degrees of freedom. 
+
+The aforementioned wall potentials have the following form:
+\begin{equation}
+    \text{for UPPER WALLS:} \; \sum_i k_i \left( \frac{CV_i - a_i + o_i}{s_i} \right)^{e_i}
+    \label{eq:upper_wall}
+\end{equation}
+\begin{equation}
+    \text{for LOWER WALLS:} \; \sum_i k_i \left| \frac{CV_i - a_i - o_i}{s_i} \right|^{e_i}
+    \label{eq:lower_wall}
+\end{equation}
+where $CV_i$ is the value of the collective variable, $k_i$ is the force constant (wall strength) that controls how strong the wall pushes back, $a_i$ is the position of the wall, $o_i$ is the offset to shift the wall slightly, $s_i$ is the rescaling factor, and $e_i$ is the exponent that determines the sharpness of the wall. When $e_i = 2$ the wall is harmonic-like. 
+
+Thus this potential is equal to zero while the CV is within the boundaries but once the CV tries to go beyond the boundaries, the potential increases and penalises the system.
+
+The wall potentials were applied to the following collective variables:
+\begin{itemize}
+    \item CV\textsubscript{1}, d(O\textsubscript{remaining} - P\textsubscript{leaving}): $k = 500$ kcal mol\textsuperscript{-1} \AA\textsuperscript{-2}, $a = 5.0$ \AA (upper wall), $o = 0$ \AA, $s = 1$ \AA, $e = 2$),
+    \item TODO (CONSIDER TRANSFORMING INTO A TABLE)
+\end{itemize}
+
+All CV related computations were carried out using the CP2K 2023.1 in-built tools \citep{kuhne_cp2k_2020} or PLUMED 2.9.3 \citep{tribello_plumed_2014}. It's important to note that the number of the CVs used in the simulations varies depending on the part of the overall workflow. In the next sections we will clearly mention the respective collective variables used in each part of the workflow.
+
+
+
 \subsection{GFN1-xTB based exploration of the configuration space}
 To generate the first set of the configurations for the training dataset, the system was subjected to molecular dynamics simulations using the semi-empirical GFN1-xTB \citep{grimme_robust_2017} level of theory. GFN1-xTB gives a good first approximation of the potential energy surface and is computationally efficient hence making it suitable for relatively long MD simulations of big systems. 
 
-Each system was first equilibrated for 5 ps in the NVT ensemble at 300 K to relax the structures at the GFN1-xTB level of theory with a D3 dispersion correction \citep{grimme_consistent_2010}. Afterwards, we performed 50 ps long well-tempered metadynamics (WTMD) simulations in the NVT ensemble as well. In the latter simulation, the biasing potential was applied to force the system to explore the configuration space outside of the reactants basin. The biasing potential was added along two collective variables: the distance between the $\beta$-phosphorus and the oxygen atom connecting it to the rest of the molecule and the coordination number of water oxygens around the $\beta$-phosphorus atom. The more information on the collective variables matter will be provided in the next section. 
+Each system was first equilibrated for 5 ps in the NVT ensemble at 300 K to relax the structures at the GFN1-xTB level of theory with a D3 dispersion correction \citep{grimme_consistent_2010}. Afterwards, we performed 50 ps long well-tempered metadynamics (WTMD) simulations in the NVT ensemble as well. In the latter simulation, the biasing potential was applied to force the system to explore the configuration space outside of the reactants basin. The biasing potential was added along two collective variables (CV): the distance between the $\beta$-phosphorus and the oxygen atom connecting it to the rest of the molecule (CV\textsubscript{1}) and the coordination number of all oxygens around the $\beta$-phosphorus atom (CV\textsubscript{2}). 
 
 All calculations were performed using the CP2K 2023.1 package \citep{kuhne_cp2k_2020}. The temperature was controlled by means of the velocity-rescaling thermostat \citep{bussi_canonical_2007} with a time constant of 50 fs for the equillibration and 100 fs for the WTMD run. The SCF convergence was set to $10^{-5}$ a.u. The biasing potential was applied every 25 fs with a gaussian hill height of 2 kcal mol\textsuperscript{-1} and a width of 0.07 for each CV. The bias factor was set to 30. Lastly, the time step for the integration was set to 0.5 fs. Throughout all simulations, the periodic boundary conditions (PBC) were applied in all directions.
 
 
-
-\subsection{Collective variables}
 
 \subsection{Data labeling}
 
@@ -65,9 +115,9 @@ All calculations were performed using the CP2K 2023.1 package \citep{kuhne_cp2k_
 \subsubsection{Second round}
 
 \subsubsection{Third round}
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/workflow_diagram_helvetica_updated.pdf}
+    \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/workflow_diagram_updated.pdf}
     \caption{The iterative training of the NequIP neural network potential.}
     \label{fig:iterative-training}
 \end{figure}
@@ -78,6 +128,10 @@ All calculations were performed using the CP2K 2023.1 package \citep{kuhne_cp2k_
 
 
 \section{Validation of the transition states}
+
+
+
+\section{Lifetime of the transition states}
 
 
 
