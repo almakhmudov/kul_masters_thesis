@@ -1,1 +1,37 @@
 \chapter{Supplementary information}
+
+\begin{table}[htbp]
+    \centering
+    \caption{The plane-wave cutoff convergence test for DFT calculations. The calculation of $\Delta E$ involves subtracting the previous energy, e.g. $\Delta E(450\,\mathrm{Ry}) = E(450\,\mathrm{Ry}) - E(400\,\mathrm{Ry})$. When the cutoff $\ge 800$ and the rel cutoff $\ge 60$ the error in total energy reduces to ca. 10\textsuperscript{-8} a.u. Only part of the results is shown for the sake of clarity.}
+    \label{tab:cutoff-convergence-test}
+    \begin{tabular}{cccc}
+    \toprule
+    Cutoff (Ry) & Rel cutoff (Ry) & Total energy (a.u.) & $\Delta E$ (a.u.) \\
+    \midrule
+    400 & 60 & -2352.6355962810 & -- \\
+    450 & 60 &  -2352.6262868887 & $9.31 \times 10^{-3}$ \\
+    500 & 60 &  -2352.6262867349 & $1.54 \times 10^{-7}$ \\
+    550 & 60 &  -2352.6254866602 & $8.00 \times 10^{-4}$ \\
+    600 & 60 &  -2352.6243443853 & $1.14 \times 10^{-3}$ \\
+    650 & 60 &  -2352.6242425582 & $1.02 \times 10^{-4}$ \\
+    700 & 60 &  -2352.6224669798 & $1.78 \times 10^{-3}$ \\
+    750 & 60 &  -2352.6209571227 & $1.51 \times 10^{-3}$ \\
+    800 & 60 &  -2352.6212901605 & $-3.33 \times 10^{-4}$ \\
+    850 & 60 &  -2352.6212901727 & $-1.22 \times 10^{-8}$ \\
+    900 & 60 &  -2352.6212901873 & $-1.46 \times 10^{-8}$ \\
+    950 & 60 &  -2352.6213082173 & $-1.80 \times 10^{-5}$ \\
+    1000 & 60 &  -2352.6208957304 & $4.12 \times 10^{-4}$ \\
+    \midrule
+    10 & 800 & -2354.4562984779 & -- \\
+    20 & 800 &  -2352.6775968461 & $1.78$ \\
+    30 & 800 &  -2352.6281701514 & $4.94 \times 10^{-2}$ \\
+    40 & 800 &  -2352.6213637375 & $6.81 \times 10^{-3}$ \\
+    50 & 800 &  -2352.6212892865 & $7.45 \times 10^{-5}$ \\
+    60 & 800 &  -2352.6212901605 & $-8.74 \times 10^{-7}$ \\
+    70 & 800 &  -2352.6212901729 & $-1.24 \times 10^{-8}$ \\
+    80 & 800 &  -2352.6212901739 & $-1.00 \times 10^{-9}$ \\
+    90 & 800 &  -2352.6212901739 & $0.00$ \\
+    100 & 800 &  -2352.6212901739 & $0.00$ \\
+    \bottomrule
+    \end{tabular}
+\end{table}
