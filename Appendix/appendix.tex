@@ -2,11 +2,11 @@
 
 \begin{table}[htbp]
     \centering
-    \caption{The plane-wave cutoff convergence test for DFT calculations. The calculation of $\Delta E$ involves subtracting the previous energy, e.g. $\Delta E(450\,\mathrm{Ry}) = E(450\,\mathrm{Ry}) - E(400\,\mathrm{Ry})$. When the cutoff $\ge 800$ and the rel cutoff $\ge 60$ the error in total energy reduces to ca. 10\textsuperscript{-8} a.u. Only part of the results is shown for the sake of clarity.}
+    \caption{The plane-wave cutoff convergence test for DFT calculations. The calculation of $\Delta E$ involves subtracting the previous energy, e.g. $\Delta E(450\,\mathrm{Ry}) = E(450\,\mathrm{Ry}) - E(400\,\mathrm{Ry})$. When the cutoff $\ge 800$ and the rel cutoff $\ge 60$, the error in total energy reduces to ca. 10\textsuperscript{-8} a.u. Only part of the results is shown for the sake of clarity.}
     \label{tab:cutoff-convergence-test}
     \begin{tabular}{cccc}
     \toprule
-    Cutoff (Ry) & Rel cutoff (Ry) & Total energy (a.u.) & $\Delta E$ (a.u.) \\
+    \textbf{Cutoff (Ry)} & \textbf{Rel cutoff (Ry)} & \textbf{Total energy (a.u.)} & \textbf{\boldmath$\Delta E$ (a.u.)} \\
     \midrule
     400 & 60 & -2352.6355962810 & -- \\
     450 & 60 &  -2352.6262868887 & $9.31 \times 10^{-3}$ \\
@@ -32,6 +32,53 @@
     80 & 800 &  -2352.6212901739 & $-1.00 \times 10^{-9}$ \\
     90 & 800 &  -2352.6212901739 & $0.00$ \\
     100 & 800 &  -2352.6212901739 & $0.00$ \\
+    \bottomrule
+    \end{tabular}
+\end{table}
+
+
+
+\begin{algorithm}[htbp]
+    \caption{Density-aware sampling of configurations}
+    \label{alg:density_aware_sampling}
+    \begin{algorithmic}[1]
+    \Require Feature matrix $\mathbf{X} \in \mathbb{R}^{N \times 2}$ of $N$ configurations, number of samples $n_\text{samples}$
+    \Ensure List of selected configuration indices
+    \State Determine number of clusters:
+        \[
+        k \gets \max\left(10, \min\left(\left\lfloor \frac{N}{50} \right\rfloor, \left\lfloor \frac{n_\text{samples}}{10} \right\rfloor\right)\right)
+        \]
+    \State Apply K-means clustering to $\mathbf{X}$ with $k$ clusters
+    \State Initialize empty list for sampled cofiguration indices $S \gets [\ ]$
+    \For{each cluster $C_i$, $i = 1$ to $k$}
+        \State $n_i \gets \max\left(1, \left\lfloor \frac{|C_i|}{N} \cdot n_\text{samples} \right\rfloor \right)$
+        \State Select $n_i$ random configurations from $C_i$ with fixed random seed
+        \State Append selected indices to $S$
+    \EndFor
+    \State \Return $S$
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{table}[htbp]
+    \centering
+    \caption{Composition of the full dataset used for training and testing. Well-tempered metadynamics settings used to run the simulations: \textsuperscript{1}GFN1-xTB for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 25 fs, bias factor = 30 and  \textsuperscript{2}NNP for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 50 fs, bias factor = 30.}
+    \label{tab:full_dataset}
+    \begin{tabular}{ccccc}
+    \toprule
+    \textbf{System} & \textbf{Temperature (K)} & \textbf{Simulation length (ps)} & \textbf{Train/Val} & \textbf{Test} \\
+    \midrule
+    MeDP\textsuperscript{1}  & 300 & 50 ps   & 2000 & 150 \\
+    MeDP\textsuperscript{2}  & 300 & 100 ps & 2000 & 150 \\
+    MeDP\textsuperscript{2}  & 320 & 500 ps  & 1000 & 150 \\
+    MeDP\textsuperscript{2}  & 340 & 500 ps  & 1000 & 150 \\
+    MeHDP\textsuperscript{1} & 300 & 50 ps  & 2000 & 150 \\
+    MeHDP\textsuperscript{2} & 300 & 100 ps & 2000 & 150 \\
+    MeHDP\textsuperscript{2} & 320 & 500 ps  & 1000 & 150 \\
+    MeHDP\textsuperscript{2} & 340 & 500 ps  & 1000 & 150 \\
+    \midrule
+    \textbf{Total} & & & \textbf{12000} & \textbf{1200} \\
     \bottomrule
     \end{tabular}
 \end{table}
