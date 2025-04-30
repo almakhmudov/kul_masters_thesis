@@ -43,7 +43,7 @@ Subsequently, the system was equilibrated in the NPT (constant number of particl
     \end{tabular}
 \end{table}
 
-All simulations were carried out using GROMACS 2021.4~\citep{abrahamGROMACSHighPerformance2015} with the CHARMM36m force field~\citep{huangCHARMM36mImprovedForce2017}. The leap-frog integrator was employed with a time step of 1 fs. All hydrogen-involving bonds were constrained using the LINCS algorithm. The final box dimensions used for subsequent simulations were taken from the output of the NPT run and are summarised in Table~\ref{tab:system-before-equilibration}. Unless otherwise stated, the last frame of the NPT simulations was used as the starting point for all further calculations.
+All simulations were carried out using GROMACS 2021.4~\citep{abrahamGROMACSHighPerformance2015} with CHARMM36m force field~\citep{huangCHARMM36mImprovedForce2017}. The leap-frog integrator was employed with a time step of 1 fs. All hydrogen-involving bonds were constrained using the LINCS algorithm. The final box dimensions used for subsequent simulations were taken from the output of the NPT run and are summarised in Table~\ref{tab:system-before-equilibration}. Unless otherwise stated, the last frame of the NPT simulations was used as the starting point for all further calculations.
 
 
 
@@ -63,18 +63,18 @@ The specific CVs used in this work are shown in Figure~\ref{fig:collective_varia
     \item Coordination number of non-methyl hydrogen atoms around the oxygen atoms bonded to the $\beta$-phosphorus (CV\textsubscript{3}, CN(O\textsubscript{leaving} - H\textsubscript{all})): $d_0 = 0$, $r_0 = 1.4$ \AA, $n = 6$, $m = 12$.
 \end{itemize}
 
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/methods_collective_variables.pdf}
+    \caption{The definition of the collective variables (CVs) used in this work. CN stands for coordination number.}
+    \label{fig:collective_variables}
+\end{figure}
+
 Additionally, the following CVs were monitored to estimate the number of H\textsubscript{3}O\textsuperscript{+} and OH\textsuperscript{-} species in solution:
 \begin{itemize}
     \item Number of H\textsubscript{3}O\textsuperscript{+} (n\textsubscript{H\textsubscript{3}O\textsuperscript{+}}): TODO,
     \item Number of OH\textsuperscript{-} (n\textsubscript{OH\textsuperscript{-}}): TODO.
 \end{itemize}
-
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/collective_variables.pdf}
-    \caption{The definition of the collective variables (CVs) used in this work. CN stands for the coordination number.}
-    \label{fig:collective_variables}
-\end{figure}
 
 To avoid sampling unphysical regions of the potential energy surface, quadratic (harmonic-like) wall potentials were applied to softly constrain certain degrees of freedom.
 
@@ -89,11 +89,23 @@ The mathematical form of these wall potentials is given below:
 \end{equation}
 Here, $CV_i$ denotes the value of the collective variable, $k_i$ is the force constant defining the wall's strength, $a_i$ is the central wall position, $o_i$ is an offset, $s_i$ is a scaling factor, and $e_i$ is the exponent that controls the wall’s steepness. When $e_i = 2$, the potential acts harmonically.
 
-These wall potentials were applied to the following CVs:
-\begin{itemize}
-    \item upper wall on CV\textsubscript{1}, d(O\textsubscript{remaining} - P\textsubscript{leaving}): $k = 500$ kcal mol\textsuperscript{-1} \AA\textsuperscript{-2}, $a = 5.0$ \AA, $o = 0$, $s = 1$, $e = 2$,
-    \item TODO (CONSIDER TRANSFORMING INTO A TABLE)
-\end{itemize}
+The wall potentials applied to the CVs during the simulations are summarised in Table~\ref{tab:wall_potentials}. The parameters for the wall potentials were chosen based on the expected ranges of the CVs. The force constants were set to ensure that the walls were sufficiently strong to prevent unphysical configurations while allowing for reasonable exploration of the configuration space.
+
+\begin{table}[b!]
+    \centering
+    \caption{The restraints applied to the collective variables during some of the simulations. In all cases, $o = 0$, $s = 1$, $e = 2$. \textsuperscript{1}Different values for the walls were used depending on the system MeDP/MeHDP.}
+    \label{tab:wall_potentials}
+    \begin{tabular}{cccc}
+    \toprule
+    \textbf{CV} & \textbf{Lower wall} & \textbf{Upper wall} & \textbf{Force constant (kcal mol\textsuperscript{-1} \AA\textsuperscript{-2})} \\
+    \midrule
+    d\textsubscript{P-O} & -- & 5 & 500  \\
+    C\textsubscript{O-H\textsubscript{all}} & -- / 1.2$^{1}$ & 1.2 / 2.2$^{1}$ & 1000 \\
+    C\textsubscript{P-O\textsubscript{metaphosphate}} & 2.6 & -- & 2000 \\
+    C\textsubscript{P-O\textsubscript{water}} & -- & 1.3 & 2000 \\
+    \bottomrule
+    \end{tabular}
+\end{table}
 
 All CV-related computations were performed using the built-in tools of CP2K 2023.1 \citep{kuhneCP2KElectronicStructure2020} or PLUMED 2.9.3~\citep{tribelloPLUMED2New2014}. It is important to note that the number and type of CVs, as well as the applied restraints, varied depending on the specific stage of the workflow. In the following sections, the relevant collective variables and wall potentials will be specified accordingly.
 
@@ -169,7 +181,7 @@ In the second round of training, the model was trained on a larger dataset consi
 
 To run the simulations with the NNP, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022} compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip} was used. The simulations were performed for 100~ps in the NVT ensemble at 300~K. The temperature was controlled by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a time constant of 50~fs. The biasing potential was applied to CV\textsubscript{1} and CV\textsubscript{2} every 50~fs, using a Gaussian hill height of 2~kcal~mol\textsuperscript{-1} and a width of 0.07 for each CV. The bias factor was set to 30, and the integration time step was 0.5~fs.
 
-Restraints were applied to CV\textsubscript{2} in order to favour either a dissociative or associative mechanism of the reaction. The training was performed using the same hyperparameters as in the first round.
+Restraints were applied to CV\textsubscript{1} and CV\textsubscript{2} in order to favour either a dissociative or associative mechanism of the reaction and sample more configurations from the transition state regions. The training was performed using the same hyperparameters as in the first round.
 
 
 
