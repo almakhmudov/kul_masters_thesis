@@ -77,22 +77,294 @@ The world of enzymes—and phosphate hydrolysis by F\textsubscript{1}-ATPase in 
 
 
 \section{Reaction mechanism}
+Computational and experimental studies have provided significant insights into the mechanisms of phosphate hydrolysis reactions. Various systems and methodologies have been employed to explore the details of these fundamental biological processes. The debate often centres on whether the reaction proceeds via an associative mechanism (bond formation precedes bond breaking) or a dissociative mechanism (bond breaking precedes bond formation), and the nature of the proton transfer.
 
-\begin{figure}[htbp]
+
+
+\subsection{Phosphates}
+Starting from the simplest possible system, it has been shown that the hydrolysis of methyl phosphate (MeMP) in water can proceed via either associative or concerted mechanisms \citep{kamerlinWhyNatureReally2013, kamerlinAssociativeDissociativeMechanisms2008, klahnMechanismHydrolysisPhosphate2006, duarteResolvingApparentConflicts2015}. A schematic representation of these mechanisms is presented in Figure~\ref{fig:mfj_plot}, which illustrates the More O'Ferrall-Jencks (MFJ) diagram. The MFJ plot is a useful two-dimensional graphical representation of multidimensional free energy surfaces.
+
+The associative mechanism may proceed in two ways: stepwise (A\textsubscript{N} + D\textsubscript{N}, where A\textsubscript{N} stands for nucleophilic addition and D\textsubscript{N} for nucleophilic departure) or concerted (A\textsubscript{N}D\textsubscript{N}). The stepwise mechanism involves two transition states and an intermediate. In contrast, the concerted mechanism proceeds through a single transition state without the formation of intermediates \citep{duarteResolvingApparentConflicts2015}.
+
+\begin{figure}[b!]
     \centering
-    \includegraphics[width=0.5\textwidth]{Figures/1_Introduction/intro_mfj_plot.pdf}
-    \caption{MFJ plot.}
+    \includegraphics[width=0.95\textwidth]{Figures/1_Introduction/intro_mfj_plot.pdf}
+    \caption{More O'Ferrall-Jencks (MFJ) plot of the possible reaction mechanisms for phosphate hydrolysis. The plot shows the free energy as a function of two reaction coordinates: the distance between phosphorus and the nucleophile (Nuc), and the distance between the leaving group (lg) and the phosphorus atom. RS stands for reactant state, PS for product state.}
     \label{fig:mfj_plot}
 \end{figure}
 
-\subsection{S\textsubscript{N}1 and S\textsubscript{N}2 nucleophilic substitution reactions}
+In the case of the associative/stepwise mechanism (A\textsubscript{N} + D\textsubscript{N}, Figure~\ref{fig:reaction-mechanism}), the nucleophile (Nuc) approaches the phosphorus atom while the leaving group (lg) is still attached. Upon the nucleophile's approach, a concerted proton transfer occurs to one of the non-bridging oxygens. The reaction proceeds through a compact pentacoordinated transition state with a trigonal bipyramidal geometry, followed by the elimination of the leaving group in a subsequent transition state.
 
-\begin{figure}[htbp]
+Regarding the associative/concerted mechanism (A\textsubscript{N}D\textsubscript{N}), it proceeds in a manner quite similar to the first step of the associative/stepwise pathway. The reaction also involves a compact transition state in which bond formation and bond cleavage occur simultaneously.
+
+It has been shown that the protonation state of methyl phosphate lowers the overall barrier height of the rate-limiting step; however, it does not alter the reaction mechanism \citep{hassanEffectProtonationMechanism2017}. For the methyl phosphate monoanion (MeHMP), the calculated barrier height $\Delta G^{\ddagger}_{\text{calc}}$ is approximately 6-7 kcal/mol lower than that of the methyl phosphate dianion (MeMP). A similar effect was observed when OH\textsuperscript{-} acted as a nucleophile instead of a water molecule \citep{klahnMechanismHydrolysisPhosphate2006} (40 vs 47 kcal/mol, respectively).
+
+For the associative mechanism, calculated barrier heights $\Delta G^{\ddagger}_{\text{calc}}$ lie in the range of 33.7-47.2 kcal/mol, while experimental values obtained at 25 \textdegree{C} range between 30.6 and 44.3 kcal/mol, depending on the protonation state. Detailed information about the calculated and experimentally determined barrier heights can be found in Table~\ref{tab:summary_comp_exp_barriers}. Corresponding data on transition state structures and intermediates is summarised in Table~\ref{tab:summary_ts_structures}.
+
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.95\textwidth]{Figures/1_Introduction/intro_reaction_mechanism.pdf}
-    \caption{Reaction mechanism.}
+    \caption{Associative and dissociative reaction mechanisms. For the transition states, only one of the two is shown. The nucleophile (Nuc) is shown in red, the leaving group (lg) in black, and the phosphoryl group in yellow.}
     \label{fig:reaction-mechanism}
 \end{figure}
+
+The concerted mechanism (A\textsubscript{N}D\textsubscript{N}) is characterised by a single transition state \; where the nucleophile approaches the phosphorus atom while the leaving group remains attached. The reaction proceeds via a compact pentacoordinated transition state with a trigonal bipyramidal geometry, which is more expansive compared to that of the associative mechanism (Table~\ref{tab:summary_ts_structures}). In this transition state, the distance between the phosphorus atom and the nucleophile is approximately 2.06-2.75~\AA, while the distance between the leaving group and the phosphorus atom is around 2.61-2.75~\AA. The barrier heights for the concerted mechanism are 44.5 and 47 kcal/mol (Table~\ref{tab:summary_comp_exp_barriers}).
+
+As can be observed, it is rather difficult to clearly distinguish between the associative and concerted mechanisms, and it appears that both may occur in bulk water. Nevertheless, the dissociative mechanism is unlikely to take place, or at least it has not been observed.
+
+
+
+\subsection{Diphosphates}
+
+\subsection{Triphosphates}
+
+\begin{table}[t]
+    \centering
+    \small
+    \caption{Summary of computational and experimental studies on phosphate hydrolysis. In case of barrier height, the rate-limiting step is given.}
+    \label{tab:summary_comp_exp_barriers}
+    \resizebox{\textwidth}{!}{%
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}p{4.5cm} p{2.5cm} p{4.0cm} p{3.0cm} p{3.0cm} p{1.0cm}@{}}
+    \toprule
+    \textbf{System} & \textbf{Method} & \textbf{Level of theory} & \textbf{Mechanism} & \textbf{\boldmath$\Delta G^\ddagger$ (kcal/mol)} & \textbf{Ref.} \\ \midrule
+    
+    MeMP$^{2-}$ + H$_2$O & 
+    DFT & B3LYP/6-311+G** and COSMO &
+    Associative \newline Concerted & 
+    47.2 \newline 44.5 & 
+    \citep{kamerlinAssociativeDissociativeMechanisms2008} \\
+    
+    MeMP$^{2-}$ + H$_2$O & 
+    DFT & B3LYP/6-311++G** and COSMO & 
+    Associative & 
+    47 & 
+    \citep{klahnMechanismHydrolysisPhosphate2006} \\
+    
+    MeMP$^{2-}$ + 3 H$_2$O & 
+    DFT & M06-2X/6-311+G** and SMD &
+    Associative \newline Concerted & 
+    $\approx$ 36 \newline $\approx$ 44 & 
+    \citep{duarteResolvingApparentConflicts2015} \\
+    
+    MeMP$^{2-}$ + 4 H$_2$O & 
+    DFT & M06-2X/6-311+G** &
+    Associative & 
+    $\approx$ 40.8$\pm$1.9 & 
+    \citep{hassanEffectProtonationMechanism2017} \\
+    
+    MeHMP$^{-}$ + 4 H$_2$O & 
+    DFT & M06-2X/6-311+G** &
+    Associative & 
+    $\approx$ 33.7$\pm$1.7 & 
+    \citep{hassanEffectProtonationMechanism2017} \\
+    
+    MeDP$^{3-}$ + 2 H$_2$O & 
+    DFT & B3LYP/6-311++G** and PCM & 
+    Associative \newline Concerted & 
+    34.64 \newline 35.24 & 
+    \citep{prasadAddressingOpenQuestions2013} \\
+    
+    MeDP$^{3-}$ + H$_2$O & 
+    DFT & B3LYP/6-311+G** and COSMO & 
+    Associative \newline Dissociative & 
+    34.8 \newline 30.3 & 
+    \citep{kamerlinAssociativeDissociativeMechanisms2008} \\
+    
+    MeDP$^{3-}$ + H$_2$O & 
+    DFT & B3LYP/6-311++G** and COSMO & 
+    Associative \newline Dissociative & 
+    38 \newline 34 & 
+    \citep{klahnMechanismHydrolysisPhosphate2006} \\
+    
+    MeHDP$^{2-}$ + H$_2$O & 
+    DFT & B3LYP/6-311++G** and COSMO & 
+    Associative \newline Dissociative & 
+    34 \newline 31 & 
+    \citep{klahnMechanismHydrolysisPhosphate2006} \\
+    
+    ATP$^{4-}$ + Mg$^{2+}$ + 4163 H$_2$O + counterions & 
+    QM/MM, NEB & B3LYP/6-311++G** and MM & 
+    Concerted & 
+    32.5 & 
+    \citep{wangQMMMInvestigation2015} \\
+    
+    MeDP$^{3-}$ + Mg$^{2+}$ + 5 H$_2$O & 
+    QM/MM, \newline FEP (EVB) & B3LYP/6-311++G** and MM & 
+    Associative \newline Concerted \newline Dissociative & 
+    35 \newline 34 \newline 35 & 
+    \citep{klahnMechanismHydrolysisPhosphate2006} \\
+    
+    ATP$^{4-}$ + Mg$^{2+}$ + 1800 H$_2$O + counterions & 
+    QM/MM, QM = CPMD & BLYP/PW with Troullier-Martins pseudopotentials and MM & 
+    Associative \newline Dissociative & 
+    36.2 \newline 33.4 & 
+    \citep{harrisonQuantumClassicalDynamics2012} \\
+    
+    MeTP$^{4-}$ + Mg$^{2+}$ + 54 H$_2$O & 
+    CPMD & PBE/PW with Troullier-Martins pseudopotentials & 
+    Associative \newline Flexible \newline Dissociative & 
+    39.1 \newline 35.1 \newline 36.6 & 
+    \citep{akolaATPHydrolysisWater2003} \\
+    
+    MeTP$^{4-}$ + Mg$^{2+}$ + 113 H$_2$O & 
+    BOMD, \newline metadynamics & BLYP/TZV2P with GTH pseudopotentials & 
+    Associative \newline (acidic solution) \newline Concerted \newline (neutral solution) & 
+    29-30 \newline \newline 29 & 
+    \citep{glavesMechanisticInsightsHydrolysis2012} \\
+    
+    \midrule
+    
+    Methyl phosphate \newline dianion & 
+    Exp. at 25\textdegree{C} & 
+    -- & -- & 
+    44.3 & 
+    \citep{wolfendenDegreesDifficultyWaterConsuming2006} \\
+    
+    Methyl phosphate \newline monoanion & 
+    Exp. at 25\textdegree{C} & 
+    -- & -- & 
+    30.6 & 
+    \citep{wolfendenDegreesDifficultyWaterConsuming2006} \\
+    
+    Pyrophosphate trianion & 
+    Exp. at 25\textdegree{C} & 
+    -- & -- & 
+    29.2 & 
+    \citep{wolfendenDegreesDifficultyWaterConsuming2006} \\
+    
+    Pyrophosphate dianion & 
+    Exp. at 25\textdegree{C} & 
+    -- & -- & 
+    27.7 & 
+    \citep{wolfendenDegreesDifficultyWaterConsuming2006} \\
+    
+    ADP$^{2-}$ (or ATP$^{3-}$) & 
+    Exp. at 25\textdegree{C} & 
+    -- & -- & 
+    27.5 & 
+    \citep{wolfendenDegreesDifficultyWaterConsuming2006} \\
+    
+    ATPH$^{3-}$ (or ATP$^{4-}$) & 
+    Exp. at 70\textdegree{C} & 
+    pH=6.69-7.66 & -- & 
+    24.34-24.78 & 
+    \citep{ramirezMagnesiumCalciumIon1980} \\
+    
+    dADPH$^{2-}$ (or dADP$^{3-}$) & 
+    Exp. at 70\textdegree{C} & 
+    pH=6.82 & -- & 
+    24.25 & 
+    \citep{ramirezComparativeStudyHydrolysis1982a} \\
+    
+    dATPH$^{3-}$ (or dATP$^{4-}$) & 
+    Exp. at 70\textdegree{C} & 
+    pH=7.00  & -- & 
+    24.50 & 
+    \citep{ramirezComparativeStudyHydrolysis1982a} \\
+    
+    MgATPH$^{-}$ (or MgATP$^{2-}$) & 
+    Exp. at 70\textdegree{C} & 
+    pH=6.59-7.63  & -- & 
+    24.59-24.64 & 
+    \citep{ramirezMagnesiumCalciumIon1980} \\
+    
+    CaATPH$^{-}$ (or CaATP$^{2-}$) & 
+    Exp. at 70\textdegree{C} & 
+    pH=6.67-7.01 & -- & 
+    25.71-25.72 & 
+    \citep{ramirezMagnesiumCalciumIon1980} \\
+    
+    \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+
+\begin{table}[t]
+    \centering
+    \small
+    \caption{Summary of the distances between phosphorus atom and nucleophile as well as the leaving group in the transition states and intermediates. All distances are in \AA.}
+    \label{tab:summary_ts_structures}
+    \resizebox{\textwidth}{!}{%
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}p{2.0cm} p{2.0cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    >{\centering\arraybackslash}p{2.16cm} 
+                    p{1.0cm}@{}}
+    \toprule
+    \textbf{System} & \textbf{Mechanism} & 
+    \multicolumn{2}{c}{\textbf{TS\textsubscript{1}}} & 
+    \multicolumn{2}{c}{\textbf{Intermediate}} & 
+    \multicolumn{2}{c}{\textbf{TS\textsubscript{2}}} & 
+    \textbf{Ref.} \\
+    \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){7-8}
+    & & \textbf{d(P-O\textsubscript{Nuc})} & \textbf{d(P-O\textsubscript{lg})} & 
+            \textbf{d(P-O\textsubscript{Nuc})} & \textbf{d(P-O\textsubscript{lg})} & 
+            \textbf{d(P-O\textsubscript{Nuc})} & \textbf{d(P-O\textsubscript{lg})} & \\ 
+    \midrule
+
+    MeMP$^{2-}$ & 
+    Associative (A\textsubscript{N}D\textsubscript{N}) & 
+    2.0 & 1.8 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{klahnMechanismHydrolysisPhosphate2006} \\
+
+    & 
+    Associative (A\textsubscript{N}D\textsubscript{N}) & 
+    1.9 & 2.15 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{kamerlinAssociativeDissociativeMechanisms2008} \\
+
+    & 
+    Associative (A\textsubscript{N} + D\textsubscript{N}) & 
+    2.16 & 1.71 & 
+    1.84 & 1.78 & 
+    1.71 & 2.24 & 
+    \citep{duarteResolvingApparentConflicts2015} \\
+
+    & 
+    Associative (A\textsubscript{N} + D\textsubscript{N}) & 
+    2.08 & 1.78 & 
+    1.99 & 1.80 & 
+    1.77 & 2.52 & 
+    \citep{hassanEffectProtonationMechanism2017} \\
+
+    & 
+    Concerted (A\textsubscript{N}D\textsubscript{N}) & 
+    2.75 & 2.75 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{kamerlinAssociativeDissociativeMechanisms2008} \\
+
+    & 
+    Concerted (A\textsubscript{N}D\textsubscript{N}) & 
+    2.06 & 2.61 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{duarteResolvingApparentConflicts2015} \\
+
+    MeHMP$^{-}$& 
+    Associative (A\textsubscript{N} + D\textsubscript{N}) & 
+    2.26 & 1.66 & 
+    1.76 & 1.77 & 
+    1.68 & 2.25 & 
+    \citep{hassanEffectProtonationMechanism2017} \\
+
+
+    \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+In summary, computational investigations reveal a nuanced picture of phosphate hydrolysis. The preferred mechanism (associative/concerted/dissociative) and proton transfer route (1W/2W/substrate-assisted) depend significantly on the specific substrate (leaving group pKa), its protonation state, the presence of metal ions like Mg$^{2+}$, and the solvation model used. Near-zero activation entropies do not uniquely identify dissociative pathways. QM/MM free energy methods are essential for navigating the complex potential energy surfaces and accurately determining reaction barriers and mechanisms.
+
 
 
 \section{Research goals}

@@ -28,10 +28,18 @@
 \usepackage{svg}
 \usepackage[T1]{fontenc}
 \usepackage{setspace}
-\usepackage{hyperref}
 %\usepackage[nottoc,numbib]{tocbibind}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+
+\usepackage{longtable} % For tables that span multiple pages
+\usepackage{array}     % For advanced column formatting (like p{})
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{pdflscape} % For landscape pages
+
+\usepackage[font=small]{caption}
+
+\usepackage{hyperref}
 
 % ------------------------ Page settings -----------------------------
 % If you change these, the cover layout will also change.  In that
