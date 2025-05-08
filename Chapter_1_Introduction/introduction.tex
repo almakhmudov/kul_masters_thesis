@@ -72,7 +72,7 @@ While the metabolism of inorganic polyphosphate (polyP) is well-characterised in
 
 There is growing confidence that the F\textsubscript{1}-ATPase could act not only as an ATP hydrolase but also potentially as a polyP hydrolase. However, other enzymes contribute to phosphate metabolism as well. In the context of polyP, mammalian enzymes such as alkaline phosphatase (ALP) have demonstrated exopolyphosphatase activity, capable of degrading polyP chains of various lengths \citep{baevInorganicPolyphosphateF0F1ATP2022}.
 
-The world of enzymes—and phosphate hydrolysis by F\textsubscript{1}-ATPase in particular—is both fascinating and complex. The F\textsubscript{1}-ATPase is a molecular machine capable of hydrolysing ATP and polyP, yet the precise mechanism of hydrolysis remains not well understood. In order to address this gap, it is necessary to investigate the fundamental reaction mechanisms of phosphate hydrolysis, beginning with the simplest phosphate esters in less complex environments such as bulk water.
+The world of enzymes--and phosphate hydrolysis by F\textsubscript{1}-ATPase in particular--is both fascinating and complex. The F\textsubscript{1}-ATPase is a molecular machine capable of hydrolysing ATP and polyP, yet the precise mechanism of hydrolysis remains not well understood. In order to address this gap, it is necessary to investigate the fundamental reaction mechanisms of phosphate hydrolysis, beginning with the simplest phosphate esters in less complex environments such as bulk water.
 
 
 
@@ -126,7 +126,7 @@ In general, it can be noted that the barrier height is strongly dependent on the
 \begin{table}[htbp]
     \centering
     \small
-    \caption{Summary of computational and experimental studies on phosphate hydrolysis. In the case of calculated $\Delta G^\ddagger$, the rate-limiting step is given.}
+    \caption{Summary of computational and experimental studies on phosphate hydrolysis. In the case of calculated $\Delta G^\ddagger$, the rate-limiting step is given. \textsuperscript{1}The values were obtained using the transition state theory (TST).}
     \label{tab:summary_comp_exp_barriers}
     \resizebox{\textwidth}{!}{%
     \renewcommand{\arraystretch}{1.3}
@@ -194,6 +194,18 @@ In general, it can be noted that the barrier height is strongly dependent on the
     35 \newline 34 \newline 35 & 
     \citep{klahnMechanismHydrolysisPhosphate2006} \\
 
+    MeTP$^{4-}$ + Mg$^{2+}$ + 54 H$_2$O & 
+    CPMD & PBE/PW with Troullier-Martins pseudopotentials & 
+    Associative \newline Concerted \newline Dissociative & 
+    39.1 \newline 35.1 \newline 36.6 & 
+    \citep{akolaATPHydrolysisWater2003} \\
+    
+    MeTP$^{4-}$ + Mg$^{2+}$ + 113 H$_2$O & 
+    BOMD, \newline metadynamics & BLYP/TZV2P with GTH pseudopotentials & 
+    Associative \newline Concerted & 
+    29 \newline 29-30 & 
+    \citep{glavesMechanisticInsightsHydrolysis2012} \\
+
     ATP$^{4-}$ + Mg$^{2+}$ + 4163 H$_2$O + counterions & 
     QM/MM, NEB & B3LYP/6-311++G** and MM & 
     Concerted & 
@@ -205,18 +217,6 @@ In general, it can be noted that the barrier height is strongly dependent on the
     Associative \newline Dissociative & 
     36.2 \newline 33.4 & 
     \citep{harrisonQuantumClassicalDynamics2012} \\
-    
-    MeTP$^{4-}$ + Mg$^{2+}$ + 54 H$_2$O & 
-    CPMD & PBE/PW with Troullier-Martins pseudopotentials & 
-    Associative \newline Flexible \newline Dissociative & 
-    39.1 \newline 35.1 \newline 36.6 & 
-    \citep{akolaATPHydrolysisWater2003} \\
-    
-    MeTP$^{4-}$ + Mg$^{2+}$ + 113 H$_2$O & 
-    BOMD, \newline metadynamics & BLYP/TZV2P with GTH pseudopotentials & 
-    Associative \newline (acidic solution) \newline Concerted \newline (neutral solution) & 
-    29-30 \newline \newline 29 & 
-    \citep{glavesMechanisticInsightsHydrolysis2012} \\
     
     \midrule
     
@@ -253,31 +253,31 @@ In general, it can be noted that the barrier height is strongly dependent on the
     ATPH$^{3-}$ (or ATP$^{4-}$) & 
     Exp. at 70\textdegree{C} & 
     pH=6.69-7.66 & -- & 
-    24.34-24.78 & 
+    24.34-24.78\textsuperscript{1} & 
     \citep{ramirezMagnesiumCalciumIon1980} \\
     
     dADPH$^{2-}$ (or dADP$^{3-}$) & 
     Exp. at 70\textdegree{C} & 
     pH=6.82 & -- & 
-    24.25 & 
+    24.25\textsuperscript{1} & 
     \citep{ramirezComparativeStudyHydrolysis1982a} \\
     
     dATPH$^{3-}$ (or dATP$^{4-}$) & 
     Exp. at 70\textdegree{C} & 
     pH=7.00  & -- & 
-    24.50 & 
+    24.50\textsuperscript{1} & 
     \citep{ramirezComparativeStudyHydrolysis1982a} \\
     
     MgATPH$^{-}$ (or MgATP$^{2-}$) & 
     Exp. at 70\textdegree{C} & 
     pH=6.59-7.63  & -- & 
-    24.59-24.64 & 
+    24.59-24.64\textsuperscript{1} & 
     \citep{ramirezMagnesiumCalciumIon1980} \\
     
     CaATPH$^{-}$ (or CaATP$^{2-}$) & 
     Exp. at 70\textdegree{C} & 
     pH=6.67-7.01 & -- & 
-    25.71-25.72 & 
+    25.71-25.72\textsuperscript{1} & 
     \citep{ramirezMagnesiumCalciumIon1980} \\
     
     \bottomrule
@@ -298,14 +298,15 @@ Even though computational studies suggest that Mg\textsuperscript{2+} promotes t
 
 
 \subsection{Triphosphates}
+Last but not least, let us consider the hydrolysis of triphosphates. These systems more closely resemble the biological environment, particularly the processes associated with energy metabolism.
 
 \begin{table}[htbp]
     \centering
     \small
-    \caption{Summary of the distances between phosphorus atom and nucleophile as well as the leaving group in the transition states and intermediates. All distances are in \AA.}
+    \caption{Summary of the distances between the phosphorus atom and the nucleophile as well as the leaving group in the transition states and intermediates. All distances are in \AA.}
     \label{tab:summary_ts_structures}
     \resizebox{\textwidth}{!}{%
-    \renewcommand{\arraystretch}{1.3}
+    \renewcommand{\arraystretch}{1.2}
     \begin{tabular}{@{}p{2.0cm} p{2.0cm} 
                     >{\centering\arraybackslash}p{2.16cm} 
                     >{\centering\arraybackslash}p{2.16cm} 
@@ -453,13 +454,76 @@ Even though computational studies suggest that Mg\textsuperscript{2+} promotes t
     -- & -- & 
     -- & -- & 
     \citep{klahnMechanismHydrolysisPhosphate2006} \\
+    
+    \midrule
+
+    MeTP$^{4-}$ \newline + Mg$^{2+}$&
+    Associative (A\textsubscript{N}D\textsubscript{N}) & 
+    1.9 & 2.0 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{akolaATPHydrolysisWater2003} \\
+
+    & Associative (A\textsubscript{N} + D\textsubscript{N}) & 
+    2.03 & 3.11 & 
+    1.95 & 3.06 & 
+    1.66 & 3.26 & 
+    \citep{glavesMechanisticInsightsHydrolysis2012} \\
+
+    &
+    Concerted (A\textsubscript{N}D\textsubscript{N}) & 
+    2.5 & 2.6 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{akolaATPHydrolysisWater2003} \\
+
+    &
+    Concerted (A\textsubscript{N}D\textsubscript{N}) & 
+    2.28 & 2.69 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{glavesMechanisticInsightsHydrolysis2012} \\
+
+    &
+    Dissociative (A\textsubscript{N}D\textsubscript{N}) & 
+    3.6 & 3.5 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{akolaATPHydrolysisWater2003} \\
+
+    ATP$^{4-}$ \newline + Mg$^{2+}$ &
+    Associative (A\textsubscript{N}D\textsubscript{N}) & 
+    1.9 & 1.9 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{harrisonQuantumClassicalDynamics2012} \\
+    
+    &
+    Concerted (A\textsubscript{N}D\textsubscript{N}) & 
+    2.8 & 3.2 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{wangQMMMInvestigation2015} \\
+
+    &
+    Dissociative (A\textsubscript{N}D\textsubscript{N}) & 
+    3.5 & 3.5 & 
+    -- & -- & 
+    -- & -- & 
+    \citep{wangQMMMInvestigation2015} \\
 
     \bottomrule
     \end{tabular}%
     }
 \end{table}
 
-In summary, computational investigations reveal a nuanced picture of phosphate hydrolysis. The preferred mechanism (associative/concerted/dissociative) and proton transfer route (1W/2W/substrate-assisted) depend significantly on the specific substrate (leaving group pKa), its protonation state, the presence of metal ions like Mg$^{2+}$, and the solvation model used. Near-zero activation entropies do not uniquely identify dissociative pathways. QM/MM free energy methods are essential for navigating the complex potential energy surfaces and accurately determining reaction barriers and mechanisms.
+The hydrolysis of methyl triphosphate (MeTP) and ATP has been studied using a range of computational methods. It has been shown that the reaction mechanisms share many similarities with those observed in mono- and diphosphates. Specifically, the mechanism may proceed via associative/concerted and associative/stepwise routes, as well as concerted and dissociative/concerted pathways (Table~\ref{tab:summary_ts_structures}). 
+
+When comparing the calculated and experimentally obtained $\Delta G^{\ddagger}$ values, it is difficult to clearly distinguish between the aforementioned mechanisms. The calculated barrier heights span a range from 29 to 39.1 kcal/mol, whereas experimental data suggest that the barrier height for ATP should be around 27.5 kcal/mol, as shown in Table~\ref{tab:summary_comp_exp_barriers}. The more complex the system becomes, the more factors one must likely take into account.
+
+In summary, computational investigations reveal a nuanced and peculiar picture of phosphate hydrolysis. The preferred mechanism (associative, concerted, or dissociative) and the proton transfer route (1W, 2W, etc.) depend significantly on specific factors such as the pKa of the leaving group, the protonation state, the presence of metal ions like Mg$^{2+}$, and the surrounding solvent environment. 
+
+Moreover, it is important to recognise that in order to properly investigate the underlying free energy surface, adequate sampling of the reaction space is crucial. To achieve this, various free energy techniques such as metadynamics can be employed, provided that the level of theory is sufficient to describe a system of realistic size while allowing the results to be obtained within a reasonable timeframe. This is precisely the goal of the present project.
 
 
 
