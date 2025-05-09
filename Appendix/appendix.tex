@@ -38,13 +38,14 @@
 \end{table}
 
 
-
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
 \begin{algorithm}[htbp]
     \caption{Density-aware sampling of configurations}
     \label{alg:density_aware_sampling}
     \begin{algorithmic}[1]
     \Require Feature matrix $\mathbf{X} \in \mathbb{R}^{N \times 2}$ of $N$ configurations, number of samples $n_\text{samples}$
-    \Ensure List of selected configuration indices
+    \Ensure List of selected configuration indices $S$
     \State Determine number of clusters:
         \[
         k \gets \max\left(10, \min\left(\left\lfloor \frac{N}{50} \right\rfloor, \left\lfloor \frac{n_\text{samples}}{10} \right\rfloor\right)\right)
@@ -64,7 +65,7 @@
 
 \begin{table}[htbp]
     \centering
-    \caption{Composition of the full dataset used for training and testing. Well-tempered metadynamics settings used to run the simulations: \textsuperscript{1}GFN1-xTB for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 25 fs, bias factor = 30 and  \textsuperscript{2}NNP for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 50 fs, bias factor = 30.}
+    \caption{Composition of the full dataset used for training and testing. Well-tempered metadynamics settings used to run the simulations: \textsuperscript{1}GFN1-xTB for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 25 fs\textsuperscript{-1}, bias factor = 30 and  \textsuperscript{2}NNP for energies and forces, gaussian height = 2 kcal/mol, spawning frequency = 50 fs\textsuperscript{-1}, bias factor = 30.}
     \label{tab:full_dataset}
     \begin{tabular}{ccccc}
     \toprule
