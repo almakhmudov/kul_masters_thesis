@@ -45,7 +45,6 @@
     \label{alg:density_aware_sampling}
     \begin{algorithmic}[1]
     \Require Feature matrix $\mathbf{X} \in \mathbb{R}^{N \times 2}$ of $N$ configurations, number of samples $n_\text{samples}$
-    \Ensure List of selected configuration indices $S$
     \State Determine number of clusters:
         \[
         k \gets \max\left(10, \min\left(\left\lfloor \frac{N}{50} \right\rfloor, \left\lfloor \frac{n_\text{samples}}{10} \right\rfloor\right)\right)
@@ -58,6 +57,7 @@
         \State Append selected indices to $S$
     \EndFor
     \State \Return $S$
+    \Ensure List of selected configuration indices $S$
     \end{algorithmic}
 \end{algorithm}
 
@@ -73,14 +73,14 @@
     \midrule
     MeDP\textsuperscript{1}  & 300 & 50 ps   & 2000 & 150 \\
     MeDP\textsuperscript{2}  & 300 & 100 ps & 2000 & 150 \\
-    MeDP\textsuperscript{2}  & 320 & 500 ps  & 1000 & 150 \\
-    MeDP\textsuperscript{2}  & 340 & 500 ps  & 1000 & 150 \\
+    MeDP\textsuperscript{2}  & 320 & 500 ps  & 1000 & 300 \\
+    MeDP\textsuperscript{2}  & 340 & 500 ps  & 1000 & 300 \\
     MeHDP\textsuperscript{1} & 300 & 50 ps  & 2000 & 150 \\
     MeHDP\textsuperscript{2} & 300 & 100 ps & 2000 & 150 \\
-    MeHDP\textsuperscript{2} & 320 & 500 ps  & 1000 & 150 \\
-    MeHDP\textsuperscript{2} & 340 & 500 ps  & 1000 & 150 \\
+    MeHDP\textsuperscript{2} & 320 & 500 ps  & 1000 & 300 \\
+    MeHDP\textsuperscript{2} & 340 & 500 ps  & 1000 & 300 \\
     \midrule
-    \textbf{Total} & & & \textbf{12000} & \textbf{1200} \\
+    \textbf{Total} & & & \textbf{12000} & \textbf{1800} \\
     \bottomrule
     \end{tabular}
 \end{table}
