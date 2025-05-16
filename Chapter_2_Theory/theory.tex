@@ -6,65 +6,92 @@ The discussion in this section is mostly based on the ``Introduction to Computat
 
 
 \subsection{Partition functions}
+The development of the field of statistical mechanics has been crucial for the computational chemistry community, as it enables the connection between the jigglings and wigglings of atoms and the properties of much larger systems such as liquids and solids.
+
+Let us begin with the most fundamental concept: the partition function. The partition function is akin to a Swiss army knife in statistical mechanics, meaning it is a versatile tool that makes the connection between microscopic and macroscopic properties in thermodynamics possible. In the simplest case of a single molecule, the partition function $q$ takes the following form:
 
 \begin{equation}
-q = \sum_{i = \text{levels}} g_i e^{-\epsilon_i/kT}
+    q = \sum_{i = \text{levels}}^{\infty} g_i e^{-\epsilon_i/kT}
 \end{equation}
 
-\begin{equation}
-Q = q^N \; \text{(different particles)} \quad Q = \frac{q^N}{N!} \; \text{(identical particles)}
-\end{equation}
+Here, it is expressed as a sum over all energy levels $\epsilon_i$ of a molecule (or particle), multiplied by a degeneracy factor $g_i$ in cases where multiple levels have the same energy. The term $kT$ represents the Boltzmann factor.
+
+Moving on to a more complex scenario in which the partition function describes multiple molecules, we arrive at the partition function $Q$ for non-interacting particles, such as those in an ideal gas:
 
 \begin{equation}
-Q = \sum_{i=0}^{\infty} e^{-E_i/kT}
+    \label{eq:Q_noninteracting}
+    Q = q^N \; \text{(different particles)} \quad Q = \frac{q^N}{N!} \; \text{(identical particles)}
 \end{equation}
 
+Here, $N$ denotes the total number of particles. However, one could argue that if we wish to describe a real system such as bulk water, we must account for interactions between molecules. Consequently, Equation~\ref{eq:Q_noninteracting} must be rewritten:
+
 \begin{equation}
-q_{\text{trans}} = \left(\frac{2\pi MkT}{h^2}\right)^{3/2} V
+Q = \sum_{i}^{\infty} e^{-E_i/kT}
 \end{equation}
+
+In this case, the partition function $Q$ includes contributions from all possible energy states $E_i$ of the system.
+
+Although the concept of the partition function might initially appear abstract, it can be clarified by expressing it in a different form, namely, within the context of the \ac{rrho} approximation, where the electronic, vibrational, and rotational degrees of freedom can be separated:
+
+\begin{equation}
+    q_{\text{tot}} = q_{\text{trans}} \times q_{\text{rot}} \times q_{\text{vib}} \times q_{\text{elec}}
+\end{equation}
+
+Each contribution to the total partition function can thus be calculated by solving the electronic Schr\"odinger equation. Let us now examine each contribution in more detail. From this point onward we will consider polyatomic molecules in the formulation of the partition functions, unless stated otherwise.
+
+The translational partition function $q_\text{trans}$ can be derived from the energy expression for a particle in a one-dimensional box and is given by:
+
+\begin{equation}
+    q_{\text{trans}} = \left(\frac{2\pi MkT}{h^2}\right)^{3/2} V
+\end{equation}
+
+Here, $M$ is the total molecular mass, and $V$ is the volume. Turning to the rotational partition function $q_\text{rot}$, it can be derived from the Schr\"odinger equation for a diatomic "rigid rotor" and has the following form:
+
+\begin{equation}
+    q_{\text{rot}} = \frac{8\pi^2IkT}{h^2\sigma}
+\end{equation}
+
+In this expression, $I$ denotes the moment of inertia, and $\sigma$ represents the symmetry factor, i.e. the order of the rotational subgroup within the molecular point group. For polyatomic molecules, writing an exact expression is more complex, but an approximate form can be used:
 
 \begin{equation}
 q_{\text{rot}} = \frac{\sqrt{\pi}}{\sigma}\left(\frac{8\pi^2kT}{h^2}\right)^{3/2} \sqrt{I_1I_2I_3}
 \end{equation}
 
-\begin{equation}
-q_{\text{vib}} = \prod_{i=1}^{3N_{\text{atom}}-6(7)} \frac{e^{-h\nu_i/2kT}}{1-e^{-h\nu_i/kT}}
-\end{equation}
+For the vibrational partition function $q_\text{vib}$, it is expressed as a product over the various vibrational modes of a molecule, each with frequency $\nu_i$:
 
 \begin{equation}
-q_{\text{elec}} = \sum_{i} g_i e^{-\epsilon_i/kT} \approx g_0 e^{-\epsilon_0/kT}
+q_{\text{vib}} = \prod_{i} \frac{e^{-h\nu_i/2kT}}{1-e^{-h\nu_i/kT}}
 \end{equation}
 
-\begin{align}
-\epsilon_{\text{tot}} &= \epsilon_{\text{trans}} + \epsilon_{\text{rot}} + \epsilon_{\text{vib}} + \epsilon_{\text{elec}} \\
-q_{\text{tot}} &= q_{\text{trans}} q_{\text{rot}} q_{\text{vib}} q_{\text{elec}} \\
-H_{\text{tot}} &= H_{\text{trans}} + H_{\text{rot}} + H_{\text{vib}} + H_{\text{elec}} \\
-S_{\text{tot}} &= S_{\text{trans}} + S_{\text{rot}} + S_{\text{vib}} + S_{\text{elec}}
-\end{align}
+Lastly, the electronic partition function $q_\text{elec}$ is given as a sum over all electronic states of a molecule, from the ground state to all excited states. However, since the energy difference between the ground state and higher states is usually much greater than $kT$, the function can typically be approximated by considering only the ground state:
+
+\begin{equation}
+q_{\text{elec}} = \sum_{i=0}^{\infty} g_i e^{-\epsilon_i/kT} \approx g_0 e^{-\epsilon_0/kT}
+\end{equation}
 
 \subsection{Macroscopic properties and thermodynamics functions}
 
 \begin{align}
-U &= kT^2 \left(\frac{\partial \ln Q}{\partial T}\right)_V \tag{14.17} \\
+U &= kT^2 \left(\frac{\partial \ln Q}{\partial T}\right)_V \\
 A &= -kT\ln Q \tag{14.18}
 \end{align}
 
 \begin{align}
 P &= -\left(\frac{\partial A}{\partial V}\right)_T = kT\left(\frac{\partial \ln Q}{\partial V}\right)_T \tag{14.19} \\
-C_V &= \left(\frac{\partial U}{\partial T}\right)_V = 2kT\left(\frac{\partial \ln Q}{\partial T}\right)_V + kT^2\left(\frac{\partial^2 \ln Q}{\partial T^2}\right)_V \tag{14.20}
+C_V &= \left(\frac{\partial U}{\partial V}\right)_V = 2kT\left(\frac{\partial \ln Q}{\partial T}\right)_V + kT^2\left(\frac{\partial^2 \ln Q}{\partial T^2}\right)_V
 \end{align}
 
 \begin{align}
 H &= U + PV = kT^2\left(\frac{\partial \ln Q}{\partial T}\right)_V + kTV\left(\frac{\partial \ln Q}{\partial V}\right)_T \tag{14.21} \\
-S &= \frac{U-A}{T} = kT\left(\frac{\partial \ln Q}{\partial T}\right)_V + k\ln Q \tag{14.22} \\
-G &= H - TS = kTV\left(\frac{\partial \ln Q}{\partial V}\right)_T - kT\ln Q \tag{14.23}
+S &= \frac{U-A}{T} = kT\left(\frac{\partial \ln Q}{\partial T}\right)_V + k\ln Q \\
+G &= H - TS = kTV\left(\frac{\partial \ln Q}{\partial V}\right)_T - kT\ln Q
 \end{align}
 
 \subsection{Classical forcefields and molecular dynamics}
 
 \subsection{The canonical ensemble}
 
-\subsection{Free energy techniques}
+\subsection{Enhanced sampling techniques}
 
 \begin{equation}
 V_{\text{G}}(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
@@ -127,16 +154,8 @@ w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
 
 \section{Neural network potentials}
 
-\subsection{Deep neural networks}
-
-\subsubsection{Multilayer perceptron}
-
-\subsubsection{Graph neural networks}
-
-\subsubsection{Message passing neural networks}
+\subsection{Message passing graph neural networks}
 
 \subsection{Invariance and equivariance}
-
-\subsection{Behler-Parrinello neural network potentials}
 
 \subsection{Equivariant neural network potentials}
