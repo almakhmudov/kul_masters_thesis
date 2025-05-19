@@ -67,9 +67,7 @@ Lastly, the electronic partition function $q_\text{elec}$ is given as a sum over
 
 \begin{equation}
     q_{\text{elec}} = \sum_{i=0}^{\infty} g_i e^{-\epsilon_i/kT} \approx g_0 e^{-\epsilon_0/kT}
-\end{equation}
-
-This contribution can thus be calculated by solving the electronic Schr\"odinger equation. 
+\end{equation} 
 
 
 
@@ -116,24 +114,103 @@ Here, $N$ denotes the number of particles, and thus for sufficiently large syste
 
 The use of the canonical ensemble implicitly assumes that the system is ergodic, meaning that time averages obtained from simulation trajectories are equivalent to ensemble averages over the Boltzmann distribution. This assumption is, for instance, central to molecular dynamics simulations where the canonical ensemble can be sampled.
 
+
+
 \subsection{Classical forcefields and molecular dynamics}
+Bringing all the puzzle pieces together, we can now discuss how to simulate a molecular or atomic system of interest. One widely used approach is \ac{md} simulations. The first step involves defining a potential energy function that describes the interactions between atoms. This function, often referred to as a forcefield, is typically parameterised based on experimental data or high-level quantum mechanical calculations.
+
+In classical \ac{md}, the evolution of a system of $N$ atoms is governed by Newton's equations of motion. A commonly used form of the potential energy function is:
+
+\begin{equation}
+\begin{aligned}
+U(\mathbf{r}_1, \dots, \mathbf{r}_N) = &\sum_{\text{bonds}} \frac{1}{2} K_{\text{bond}} (r - r_0)^2 + 
+\sum_{\text{bends}} \frac{1}{2} K_{\text{bend}} (\theta - \theta_0)^2 \\
+&+ \sum_{\text{tors}} \sum_{n=0}^{6} A_n \left[ 1 + \cos(C_n \phi + \delta_n) \right] \\
+&+ \sum_{i,j \in \text{nb}} \left\{ \left[ 4\epsilon_{ij} \left( \frac{\sigma_{ij}}{r_{ij}} \right)^{12}
+- \left( \frac{\sigma_{ij}}{r_{ij}} \right)^6 \right] + \frac{q_i q_j}{r_{ij}} \right\}
+\end{aligned}
+\label{eq:md_potential}
+\end{equation}
+
+Here, the total energy is decomposed into bonded interactions (bonds, angles, and torsions) and non-bonded interactions, including Lennard-Jones and Coulombic terms. Once the potential is specified, the force on each atom $i$ is obtained via:
+
+\begin{equation}
+\mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{r}_i}
+\label{eq:md_force}
+\end{equation}
+
+To propagate the positions and velocities of atoms in time, numerical integration schemes are employed. Among these, the velocity Verlet algorithm is widely used in perhaps all \ac{md} engines. Let us consider the Taylor expansion of the position of particle $i$ to second order in the time step $\Delta t$:
+
+\begin{equation}
+\mathbf{r}_i(t + \Delta t) \approx \mathbf{r}_i(t) + \Delta t\, \mathbf{v}_i(t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t)
+\label{eq:vv_pos}
+\end{equation}
+
+Here, $\mathbf{F}_i(t)$ is the force on particle $i$ at time $t$, and $m_i$ is its mass, calculated using Equation~\ref{eq:md_force} and $\mathbf{v}_i(t)$ is its velocity. This expression provides a prediction of the new position based on the current velocity and force.
+
+We can also consider a backward expansion in time from $\mathbf{r}_i(t + \Delta t)$ and $\mathbf{v}_i(t + \Delta t)$, yielding:
+
+\begin{equation}
+\mathbf{r}_i(t) = \mathbf{r}_i(t + \Delta t) - \Delta t\, \mathbf{v}_i(t + \Delta t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t + \Delta t)
+\label{eq:vv_pos_backward}
+\end{equation}
+
+By substituting Equation~\ref{eq:vv_pos} into Equation~\ref{eq:vv_pos_backward} and solving for $\mathbf{v}_i(t + \Delta t)$, we get:
+
+\begin{equation}
+\mathbf{v}_i(t + \Delta t) = \mathbf{v}_i(t) + \frac{\Delta t}{2m_i} \left[ \mathbf{F}_i(t) + \mathbf{F}_i(t + \Delta t) \right]
+\label{eq:vv_vel}
+\end{equation}
+
+Equations~\ref{eq:vv_pos} and \ref{eq:vv_vel} together form the velocity Verlet integrator. The algorithm proceeds as follows:
+\begin{enumerate}
+  \item First, update positions using Equation~\ref{eq:vv_pos}.
+  \item Then, compute new forces $\mathbf{F}_i(t + \Delta t)$ based on the updated positions.
+  \item Finally, update velocities using Equation~\ref{eq:vv_vel}.
+\end{enumerate}
+
+To correctly sample the canonical ensemble, one should consider the use of thermostats to maintain the system temperature. In this work, we focus on two widely used thermostats: the Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} and the \ac{csvr} thermostat~\citep{bussiCanonicalSamplingVelocity2007}. In the former, the equations of motion are modified to include a friction term that couples the system to a heat bath, allowing for energy exchange. The \ac{csvr} thermostat, on the other hand, uses a velocity rescaling approach to maintain the desired temperature by adjusting particle velocities at each time step.
+
+
 
 \subsection{Enhanced sampling techniques}
+Even though \ac{md} simulations are a powerful tool for studying molecular systems, their applicability can be limited due to the presence of energy barriers separating minima in the potential energy landscape. As a result, the system may remain trapped in local minima, leading to insufficient sampling of the relevant configurational space. This issue becomes particularly pronounced in the context of reactive systems, where rare events involve transitions between states separated by high free energy barriers and occur on timescales much longer than typical simulation durations.
+
+To address this challenge, various enhanced sampling techniques have been developed. These methods aim to accelerate the exploration of phase space. In general, they bias the system along reaction coordinates, or \acp{cv}, by applying a biasing potential that drives the system towards regions of interest. One such approach is metadynamics~\citep{laioEscapingFreeenergyMinima2002, laioMetadynamicsMethodSimulate2008}.
+
+In metadynamics, a biasing (external) potential is added to the system's potential energy surface. This biasing potential takes the following form:
 
 \begin{equation}
 V_{\text{G}}(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
 \label{eq:biasing_potential}
 \end{equation}
 
+where $s(t) = S(x(t))$ is the value of the \ac{cv} at time $t$. The height of the Gaussian kernel is denoted by $w$, $\delta s$ is its width, and $\tau_{\text{G}}$ is the deposition rate.
+
+The approach used in metadynamics can be explained using the Panama Canal as an analogy as illustrated in Figure~\ref{fig:metadynamics}. The idea is to fill the basins of the free energy landscape with a Gaussian potential, which can be thought of as water gradually filling the basins, lifting the system (like a ship in a lock) out of a free energy minimum and helping it traverse to other states.
+
+The assumption in metadynamics is that, after sufficiently long sampling, the biasing potential $V_{\text{G}}(S, t)$ converges to the negative of the underlying free energy surface:
+
 \begin{equation}
 \label{eq:free_energy_from_metadynamics}
 \lim_{t \to \infty} V_G(s,t) \sim -F(s)
 \end{equation}
 
+Despite the many benefits that metadynamics offers, it is important to note that it has limitations. For example, obtaining a converged free energy surface is not straightforward, especially when multiple \acp{cv} are involved. In principle, Gaussian kernels can be deposited indefinitely, making it difficult to assess convergence. To address this issue, the well-tempered variant of metadynamics was developed~\citep{barducciWellTemperedMetadynamicsSmoothly2008}. In this method, a history-dependent potential is added, which is defined as:
+
 \begin{equation}
 V(s, t) = \Delta T \ln\left(1 + \frac{\omega N(s, t)}{\Delta T}\right)
 \label{eq:history_dependant_potential}
 \end{equation}
+
+Here, $N(s, t)$ is the histogram of $s$ obtained from a biased simulation, $\Delta T$ is the biasing temperature, and $\omega$ has the dimension of an energy rate. The rate at which this potential is modified over time is given by:
+
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/theory_metadynamics.png}
+    \caption{The concept of metadynamics. $w$ stands for the Gaussian kernel height, and $\delta s$ stands for its width. The Panama Canal cartoon was reproduced from~\citep{HowPanamaCanal}.}
+    \label{fig:metadynamics}
+\end{figure}
 
 \begin{equation}
 \label{eq:hill_deposition_rate}
@@ -141,10 +218,16 @@ V(s, t) = \Delta T \ln\left(1 + \frac{\omega N(s, t)}{\Delta T}\right)
 = \omega e^{-[V(s,t)/\Delta T]} \delta_{s,s(t)}
 \end{equation}
 
+The height of the Gaussian kernels used is:
+
 \begin{equation}
 w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
 \label{eq:hill_height}
 \end{equation}
+
+where $\tau_{\text{G}}$ is the deposition rate and $\omega$ represents the initial bias deposition rate. The Gaussian kernel height is now dependent on the history of the system, allowing for a more controlled exploration of the free energy landscape.
+
+Ultimately, the underlying free energy surface can be estimated using the following equation:
 
 \begin{equation}
 \label{eq:free_energy_surface_reconstruction}
@@ -152,18 +235,17 @@ w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
 = -(T + \Delta T) \ln\left(1 + \frac{\omega N(s,t)}{\Delta T} \right)
 \end{equation}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/theory_metadynamics.png}
-    \caption{Metadynamics. The Panama Canal cartoon reproduced from~\citep{HowPanamaCanal}.}
-    \label{fig:metadynamics}
-\end{figure}
+The advantage of \ac{wtmd} is that it enables more efficient exploration of the free energy landscape, as the biasing potential adapts according to the trajectory's history. Moreover, convergence can be easily monitored, since convergence can be monitored by observing the decay of the Gaussian height, which should approach zero as the system fully explores the relevant phase space.
 
 
 
-\section{Transition state theory}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \section{Transition state theory}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Density functional theory}
 
@@ -175,9 +257,13 @@ w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Extended tight binding}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Neural network potentials}
 
