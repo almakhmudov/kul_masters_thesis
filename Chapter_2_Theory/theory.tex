@@ -123,11 +123,11 @@ In classical \ac{md}, the evolution of a system of $N$ atoms is governed by Newt
 
 \begin{equation}
 \begin{aligned}
-U(\mathbf{r}_1, \dots, \mathbf{r}_N) = &\sum_{\text{bonds}} \frac{1}{2} K_{\text{bond}} (r - r_0)^2 + 
-\sum_{\text{bends}} \frac{1}{2} K_{\text{bend}} (\theta - \theta_0)^2 \\
-&+ \sum_{\text{tors}} \sum_{n=0}^{6} A_n \left[ 1 + \cos(C_n \phi + \delta_n) \right] \\
-&+ \sum_{i,j \in \text{nb}} \left\{ \left[ 4\epsilon_{ij} \left( \frac{\sigma_{ij}}{r_{ij}} \right)^{12}
-- \left( \frac{\sigma_{ij}}{r_{ij}} \right)^6 \right] + \frac{q_i q_j}{r_{ij}} \right\}
+    U(\mathbf{r}_1, \dots, \mathbf{r}_N) = &\sum_{\text{bonds}} \frac{1}{2} K_{\text{bond}} (r - r_0)^2 + 
+    \sum_{\text{bends}} \frac{1}{2} K_{\text{bend}} (\theta - \theta_0)^2 \\
+    &+ \sum_{\text{tors}} \sum_{n=0}^{6} A_n \left[ 1 + \cos(C_n \phi + \delta_n) \right] \\
+    &+ \sum_{i,j \in \text{nb}} \left\{ \left[ 4\epsilon_{ij} \left( \frac{\sigma_{ij}}{r_{ij}} \right)^{12}
+    - \left( \frac{\sigma_{ij}}{r_{ij}} \right)^6 \right] + \frac{q_i q_j}{r_{ij}} \right\}
 \end{aligned}
 \label{eq:md_potential}
 \end{equation}
@@ -135,15 +135,15 @@ U(\mathbf{r}_1, \dots, \mathbf{r}_N) = &\sum_{\text{bonds}} \frac{1}{2} K_{\text
 Here, the total energy is decomposed into bonded interactions (bonds, angles, and torsions) and non-bonded interactions, including Lennard-Jones and Coulombic terms. Once the potential is specified, the force on each atom $i$ is obtained via:
 
 \begin{equation}
-\mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{r}_i}
-\label{eq:md_force}
+    \mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{r}_i}
+    \label{eq:md_force}
 \end{equation}
 
 To propagate the positions and velocities of atoms in time, numerical integration schemes are employed. Among these, the velocity Verlet algorithm is widely used in perhaps all \ac{md} engines. Let us consider the Taylor expansion of the position of particle $i$ to second order in the time step $\Delta t$:
 
 \begin{equation}
-\mathbf{r}_i(t + \Delta t) \approx \mathbf{r}_i(t) + \Delta t\, \mathbf{v}_i(t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t)
-\label{eq:vv_pos}
+    \mathbf{r}_i(t + \Delta t) \approx \mathbf{r}_i(t) + \Delta t\, \mathbf{v}_i(t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t)
+    \label{eq:vv_pos}
 \end{equation}
 
 Here, $\mathbf{F}_i(t)$ is the force on particle $i$ at time $t$, and $m_i$ is its mass, calculated using Equation~\ref{eq:md_force} and $\mathbf{v}_i(t)$ is its velocity. This expression provides a prediction of the new position based on the current velocity and force.
@@ -151,15 +151,15 @@ Here, $\mathbf{F}_i(t)$ is the force on particle $i$ at time $t$, and $m_i$ is i
 We can also consider a backward expansion in time from $\mathbf{r}_i(t + \Delta t)$ and $\mathbf{v}_i(t + \Delta t)$, yielding:
 
 \begin{equation}
-\mathbf{r}_i(t) = \mathbf{r}_i(t + \Delta t) - \Delta t\, \mathbf{v}_i(t + \Delta t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t + \Delta t)
-\label{eq:vv_pos_backward}
+    \mathbf{r}_i(t) = \mathbf{r}_i(t + \Delta t) - \Delta t\, \mathbf{v}_i(t + \Delta t) + \frac{\Delta t^2}{2m_i} \mathbf{F}_i(t + \Delta t)
+    \label{eq:vv_pos_backward}
 \end{equation}
 
 By substituting Equation~\ref{eq:vv_pos} into Equation~\ref{eq:vv_pos_backward} and solving for $\mathbf{v}_i(t + \Delta t)$, we get:
 
 \begin{equation}
-\mathbf{v}_i(t + \Delta t) = \mathbf{v}_i(t) + \frac{\Delta t}{2m_i} \left[ \mathbf{F}_i(t) + \mathbf{F}_i(t + \Delta t) \right]
-\label{eq:vv_vel}
+    \mathbf{v}_i(t + \Delta t) = \mathbf{v}_i(t) + \frac{\Delta t}{2m_i} \left[ \mathbf{F}_i(t) + \mathbf{F}_i(t + \Delta t) \right]
+    \label{eq:vv_vel}
 \end{equation}
 
 Equations~\ref{eq:vv_pos} and \ref{eq:vv_vel} together form the velocity Verlet integrator. The algorithm proceeds as follows:
@@ -181,8 +181,8 @@ To address this challenge, various enhanced sampling techniques have been develo
 In metadynamics, a biasing (external) potential is added to the system's potential energy surface. This biasing potential takes the following form:
 
 \begin{equation}
-V_{\text{G}}(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
-\label{eq:biasing_potential}
+    V_{\text{G}}(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
+    \label{eq:biasing_potential}
 \end{equation}
 
 where $s(t) = S(x(t))$ is the value of the \ac{cv} at time $t$. The height of the Gaussian kernel is denoted by $w$, $\delta s$ is its width, and $\tau_{\text{G}}$ is the deposition rate.
@@ -192,15 +192,15 @@ The approach used in metadynamics can be explained using the Panama Canal as an 
 The assumption in metadynamics is that, after sufficiently long sampling, the biasing potential $V_{\text{G}}(S, t)$ converges to the negative of the underlying free energy surface:
 
 \begin{equation}
-\label{eq:free_energy_from_metadynamics}
-\lim_{t \to \infty} V_G(s,t) \sim -F(s)
+    \label{eq:free_energy_from_metadynamics}
+    \lim_{t \to \infty} V_G(s,t) \sim -F(s)
 \end{equation}
 
 Despite the many benefits that metadynamics offers, it is important to note that it has limitations. For example, obtaining a converged free energy surface is not straightforward, especially when multiple \acp{cv} are involved. In principle, Gaussian kernels can be deposited indefinitely, making it difficult to assess convergence. To address this issue, the well-tempered variant of metadynamics was developed~\citep{barducciWellTemperedMetadynamicsSmoothly2008}. In this method, a history-dependent potential is added, which is defined as:
 
 \begin{equation}
-V(s, t) = \Delta T \ln\left(1 + \frac{\omega N(s, t)}{\Delta T}\right)
-\label{eq:history_dependant_potential}
+    V(s, t) = \Delta T \ln\left(1 + \frac{\omega N(s, t)}{\Delta T}\right)
+    \label{eq:history_dependant_potential}
 \end{equation}
 
 Here, $N(s, t)$ is the histogram of $s$ obtained from a biased simulation, $\Delta T$ is the biasing temperature, and $\omega$ has the dimension of an energy rate. The rate at which this potential is modified over time is given by:
@@ -213,16 +213,16 @@ Here, $N(s, t)$ is the histogram of $s$ obtained from a biased simulation, $\Del
 \end{figure}
 
 \begin{equation}
-\label{eq:hill_deposition_rate}
-\dot{V}(s,t) = \frac{\omega \Delta T \delta_{s,s(t)}}{\Delta T + \omega N(s,t)} 
-= \omega e^{-[V(s,t)/\Delta T]} \delta_{s,s(t)}
+    \dot{V}(s,t) = \frac{\omega \Delta T \delta_{s,s(t)}}{\Delta T + \omega N(s,t)} 
+    = \omega e^{-[V(s,t)/\Delta T]} \delta_{s,s(t)}
+    \label{eq:hill_deposition_rate}
 \end{equation}
 
 The height of the Gaussian kernels used is:
 
 \begin{equation}
-w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
-\label{eq:hill_height}
+    w = \omega e^{-[V(s,t)/\Delta T]} \tau_{\text{G}}
+    \label{eq:hill_height}
 \end{equation}
 
 where $\tau_{\text{G}}$ is the deposition rate and $\omega$ represents the initial bias deposition rate. The Gaussian kernel height is now dependent on the history of the system, allowing for a more controlled exploration of the free energy landscape.
@@ -230,12 +230,12 @@ where $\tau_{\text{G}}$ is the deposition rate and $\omega$ represents the initi
 Ultimately, the underlying free energy surface can be estimated using the following equation:
 
 \begin{equation}
-\label{eq:free_energy_surface_reconstruction}
-\tilde{F}(s,t) = -\frac{T + \Delta T}{\Delta T} V(s,t) 
-= -(T + \Delta T) \ln\left(1 + \frac{\omega N(s,t)}{\Delta T} \right)
+    \tilde{F}(s,t) = -\frac{T + \Delta T}{\Delta T} V(s,t) 
+    = -(T + \Delta T) \ln\left(1 + \frac{\omega N(s,t)}{\Delta T} \right)
+    \label{eq:free_energy_surface_reconstruction}
 \end{equation}
 
-The advantage of \ac{wtmd} is that it enables more efficient exploration of the free energy landscape, as the biasing potential adapts according to the trajectory's history. Moreover, convergence can be easily monitored, since convergence can be monitored by observing the decay of the Gaussian height, which should approach zero as the system fully explores the relevant phase space.
+The advantage of \ac{wtmd} is that it enables more efficient exploration of the free energy landscape, as the biasing potential adapts according to the trajectory's history. Moreover, the convergence can be easily monitored by observing the decay of the Gaussian height, which should approach zero as the system fully explores the relevant phase space.
 
 
 
@@ -247,13 +247,97 @@ The advantage of \ac{wtmd} is that it enables more efficient exploration of the 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Density functional theory}
+\section{The density functional theory tourist}
+The discussion in this section is primarily based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Density Functional Theory: a Practical Introduction'' by Scholl and Steckel~\citep{shollDensityFunctionalTheory2011}, and ``A Chemist's Guide to Density Functional Theory'' by Koch and Holthausen~\citep{kochChemistsGuideDensity2015} unless stated otherwise.
 
 \subsection{The Kohn-Sham approach}
+In order to describe reactive events in relatively large systems, up to approximately 1,000 atoms, it is necessary to use methods that offer a good balance between accuracy and computational cost. One such method is \ac{dft}, which is based on the Hohenberg-Kohn theorems and the Kohn-Sham equations.
+
+The central idea behind \ac{dft}, established by Hohenberg and Kohn, is that the ground state energy of a many-electron system can be expressed as a functional of the electron density. This reformulation reduces the problem from solving a 3$N$-dimensional wavefunction to working with a 3-dimensional electron density.
+
+The energy functional can be written as:
+
+\begin{equation}
+    \begin{aligned}
+    E[\rho(\mathbf{r})] &= T_{\text{s}}[\rho] + J[\rho] + E_{\text{Ne}}[\rho] + E_{\text{XC}}[\rho] =  \\
+    &= -\frac{1}{2} \sum_{i}^{N} \langle \phi_i | \nabla^2 | \phi_i \rangle \\
+    &\quad + \frac{1}{2} \sum_{i}^{N} \sum_{j}^{N} \iint \left| \phi_i(\mathbf{r}_1) \right|^2 \frac{1}{r_{12}} \left| \phi_j(\mathbf{r}_2) \right|^2 d\mathbf{r}_1 d\mathbf{r}_2 \\
+    &\quad - \sum_{i}^{N} \sum_{A}^{M} \int \frac{Z_A}{r_{1A}} \left| \phi_i(\mathbf{r}_1) \right|^2 d\mathbf{r}_1 \\
+    &\quad + E_{\text{XC}}[\rho(\mathbf{r})] 
+    \label{eq:ks_energy}
+    \end{aligned}
+\end{equation}
+
+Here, the first three terms are “known” and represent the kinetic energy of the electrons, the Coulomb interaction between the electrons, and the electron-nucleus interaction, respectively. The final term, the exchange-correlation energy functional, is the unknown component. It contains all the effects that are not straightforward to treat exactly, for instance, the residual part of the kinetic energy and the non-classical electron-electron interactions:
+
+\begin{equation}
+    E_{\text{XC}}[\rho] \equiv (T[\rho] - T_{\text{s}}[\rho]) + (E_{\text{ee}}[\rho] - J[\rho])
+    \label{eq:xc_energy}
+\end{equation}
+
+The biggest challenge in \ac{dft} lies in the formulation of $E_{\text{XC}}$. This term is particularly important, as finding the minimum of the total energy functional, as expressed in Equation~\ref{eq:ks_energy}, depends on its accurate representation.
+
+To address this, the Kohn-Sham approach introduces a set of single-electron equations that can be solved iteratively to obtain the electron density and the total energy of the system. The Kohn-Sham equations are given by:
+
+\begin{equation}
+    \left( -\frac{1}{2} \nabla^2 + V_{\text{eff}}(\mathbf{r}) \right) \phi_i = \varepsilon_i \phi_i
+    \label{eq:ks_equations}
+\end{equation}
+
+Here, $V_{\text{eff}}$ takes the form:
+
+\begin{equation}
+    V_{\text{eff}}(\mathbf{r}) = \int \frac{\rho(\mathbf{r}_2)}{r_{12}} d\mathbf{r}_2 + V_{\text{XC}}(\mathbf{r}) - \sum_{A}^{M} \frac{Z_A}{r_{1A}}
+    \label{eq:v_eff}
+\end{equation}
+
+The iterative procedure to solve these equations proceeds as follows: first, a trial electron density is defined. Then, the Kohn-Sham equations are solved using this trial density to obtain the single-particle wavefunctions. Next, a new electron density is calculated from the obtained wavefunctions. Finally, the new density is compared with the initial trial density. If the two densities match within a given convergence criterion, the ground state electron density has been found, and the total energy of the system can be computed.
+
+
 
 \subsection{Generalised gradient approximation and PBE functional}
+The field of \ac{dft} has opened new avenues for computational chemists and physicists, enabling them to study the properties of materials and molecules, as well as to investigate the reaction pathways of chemical processes. However, the accuracy of \ac{dft} calculations is highly dependent on the choice of the exchange-correlation functional.
 
-\subsection{\textit{Ab initio} molecular dynamics and GPW method}
+In this work, we focus on the \ac{gga} exchange-correlation functionals, which are widely used in \ac{dft} calculations and are known to provide results close to chemical accuracy at a relatively low computational cost, as can be seen in Figure~\ref{fig:jacobs_ladder}. In fact, the development of \ac{gga} functionals marked a turning point in the acceptance of the \ac{dft} method by the quantum chemistry community.
+
+The \ac{gga} functionals are based on the idea that the exchange-correlation energy can be expressed as a functional of the electron density $\rho$ and its gradient $\nabla \rho$. The general form of a \ac{gga} functional is given by:
+
+\begin{equation}
+E_{\text{XC}}^{\text{GGA}}[\rho] = \int f(\rho, \nabla\rho) \, d\mathbf{r}
+\label{eq:gga_functional}
+\end{equation}
+
+The exchange-correlation energy can be explicitly divided into two parts:
+
+\begin{equation}
+E_{\text{XC}}^{\text{GGA}} = E_{\text{X}}^{\text{GGA}} + E_{\text{C}}^{\text{GGA}}
+\label{eq:gga_xc}
+\end{equation}
+
+One of the most widely used \ac{gga} functionals is the Perdew-Burke-Ernzerhof (PBE) functional~\citep{perdewGeneralizedGradientApproximation1996}. Its formulation incorporates parameters in the exchange and correlation parts derived from first principles, making it a truly \textit{ab initio} functional.
+
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/theory_jacobs_ladder.png}
+    \caption{Left panel: accuracy of the common quantum chemical methods as a function of the computatinal cost. Right panel: categorisation of the exchange-correlation functionals according to Perdew's ``Jacob's ladder''. The figure was reproduced from \citep{burschBestPracticeDFTProtocols2022}.}
+    \label{fig:jacobs_ladder}
+\end{figure}
+
+
+
+\subsection{\textit{Ab initio} molecular dynamics}
+In one of the previous sections, we touched upon the topic of classical \ac{md} simulations. However, classical force fields are unable to simulate bond-breaking and bond-forming processes. Although reactive events can also be studied using static approaches, by calculating the potential energy surface at a given set of coordinates, we believe that incorporating dynamics provides more informative insights and a clearer picture of the reaction mechanism.
+
+To simulate the dynamics of a chemical reaction, one could consider using \ac{aimd}, and in particular, \ac{bomd}. In \ac{bomd}, the forces acting on the atoms are calculated at each time step using quantum mechanical methods, such as \ac{dft}, while the nuclei are propagated according to classical mechanics. This process can be described using the Lagrangian formalism, $L$, which offers an alternative formulation of classical dynamics:
+
+\begin{equation}
+L = K - U = \frac{1}{2} \sum_{i=1}^{3N} m_i v_i^2 - E[\phi(\mathbf{r}_1, \ldots, \mathbf{r}_{3N})]
+\label{eq:lagrangian_aimd}
+\end{equation}
+
+where $K$ is the kinetic energy, $U$ represents the potential energy, and $\phi(\mathbf{r}_1, \ldots, \mathbf{r}_{3N})$ is a set of one-electron Kohn-Sham wave functions.
+
+It is important to note that, since nuclear dynamics are treated classically in this framework, zero-point vibrational energy is not accounted for, nor can tunnelling effects be studied. 
 
 
 

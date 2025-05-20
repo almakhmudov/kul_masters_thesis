@@ -193,7 +193,7 @@ In the final round of training, the model was trained on a dataset consisting of
 \section{Production runs at different temperatures}
 To thoroughly sample the reaction space, production runs were performed at various temperatures (300~K, 320~K, and 340~K) using the neural network potential obtained in the final round of training. To run the simulations with the \ac{nnp}, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022}, compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip}, was utilised. First, the systems were equilibrated for 75 ps in \ac{nvt} ensemble, since it was previously shown that water fully relaxes in this timeframe~\citep{moronMacroNanoScale2016}. Then the simulations were carried out for 4~ns in the \ac{nvt} ensemble, with temperature regulated by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a frequency of 50~fs\textsuperscript{-1}.
 
-The biasing potential was applied every 50~fs to d\textsubscript{P-O}, C\textsubscript{P-O}, and C\textsubscript{O-H}, using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on d\textsubscript{P-O}, C\textsubscript{O-H}, C\textsubscript{P-O\textsubscript{bridging}}, and C\textsubscript{P-O\textsubscript{water}}, as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
+The biasing potential was applied every 50~fs to d\textsubscript{P-O}, C\textsubscript{P-O}, and C\textsubscript{O-H}, using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on d\textsubscript{P-O}, C\textsubscript{O-H}, C\textsubscript{P-O\textsubscript{nonbridging}}, and C\textsubscript{P-O\textsubscript{water}}, as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
 
 To obtain the free energy profiles of the reactions, the Gaussian kernels applied during the simulations were summed using the \texttt{sum\_hills} utility provided in the PLUMED 2.9.3 package~\citep{tribelloPLUMED2New2014}. Aferwards, the \acp{mfep} were extracted using the MEPSA 1.4 software~\citep{marcos-alcaldeMEPSAMinimumEnergy2015}. 
 
@@ -201,7 +201,7 @@ Having \acp{mfep} in hand and the barrier heights as a consequence, the correspo
 \begin{equation}
     k = \frac{\kappa k_B T}{h} e^{-\Delta G^\ddagger / RT}
 \end{equation}
-where $\kappa = 1$. Subsequently, the Arrhenius relationship was derived to obtain the activation energy barrier as the slope of the linear fit from the \(\log(k)\) versus \(1000/T\) plot.
+where the transmission coefficient $\kappa = 1$. Subsequently, the Arrhenius relationship was derived to obtain the activation energy barrier as the slope of the linear fit from the \(\log(k)\) versus \(1000/T\) plot.
 
 With the rate constants determined, the corresponding half-lives were then calculated using the following equation:
 \begin{equation}
