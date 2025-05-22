@@ -208,7 +208,7 @@ Here, $N(s, t)$ is the histogram of $s$ obtained from a biased simulation, $\Del
 \begin{figure}[b!]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/2_Theory/theory_metadynamics.png}
-    \caption{The concept of metadynamics. $w$ stands for the Gaussian kernel height, and $\delta s$ stands for its width. The Panama Canal cartoon was reproduced from~\citep{HowPanamaCanal}.}
+    \caption{The concept of metadynamics. $w$ stands for the Gaussian kernel height, and $\delta s$ stands for its width. The Panama Canal cartoon was taken from~\citep{HowPanamaCanal}.}
     \label{fig:metadynamics}
 \end{figure}
 
@@ -331,8 +331,8 @@ In one of the previous sections, we touched upon the topic of classical \ac{md} 
 To simulate the dynamics of a chemical reaction, one could consider using \ac{aimd}, and in particular, \ac{bomd}. In \ac{bomd}, the forces acting on the atoms are calculated at each time step using quantum mechanical methods, such as \ac{dft}, while the nuclei are propagated according to classical mechanics. This process can be described using the Lagrangian formalism, $L$, which offers an alternative formulation of classical dynamics:
 
 \begin{equation}
-L = K - U = \frac{1}{2} \sum_{i=1}^{3N} m_i v_i^2 - E[\phi(\mathbf{r}_1, \ldots, \mathbf{r}_{3N})]
-\label{eq:lagrangian_aimd}
+    L = K - U = \frac{1}{2} \sum_{i=1}^{3N} m_i v_i^2 - E[\phi(\mathbf{r}_1, \ldots, \mathbf{r}_{3N})]
+    \label{eq:lagrangian_aimd}
 \end{equation}
 
 where $K$ is the kinetic energy, $U$ represents the potential energy, and $\phi(\mathbf{r}_1, \ldots, \mathbf{r}_{3N})$ is a set of one-electron Kohn-Sham wave functions.
@@ -345,14 +345,105 @@ It is important to note that, since nuclear dynamics are treated classically in 
 
 \section{Extended tight binding}
 
+\begin{equation}
+    E[\rho] = E^{(0)}[\rho_0] + E^{(1)}[\rho_0, \delta \rho] + E^{(2)}[\rho_0, (\delta \rho)^2] + E^{(3)}[\rho_0, (\delta \rho)^3] + \cdots
+    \label{eq:tb_energy_expansion}
+\end{equation}
+
+\begin{equation}
+    \begin{aligned}
+    E_{\text{GFN1-xTB}} &= E_{\text{rep}}^{(0)} + E_{\text{disp}}^{(0)} + E_{\text{XB}}^{(0)} + E_{\text{EHT}}^{(1)} + E_{\text{IES+IXC}}^{(2)} + E_{\text{IES+IXC}}^{(3)} \\
+    &= E_{\text{rep}} + E_{\text{disp}}^{\text{D3}} + E_{\text{XB}}^{\text{GFN1}} + E_{\text{EHT}} + E_{\gamma} + E_{\Gamma}^{\text{GFN1}}
+    \end{aligned}
+    \label{eq:gfn1xtb_energy}
+\end{equation}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Neural network potentials}
 
-\subsection{Message passing graph neural networks}
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/graph_and_geometric_nns.png}
+    \caption{This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:graph_and_geometric_nns}
+\end{figure}
+
+The discussion in this section is mainly based on the textbook ``Deep Learning: Foundations and Concepts'' by C. M. Bishop and H. Bishop~\citep{bishopDeepLearningFoundations2023}, the excellent review by Duval, Mathis, Joshi, and Schmidt et al.~\citep{duvalHitchhikersGuideGeometric2024}, the research paper by Batatia and Batzner et al.~\citep{batatiaDesignSpaceE3Equivariant2022}, and the research paper by Batzner et al.~\citep{batznerE3equivariantGraphNeural2022}, unless stated otherwise.
+
+\subsection{Graph neural networks}
+One can easily imagine how computationally expensive it would be to run \ac{aimd} simulations for a system containing hundreds of atoms. In recent years, the field of machine learning has made significant progress in addressing this challenge. In particular, the development of \acp{gnn} has enabled the design of \acp{nnp}, which learn the potential energy surface of molecular systems and can replace \ac{dft} in molecular dynamics simulations.
+
+A natural question one may ask here: why use \acp{gnn}? The answer lies in the fact that \acp{gnn} provide a natural way to represent molecular systems. Atoms can be considered as nodes in a graph, with bonds between them represented as edges. This concept is visualised in Figure~\ref{fig:graph_and_geometric_nns}~A. 
+
+An essential property of any graph $\mathcal{G} = (\mathbf{A}, \mathbf{S})$ is its adjacency matrix $\mathbf{A}$, which encodes the connectivity of the nodes via elements $a_{ij}$. This matrix is square with dimensions $n \times n$, where $n$ is the number of nodes in the graph. Each entry is either 0 or 1, indicating the absence or presence of a connection between two nodes.
+
+Because the ordering of nodes in the graph is arbitrary, \acp{gnn} are, by construction, permutation symmetric.
+
+In addition to the adjacency matrix, each graph also has a matrix of scalar features $\mathbf{S}$ associated with its nodes. In the case of molecular systems, these features may include atomic numbers or atom types.
+
+\Acp{gnn} are neural networks specifically designed to operate on graph-structured data. They learn representations of nodes, edges, or entire graphs by iteratively updating node features based on their neighbours $\mathcal{N}_i$. This iterative process is commonly referred to as message passing, illustrated in Figure~\ref{fig:graph_and_geometric_nns}~A. Conceptually, the process proceeds as follows:
+\begin{enumerate}
+    \item At iteration $t$, each node $i$ receives messages from its neighbours $\mathcal{N}_i$:
+    \begin{equation}
+        \mathbf{m}_{ij}^{(t)} = \underline{\text{MSG}}\left(\mathbf{s}_i^{(t)}, \mathbf{s}_j^{(t)}\right)
+        \label{eq:message_passing}
+    \end{equation}
+
+    \item These messages are aggregated to update the node's features: $\bigoplus_{j \in \mathcal{N}_i} \mathbf{m}_{ij}^{(t)}$.
+        
+    \item At iteration $t + 1$, the node's representation is updated using the aggregated messages and its current state:
+    \begin{equation}
+        \mathbf{s}_i^{(t+1)} = \underline{\text{UPD}}\left(\mathbf{s}_i^{(t)}, \bigoplus_{j \in \mathcal{N}_i} \mathbf{m}_{ij}^{(t)}\right)
+        \label{eq:representation_update}
+    \end{equation}
+\end{enumerate}
+
+The $\underline{\text{MSG}}$ and $\underline{\text{UPD}}$ functions form an entire research topic within \acp{gnn}, and are typically implemented as neural networks themselves. The aggregation operator $\bigoplus$ must be permutation-invariant and can take forms such as summation, averaging, etc. After the final iteration, the resulting node representations can be used to predict properties at various levels, whether for the entire graph, such as the total energy of a molecular system, or at the node or edge level.
+
+A particularly important subclass of \acp{gnn} is the geometric \acp{gnn}, which are designed to handle geometric data in Euclidean space. These are depicted in Figure~\ref{fig:graph_and_geometric_nns}~B. Geometric graphs $\mathcal{G} = (\mathbf{A}, \mathbf{S}, \overrightarrow{\mathbf{x}}, \overrightarrow{\mathbf{v}})$ contain additional information such as atomic coordinates $\overrightarrow{x_i}$ and other vector features $\overrightarrow{v_i}$. These vectors may represent quantities such as velocities or forces.
+
+Geometric \acp{gnn} are tailored to work with data that has an inherent geometric structure, such as point clouds. Their key advantage is in handling symmetry operations, i.e. that under rotations and translations of the data, scalar features remain invariant, or the same, while vector features transform appropriately. This property is crucial for accurately capturing the underlying physics of molecular systems.
 
 \subsection{Invariance and equivariance}
 
-\subsection{Equivariant neural network potentials}
+In the context of geometric \acp{gnn}, the concepts of invariance and equivariance play a fundamental role in ensuring that models respect the symmetries of the data they are trained on. These properties are especially crucial when working with molecules, where rotations or translations should not change the outcome of the prediction or should change it in a predictable way.
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/invariance_equivariance.png}
+    \caption{Invariance and equivariance. This figure was taken from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:invariance_equivariance}
+\end{figure}
+
+Mathematically, a function $f$ is said to be invariant to a transformation $g$ if applying $g$ to the input $x$ does not affect the output of the function:
+
+\begin{equation}
+f(g \cdot x) = f(x)
+\label{eq:invariance}
+\end{equation}
+
+A simple real-world example of invariance is the total energy of a molecule. Typically it stays invariant under rotations and translations of its atomic coordinates.
+
+On the other hand, a function $f$ is said to be equivariant to a transformation $g$ if applying $g$ to the input results in the same transformation being applied to the output:
+
+\begin{equation}
+f(g \cdot x) = g \cdot f(x)
+\label{eq:equivariance}
+\end{equation}
+
+A familiar example of equivariance is the behaviour of vector quantities such as velocity or force. If we rotate a coordinate system (or the object within it), the velocity or force vectors will also rotate accordingly. In the context of molecular systems, atomic forces are equivariant under rotations: if the molecule is rotated, the directions of the forces rotate in the same way. Both concepts of invariance and equivariance are illustrated in Figure~\ref{fig:invariance_equivariance}.
+
+Designing \acp{gnn} that are invariant or equivariant helps reduce the amount of data needed for training. Geometric neural networks, for instance, are explicitly constructed to respect such symmetries, making them particularly well-suited for chemical modelling.
+
+\clearpage
+\subsection{Equivariant graph neural networks}
+
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/equivariant_gnns.png}
+    \caption{This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:equivariant_gnns}
+\end{figure}
