@@ -363,20 +363,19 @@ It is important to note that, since nuclear dynamics are treated classically in 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Neural network potentials}
-
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/graph_and_geometric_nns.png}
-    \caption{This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
-    \label{fig:graph_and_geometric_nns}
-\end{figure}
-
 The discussion in this section is mainly based on the textbook ``Deep Learning: Foundations and Concepts'' by C. M. Bishop and H. Bishop~\citep{bishopDeepLearningFoundations2023}, the excellent review by Duval, Mathis, Joshi, and Schmidt et al.~\citep{duvalHitchhikersGuideGeometric2024}, the research paper by Batatia and Batzner et al.~\citep{batatiaDesignSpaceE3Equivariant2022}, and the research paper by Batzner et al.~\citep{batznerE3equivariantGraphNeural2022}, unless stated otherwise.
 
 \subsection{Graph neural networks}
 One can easily imagine how computationally expensive it would be to run \ac{aimd} simulations for a system containing hundreds of atoms. In recent years, the field of machine learning has made significant progress in addressing this challenge. In particular, the development of \acp{gnn} has enabled the design of \acp{nnp}, which learn the potential energy surface of molecular systems and can replace \ac{dft} in molecular dynamics simulations.
 
-A natural question one may ask here: why use \acp{gnn}? The answer lies in the fact that \acp{gnn} provide a natural way to represent molecular systems. Atoms can be considered as nodes in a graph, with bonds between them represented as edges. This concept is visualised in Figure~\ref{fig:graph_and_geometric_nns}~A. 
+A natural question one may ask here: why use \acp{gnn}? The answer lies in the fact that \acp{gnn} provide a natural way to represent molecular systems. Atoms can be considered as nodes in a graph, with bonds between them represented as edges. This concept is visualised in Figure~\ref{fig:graph_and_geometric_nns}~A.
+
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/graph_and_geometric_nns.png}
+    \caption{The concept of (A) \acp{gnn} and (B) geometric \acp{gnn} visualised. This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:graph_and_geometric_nns}
+\end{figure}
 
 An essential property of any graph $\mathcal{G} = (\mathbf{A}, \mathbf{S})$ is its adjacency matrix $\mathbf{A}$, which encodes the connectivity of the nodes via elements $a_{ij}$. This matrix is square with dimensions $n \times n$, where $n$ is the number of nodes in the graph. Each entry is either 0 or 1, indicating the absence or presence of a connection between two nodes.
 
@@ -403,9 +402,11 @@ In addition to the adjacency matrix, each graph also has a matrix of scalar feat
 
 The $\underline{\text{MSG}}$ and $\underline{\text{UPD}}$ functions form an entire research topic within \acp{gnn}, and are typically implemented as neural networks themselves. The aggregation operator $\bigoplus$ must be permutation-invariant and can take forms such as summation, averaging, etc. After the final iteration, the resulting node representations can be used to predict properties at various levels, whether for the entire graph, such as the total energy of a molecular system, or at the node or edge level.
 
-A particularly important subclass of \acp{gnn} is the geometric \acp{gnn}, which are designed to handle geometric data in Euclidean space. These are depicted in Figure~\ref{fig:graph_and_geometric_nns}~B. Geometric graphs $\mathcal{G} = (\mathbf{A}, \mathbf{S}, \overrightarrow{\mathbf{x}}, \overrightarrow{\mathbf{v}})$ contain additional information such as atomic coordinates $\overrightarrow{x_i}$ and other vector features $\overrightarrow{v_i}$. These vectors may represent quantities such as velocities or forces.
+A particularly important subclass of \acp{gnn} is the geometric \acp{gnn}, which are designed to handle geometric data in Euclidean space. These are depicted in Figure~\ref{fig:graph_and_geometric_nns}~B. Geometric graphs $\mathcal{G} = (\mathbf{A}, \mathbf{S}, \vec{\mathbf{x}}, \vec{\mathbf{v}})$ contain additional information such as atomic coordinates $\vec{x_i}$ and other vector features $\vec{v_i}$. These vectors may represent quantities such as velocities or forces.
 
 Geometric \acp{gnn} are tailored to work with data that has an inherent geometric structure, such as point clouds. Their key advantage is in handling symmetry operations, i.e. that under rotations and translations of the data, scalar features remain invariant, or the same, while vector features transform appropriately. This property is crucial for accurately capturing the underlying physics of molecular systems.
+
+
 
 \subsection{Invariance and equivariance}
 
@@ -438,12 +439,54 @@ A familiar example of equivariance is the behaviour of vector quantities such as
 
 Designing \acp{gnn} that are invariant or equivariant helps reduce the amount of data needed for training. Geometric neural networks, for instance, are explicitly constructed to respect such symmetries, making them particularly well-suited for chemical modelling.
 
-\clearpage
-\subsection{Equivariant graph neural networks}
 
-\begin{figure}[b!]
+
+\subsection{Equivariant graph neural networks}
+In the previous section, we emphasised the importance of implementing invariance and equivariance in \acp{gnn}. In general, the field of geometric \acp{gnn} applied to computational chemistry problems is still in its early stages, since the first models were introduced around 2018, as shown in Figure~\ref{fig:equivariant_gnns}~A.
+
+Nevertheless, the field is rapidly developing, with new architectures being proposed that advance the state of the art. These architectures achieve better performance in learning the intricacies of the potential energy surface while also scaling to systems containing millions of atoms~\citep{musaelianLearningLocalEquivariant2023}.
+
+In this section, we focus on the general pipeline of geometric \acp{gnn}, and on the NequIP~\citep{batznerE3equivariantGraphNeural2022} neural network in particular, which stands for Neural Equivariant Interatomic Potential. The general pipeline of geometric \acp{gnn} is shown in Figure~\ref{fig:equivariant_gnns}~B.
+
+Broadly speaking, the entire workflow can be divided into three main steps:
+\begin{enumerate}
+    \item Create the atomic representations.
+    \item Learn the embeddings of the atomic representations.
+    \item Predict the desired output property, such as the total energy or forces.
+\end{enumerate}
+
+\subsubsection{Atomic representations}
+Before learning atomic representations, the network constructs an input graph from the given atomic coordinates, i.e., a point cloud. Atoms are treated as nodes, and edges are formed between atoms that lie within a specified cutoff radius. This radius defines the local environment of each atom and is crucial for ensuring that the network processes only physically meaningful interactions. To ensure a gradual change in interaction strength, a smooth cutoff function is often employed. It has the following form:
+
+\begin{equation}
+    A_{ij} = \begin{cases}
+    \frac{1}{2}\left(\cos\left(\frac{\pi d_{ij}}{c}\right) + 1\right) & \text{if } d_{ij} \leq c \\
+    0 & \text{otherwise}
+    \end{cases}
+    \label{eq:smooth_cutoff}
+\end{equation}
+
+Here, $d_{ij} = ||\vec{x}_i - \vec{x}_j||$ is the distance between atoms $i$ and $j$, and $c$ is the cutoff radius. The cutoff function smoothly transitions from 1 to 0 as the distance approaches the cutoff, ensuring that interactions are considered only within the specified range. This function is typically chosen to be continuous and differentiable, such as a cosine or polynomial function, to avoid discontinuities. The choice of cutoff radius is critical, as it determines the size of the local environment considered by the network. A cutoff that is too small may lead to the loss of important long-range interactions, while one that is too large may introduce noise and increase computational cost.
+
+When working with periodic systems, \acp{pbc} must be respected during graph construction. Therefore, adjacent unit cells are considered within the cutoff distance to ensure that atomic environments are correctly represented.
+
+Alongside the geometric information, usually encoded as distance-based features, each atom is assigned a type-dependent feature, often implemented as an atomic embedding vector. In addition to pairwise distances, some architectures incorporate angular information or more complex symmetry functions to capture higher-order geometric correlations. Together, these inputs form the basis of the graph on which the neural network operates.
+
+\begin{figure}[t!]
     \centering
-    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/equivariant_gnns.png}
-    \caption{This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \includegraphics[width=0.9\textwidth]{Figures/2_Theory/equivariant_gnns.png}
+    \caption{(A) The timeline of the development of geometric \acp{gnn} aimed at computational chemistry problems. (B) A general architecture of geometric \acp{gnn}. This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
     \label{fig:equivariant_gnns}
 \end{figure}
+
+\subsubsection{Embedding and interaction blocks}
+Once the input features have been defined, the network proceeds through an initial embedding layer. This layer maps the input features into a latent space, which may consist of scalars, vectors, or higher-order tensors, depending on the network’s level of geometric complexity. For instance, in NequIP, the input features are mapped into spherical tensors that are irreducible representations of $SO(3)$ thanks to the e3nn library \citep{geigerE3nnEuclideanNeural2022}, ensuring rotational equivariance, while translational invariance is built in by using relative positional features. In other words, the embedding layer constructs the initial learnable atomic representations that will be refined by the subsequent layers of the network.
+
+The core of the network comprises a series of interaction, or message-passing, blocks. Within each block, nodes aggregate both scalar and vector information from their neighbours, often using edge features such as relative positions or spherical harmonics to guide the update. The aggregated messages are then passed through neural network layers. As a result, each node's feature vector is updated in a way that preserves the geometric structure of the system. By stacking multiple interaction blocks, the network gains the capacity to capture complex many-body interactions. Each layer builds upon the features extracted by the previous one, allowing the model to learn increasingly rich representations of atomic environments.
+
+\subsubsection{Output block}
+The final stage of a geometric \ac{gnn} involves translating the atomic representations, refined by the embedding and interaction blocks, into physically meaningful quantities, such as the total energy of the system. This quantity is typically obtained as a sum over per-atom contributions, a strategy that ensures permutation invariance with respect to atomic indexing.
+
+To derive atomic forces, two main approaches can be used: either predicting them directly or utilising automatic differentiation. In the latter case, forces are computed as the negative gradient of the predicted energy with respect to atomic positions using automatic differentiation as implemented in modern deep learning libraries. This approach ensures that the forces are conservative and thus obey the fundamental law of energy conservation. Moreover, since the model is constructed to respect geometric symmetries, the resulting forces are also equivariant under rotations and translations.
+
+Thanks to the incorporating the physics-inspired features and symmetry constraints, the output of the network provides physically meaningful predictions of both total energy and atomic forces.
