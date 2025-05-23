@@ -344,11 +344,16 @@ It is important to note that, since nuclear dynamics are treated classically in 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Extended tight binding}
+The tight binding methods can be viewed as a simplification, or semi-empirical approximation, of \ac{dft}. Essentially, they are based on the same principles but introduce numerous approximations to reduce the computational cost. In 2017, the \ac{xtb} method was introduced. This development led to a new family of methods, namely GFNn-xTB, where GFN stands for geometries, frequencies, and non-covalent interactions, and \emph{n} denotes the version~\citep{grimmeRobustAccurateTightBinding2017}.
+
+In \ac{dftb} methods, the total energy of a system is expressed as a Taylor expansion around $\Delta \rho$~\citep{bannwarthExtendedTightbindingQuantum2021}:
 
 \begin{equation}
     E[\rho] = E^{(0)}[\rho_0] + E^{(1)}[\rho_0, \delta \rho] + E^{(2)}[\rho_0, (\delta \rho)^2] + E^{(3)}[\rho_0, (\delta \rho)^3] + \cdots
     \label{eq:tb_energy_expansion}
 \end{equation}
+
+Here, $\Delta \rho$ represents the difference between the converged $\rho$ and the reference density $\rho_0$. The terms represent zeroth-order (core-core repulsion), first-order (valence electronic energy), second-order (charge corrections), and higher-order terms~\citep{jensenIntroductionComputationalChemistry2017}. GFNn-xTB is heavily based on \ac{dftb}3, which includes terms in the energy expansion up to third order. The energy of GFN1-xTB, which is considered in this work, is given by~\citep{bannwarthExtendedTightbindingQuantum2021}:
 
 \begin{equation}
     \begin{aligned}
@@ -358,7 +363,9 @@ It is important to note that, since nuclear dynamics are treated classically in 
     \label{eq:gfn1xtb_energy}
 \end{equation}
 
+where $E_{\text{rep}}$ is the repulsion energy, $E_{\text{disp}}^{\text{D3}}$ is the dispersion energy, $E_{\text{XB}}^{\text{GFN1}}$ is the exchange-bonding energy, $E_{\text{EHT}}$ is the extended H\"uckel theory energy, and $E_\gamma$ and $E_\Gamma^{\text{GFN1}}$ correspond to contributions arising from density fluctuations.
 
+It is important to note that the GFNn-xTB methods are parametrised for 86 elements using a partially polarised minimal valence basis set. GFN1-xTB provides a good first approximation of the potential energy surface and is computationally efficient, thus making it suitable for the initial exploration of large molecular systems and running relatively long \ac{md} simulations.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -370,7 +377,7 @@ One can easily imagine how computationally expensive it would be to run \ac{aimd
 
 A natural question one may ask here: why use \acp{gnn}? The answer lies in the fact that \acp{gnn} provide a natural way to represent molecular systems. Atoms can be considered as nodes in a graph, with bonds between them represented as edges. This concept is visualised in Figure~\ref{fig:graph_and_geometric_nns}~A.
 
-\begin{figure}[b!]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.7\textwidth]{Figures/2_Theory/graph_and_geometric_nns.png}
     \caption{The concept of (A) \acp{gnn} and (B) geometric \acp{gnn} visualised. This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
@@ -412,13 +419,6 @@ Geometric \acp{gnn} are tailored to work with data that has an inherent geometri
 
 In the context of geometric \acp{gnn}, the concepts of invariance and equivariance play a fundamental role in ensuring that models respect the symmetries of the data they are trained on. These properties are especially crucial when working with molecules, where rotations or translations should not change the outcome of the prediction or should change it in a predictable way.
 
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/invariance_equivariance.png}
-    \caption{Invariance and equivariance. This figure was taken from \citep{duvalHitchhikersGuideGeometric2024}.}
-    \label{fig:invariance_equivariance}
-\end{figure}
-
 Mathematically, a function $f$ is said to be invariant to a transformation $g$ if applying $g$ to the input $x$ does not affect the output of the function:
 
 \begin{equation}
@@ -438,6 +438,13 @@ f(g \cdot x) = g \cdot f(x)
 A familiar example of equivariance is the behaviour of vector quantities such as velocity or force. If we rotate a coordinate system (or the object within it), the velocity or force vectors will also rotate accordingly. In the context of molecular systems, atomic forces are equivariant under rotations: if the molecule is rotated, the directions of the forces rotate in the same way. Both concepts of invariance and equivariance are illustrated in Figure~\ref{fig:invariance_equivariance}.
 
 Designing \acp{gnn} that are invariant or equivariant helps reduce the amount of data needed for training. Geometric neural networks, for instance, are explicitly constructed to respect such symmetries, making them particularly well-suited for chemical modelling.
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/invariance_equivariance.png}
+    \caption{Invariance and equivariance. This figure was taken from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:invariance_equivariance}
+\end{figure}
 
 
 
