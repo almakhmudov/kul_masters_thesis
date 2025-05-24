@@ -1,4 +1,5 @@
 \chapter{Theory}
+This chapter provides a short and condensed introduction to the theoretical concepts of the methods used in this work. It begins with a discussion of statistical mechanics and free energy techniques, followed by an overview of density functional theory and \textit{ab initio} molecular dynamics. Finally, the chapter concludes with a brief introduction to graph neural networks and neural network potentials. The aim is to provide a comprehensive background to the methods used, while the technical details and derivations are left to the literature sources cited throughout the text.
 
 \section{A brief introduction to statistical mechanics}
 The discussion in this section is mostly based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Statistical Mechanics: Theory and Molecular Simulation'' by Tuckermann~\citep{tuckermanStatisticalMechanicsTheory2023}, and ``Understanding Molecular Simulation: From Algorithms to Applications'' by Frenkel and Smit~\citep{frenkelUnderstandingMolecularSimulation2002} unless stated otherwise.
@@ -205,7 +206,7 @@ Despite the many benefits that metadynamics offers, it is important to note that
 
 Here, $N(s, t)$ is the histogram of $s$ obtained from a biased simulation, $\Delta T$ is the biasing temperature, and $\omega$ has the dimension of an energy rate. The rate at which this potential is modified over time is given by:
 
-\begin{figure}[b!]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/2_Theory/theory_metadynamics.png}
     \caption{The concept of metadynamics. $w$ stands for the Gaussian kernel height, and $\delta s$ stands for its width. The Panama Canal cartoon was taken from~\citep{HowPanamaCanal}.}
@@ -296,6 +297,14 @@ The iterative procedure to solve these equations proceeds as follows: first, a t
 
 
 \subsection{Generalised gradient approximation and PBE functional}
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/theory_jacobs_ladder.png}
+    \caption{Left panel: accuracy of the common quantum chemical methods as a function of the computatinal cost. Right panel: categorisation of the exchange-correlation functionals according to Perdew's ``Jacob's ladder''. The figure was reproduced from \citep{burschBestPracticeDFTProtocols2022}.}
+    \label{fig:jacobs_ladder}
+\end{figure}
+
 The field of \ac{dft} has opened new avenues for computational chemists and physicists, enabling them to study the properties of materials and molecules, as well as to investigate the reaction pathways of chemical processes. However, the accuracy of \ac{dft} calculations is highly dependent on the choice of the exchange-correlation functional.
 
 In this work, we focus on the \ac{gga} exchange-correlation functionals, which are widely used in \ac{dft} calculations and are known to provide results close to chemical accuracy at a relatively low computational cost, as can be seen in Figure~\ref{fig:jacobs_ladder}. In fact, the development of \ac{gga} functionals marked a turning point in the acceptance of the \ac{dft} method by the quantum chemistry community.
@@ -314,14 +323,7 @@ E_{\text{XC}}^{\text{GGA}} = E_{\text{X}}^{\text{GGA}} + E_{\text{C}}^{\text{GGA
 \label{eq:gga_xc}
 \end{equation}
 
-One of the most widely used \ac{gga} functionals is the Perdew-Burke-Ernzerhof (PBE) functional~\citep{perdewGeneralizedGradientApproximation1996}. Its formulation incorporates parameters in the exchange and correlation parts derived from first principles, making it a truly \textit{ab initio} functional.
-
-\begin{figure}[b!]
-    \centering
-    \includegraphics[width=0.7\textwidth]{Figures/2_Theory/theory_jacobs_ladder.png}
-    \caption{Left panel: accuracy of the common quantum chemical methods as a function of the computatinal cost. Right panel: categorisation of the exchange-correlation functionals according to Perdew's ``Jacob's ladder''. The figure was reproduced from \citep{burschBestPracticeDFTProtocols2022}.}
-    \label{fig:jacobs_ladder}
-\end{figure}
+One of the most widely used \ac{gga} functionals is the Perdew-Burke-Ernzerhof (PBE) functional~\citep{perdewGeneralizedGradientApproximation1996}. Its formulation incorporates 4 parameters in the exchange and correlation parts derived from first principles, making it a truly \textit{ab initio} functional.
 
 
 

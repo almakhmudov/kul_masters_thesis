@@ -128,6 +128,8 @@ The single-point calculations were performed using the \; \ac{gpw} implemented i
 
 The aforementioned cutoffs were determined based on a convergence test performed on one of the configurations, as described in~\citep{cp2k_developersHowConvergeCUTOFF}. An error in total energy of less than 10\textsuperscript{-8} a.u. was considered acceptable for the convergence test. The test was conducted by varying the cutoff for the total density from 400 to 1500 Ry, and the cutoff for the Kohn-Sham orbitals from 10 to 200 Ry. The results of the convergence test are shown in Table~\ref{tab:cutoff-convergence-test}.
 
+After the \ac{dft} labelling, the data were transformed into the extended XYZ format, which includes atomic positions, forces, total energies, cell dimensions, and whether \ac{pbc} were used or not. This format was chosen because it is compatible with neural network training, as explained in the next section. The data transformation was carried out using an in-house script, \texttt{cp2k2extxyz.py}, which is available in~\citep{makhmudovCp2k_to_extxyzScriptThat}.
+
 
 
 \subsection{Iterative training of the neural network potential} \label{subsec:iterative-training-of-the-neural-network-potential}
@@ -228,3 +230,4 @@ where the transmission coefficient $\kappa = 1$. Subsequently, the Arrhenius rel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Data analysis and visualisation}
+Data analysis was performed using Python in Jupyter notebooks~\citep{grangerJupyterThinkingStorytelling2021}. All plots were generated using Matplotlib library~\citep{hunterMatplotlib2DGraphics2007}. The water oxygen-oxygen $g_\mathrm{O-O}(r)$ \ac{rdf} was calculated using the extension in VMD~\citep{humphreyVMDVisualMolecular1996} with the bin size of 0.0125~\AA.
