@@ -37,14 +37,19 @@
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \usepackage{pdflscape} % For landscape pages
 
+
+% \usepackage[font={small,rm}]{caption} % to make the captions' font smaller and of rmfamily font
 \usepackage[font=small]{caption} % to make the captions' font smaller
 
-\usepackage{hyperref}
+% \usepackage{etoolbox}
+% \AtBeginEnvironment{tabular}{\rmfamily} % to ensure that the tabular environment uses the rmfamily font
+
+\usepackage[colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=blue]{hyperref} % for hyperlinks
+\renewcommand{\bibfont}{\small} % small font in the bibliography
 
 \usepackage{csquotes} % for quotes
 
 \usepackage[printonlyused,nohyperlinks]{acronym} % for acronyms
-
 % ------------------------ Page settings -----------------------------
 % If you change these, the cover layout will also change.  In that
 % case you have to adjust the latter manually.
@@ -145,7 +150,7 @@ Academic year 2024-2025
 % ------------------------- First pages ---------------------------
 % For table of contents, acknowlegments, ...
 % -----------------------------------------------------------------
-%\rmfamily
+% \rmfamily
 \setcounter{page}{0}
 \pagenumbering{roman}
 \onehalfspacing
@@ -162,6 +167,7 @@ Academic year 2024-2025
 % -------------------------- Proper text --------------------------
 % Introduction, chapters, ...
 % -----------------------------------------------------------------
+% \rmfamily
 \setcounter{page}{0}
 \pagenumbering{arabic}
 

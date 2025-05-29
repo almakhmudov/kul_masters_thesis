@@ -1,5 +1,5 @@
 \chapter{Computational details}
-This chapter provides detailed information on the computational methods employed in this work. The first section outlines the generation of the training dataset, including system preparation, initial equilibration using molecular mechanics, exploration of the configuration space at the GFN1-xTB level, further data labelling, and iterative training of the neural network potential. The second section discusses production runs at various temperatures using the fitted neural network potential. The third section describes the workflow for validating the transition states obtained from the simulations, based on the partial Hessian formalism. Finally, the fourth section presents the data analysis and visualisation techniques used to interpret the results.
+This chapter provides detailed information on the computational methods employed in this work. The first section outlines the generation of the training dataset, including system preparation, initial equilibration using molecular mechanics, exploration of the configuration space at the GFN1-xTB level, further data labelling, and iterative training of the neural network potential. The second section discusses production runs at ambient temperature using the fitted neural network potential. Finally, the third section presents the data analysis and visualisation techniques used to interpret the results.
 
 
 
@@ -60,22 +60,23 @@ where $r_{ij}$ is the distance between atoms $i$ and $j$ from groups $A$ and $B$
 The specific \acp{cv} used in this work are shown in Figure~\ref{fig:collective_variables}, and their corresponding parameters are as follows:
 
 \begin{itemize}
-    \item Distance between the $\beta$-phosphorus and the bridging oxygen (d\textsubscript{P-O}),
-    \item Coordination number of all water oxygen atoms as well as the bridging oxygen surrounding the $\beta$-phosphorus (C\textsubscript{P-O}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
-    \item Coordination number of non-methyl hydrogen atoms around 5 non-bridging and 1 bridging oxygen atoms (C\textsubscript{O-H}): $d_0 = 0$, $r_0 = 1.3$ \AA, $n = 8$, $m = 16$.
+    \item Distance between the $\beta$-phosphorus and the bridging oxygen (d\textsubscript{P-O\textsubscript{lg}}),
+    \item Coordination number of all water oxygen atoms as well as the bridging oxygen surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{all}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$.
 \end{itemize}
 
 \begin{figure}[b!]
     \centering
     \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/methods_collective_variables.pdf}
-    \caption{The definition of the collective variables (CVs) used in this work. CN stands for coordination number.}
+    \caption{The definition of the collective variables (CVs) used in this work. d stands for distance and CN stands for coordination number.}
     \label{fig:collective_variables}
 \end{figure}
 
 Additionally, the following \acp{cv} were monitored to check whether the system was in a reasonable region of the potential energy surface, e.g. to ensure that there is no oxygen exchange between the methyl diphosphate and the water molecules:
 \begin{itemize}
-    \item Coordination number of 3 nonbridging oxygens surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{nonbridging}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
-    \item Coordination number of water oxygens around the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{water}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of 3 nonbridging phosphoryl oxygens surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{nb}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of 2 nonbridging oxygens from $\alpha$-phosphorus as well as the one forming a bond with the methyl group surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{nb-lg}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of water oxygens around the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{w}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of non-methyl hydrogen atoms around 5 non-bridging and 1 bridging oxygen atoms (C\textsubscript{O-H\textsubscript{all}}): $d_0 = 0$, $r_0 = 1.3$ \AA, $n = 8$, $m = 16$.
 \end{itemize}
 
 To avoid sampling of unphysical regions of the potential energy surface, quadratic (harmonic-like) wall potentials were applied to softly constrain certain degrees of freedom. The mathematical form of these wall potentials is given below:
@@ -99,10 +100,11 @@ The wall potentials applied to the \acp{cv} during the simulations are summarise
     \toprule
     \textbf{CV} & \textbf{Lower wall} & \textbf{Upper wall} & \textbf{Force constant (kcal mol\textsuperscript{-1} \AA\textsuperscript{-2})} \\
     \midrule
-    d\textsubscript{P-O} & -- & 5.0 / 6.0$^{1}$ & 500  \\
-    C\textsubscript{O-H} & -- & 1.3 / 2.5$^{2}$ & 1000 \\
-    C\textsubscript{P-O\textsubscript{nonbridging}} & 2.6 & -- & 2000 \\
-    C\textsubscript{P-O\textsubscript{water}} & -- & 1.3 & 2000 \\
+    d\textsubscript{P-O\textsubscript{lg}} & -- & 5.0 / 6.0$^{1}$ & 500  \\
+    C\textsubscript{O-H\textsubscript{all}} & -- & 1.3 / 2.5$^{2}$ & 1000 \\
+    C\textsubscript{P-O\textsubscript{nb}} & 2.6 & -- & 2000 \\
+    C\textsubscript{P-O\textsubscript{nb-lg}} & -- & -- / 0.1$^{1}$ & 2000 \\
+    C\textsubscript{P-O\textsubscript{w}} & -- & 1.3 & 2000 \\
     \bottomrule
     \end{tabular}
 \end{table}
@@ -148,6 +150,17 @@ The invariant subnetwork for radial interaction modelling consisted of two layer
 
 Training was performed using the Adam optimizer with the AMSGrad variant enabled, and with $\beta_1 = 0.9$, $\beta_2 = 0.999$, and $\epsilon = 10^{-8}$. A starting learning rate of 0.01 was used, and the learning rate was adaptively reduced by a factor of 0.5 upon stagnation of the validation loss (patience = 100 epochs). Early stopping was triggered if the validation loss remained unimproved for 50 epochs, if the loss dropped below $1 \times 10^{-5}$, or if it exceeded $1 \times 10^{4}$. The batch size was set to 5. The training was carried out over a period of three days on a single NVIDIA A100 GPU using float64 precision.
 
+The networks were trained using the following \ac{mse} loss function already implemented in the NequIP framework:
+
+\begin{equation}
+    \mathcal{L} = \lambda_E \lVert \hat{E} - E \rVert^2 
+    + \lambda_F \frac{1}{3N} \sum_{i=1}^{N} \sum_{\alpha=1}^{3} 
+    \left\lVert -\frac{\partial \hat{E}}{\partial r_{i,\alpha}} - F_{i,\alpha} \right\rVert^2
+    \label{eq:loss_function}
+\end{equation}
+
+Here, $N$ is the number of atoms, $\hat{E}$ is the predicted energy, $E$ is the reference energy, $F_{i,\alpha}$ is the reference force on atom $i$ in direction $\alpha$, and $-\frac{\partial \hat{E}}{\partial r_{i,\alpha}}$ is the calculated force by means of autodifferentiating the predicted energy with respect to the atomic position. The hyperparameters $\lambda_E$ and $\lambda_F$ by default have a weighting of 1 to $N_{atoms}^2$, respectively.
+
 To thoroughly sample the reaction space, the training was performed in an iterative manner, where the model was first trained on a small set of data and then used to generate additional data points. This process was repeated until the model converged, with the \ac{rmse} of the atomic forces being less than 40 meV/\AA. The workflow is shown in Figure~\ref{fig:iterative-training}.
 
 In the end, the full dataset consisted of 12,000 configurations for training and validation, and 1,800 configurations for testing, for both systems (\ac{medp} and \ac{mehdp}) combined. This dataset was obtained within the three rounds of iterative training. In each round of training, the model was retrained on a larger dataset. The data obtained from each round will be discussed in the following sections.
@@ -156,7 +169,7 @@ In the end, the full dataset consisted of 12,000 configurations for training and
 
 \subsubsection{Selection of configurations for training and testing}
 
-An important part of the iterative training process is the selection of configurations that will be used to train the neural network. To construct a representative and diverse dataset for training the neural network potential, configurations were selected from a metadynamics trajectory using a density-aware sampling strategy. The raw data were extracted from a file generated during the enhanced sampling simulations. Each configuration in this file corresponds to a simulation snapshot, annotated with a time index and two collective variables (CVs): the distance $\mathrm{d}_{\mathrm{P}-\mathrm{O}}$ and the coordination number $\mathrm{C}_{\mathrm{P}-\mathrm{O}}$.
+An important part of the iterative training process is the selection of configurations that will be used to train the neural network. To construct a representative and diverse dataset for training the neural network potential, configurations were selected from a metadynamics trajectory using a density-aware sampling strategy. The raw data were extracted from a file generated during the enhanced sampling simulations. Each configuration in this file corresponds to a simulation snapshot, annotated with a time index and two collective variables (CVs): the distance d\textsubscript{P-O\textsubscript{lg}} and the coordination number C\textsubscript{P-O\textsubscript{all}}.
 
 The two \acp{cv} were combined into a two-dimensional feature space $\mathbf{X} = (\mathrm{d}, \mathrm{C})$, which served as the basis for sampling. This feature space often exhibits regions of highly non-uniform data density, due to the biased nature of metadynamics sampling. To account for this, a density-aware sampling method was employed to select configurations for training and testing that maintain good coverage across the feature space.
 
@@ -174,16 +187,16 @@ This approach results in training and test datasets that closely mirror the over
 
 
 \subsubsection{First round}
-In the first round of training the \ac{nnp}, the model was trained on a small dataset consisting of 4,000 configurations. These configurations were obtained from the initial exploration of the configuration space at 300~K using the GFN1-xTB level of theory, as described in Section~\ref{subsec:xtb-exploration-of-configuration-space}. The enhanced sampling simulations were biased along d\textsubscript{P-O} and C\textsubscript{P-O}, and no restraints were applied to the system. The training was carried out using the hyperparameters described in Section~\ref{subsec:iterative-training-of-the-neural-network-potential}.
+In the first round of training the \ac{nnp}, the model was trained on a small dataset consisting of 4,000 configurations. These configurations were obtained from the initial exploration of the configuration space at 300~K using the GFN1-xTB level of theory, as described in Section~\ref{subsec:xtb-exploration-of-configuration-space}. The enhanced sampling simulations were biased along d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}}, and no restraints were applied to the system. The training was carried out using the hyperparameters described in Section~\ref{subsec:iterative-training-of-the-neural-network-potential}.
 
 
 
 \subsubsection{Second round}
 In the second round of training, the model was trained on a larger dataset consisting of 8,000 configurations. The additional configurations were obtained from a second round of exploration of the configuration space, driven by the \ac{nnp} obtained after the first round of training.
 
-The \ac{nnp}-driven simulations were run using the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022} compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip} on a single A100 GPU. The simulations were performed for 100~ps in the \ac{nvt} ensemble at 300~K with the \ac{pbc} applied in all directions. The temperature was controlled by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a time constant of 50~fs. The biasing potential was applied to d\textsubscript{P-O} and C\textsubscript{P-O} every 50~fs, using a Gaussian hill height of 2~kcal~mol\textsuperscript{-1} and a width of 0.07 for each CV. The bias factor was set to 30, and the integration time step was 0.5~fs.
+The \ac{nnp}-driven simulations were run using the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022} compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip} on a single A100 GPU. The simulations were performed for 100~ps in the \ac{nvt} ensemble at 300~K with the \ac{pbc} applied in all directions. The temperature was controlled by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a time constant of 50~fs. The biasing potential was applied to d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}} every 50~fs, using a Gaussian hill height of 2~kcal~mol\textsuperscript{-1} and a width of 0.07 for each CV. The bias factor was set to 30, and the integration time step was 0.5~fs.
 
-Restraints were applied to d\textsubscript{P-O} and C\textsubscript{P-O} in order to favour either a dissociative or associative mechanism of the reaction and sample more configurations from the \ac{ts} regions. The training was performed using the same hyperparameters as in the first round.
+Restraints were applied to d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}} in order to favour either a dissociative or associative mechanism of the reaction and sample more configurations from the \ac{ts} regions. The training was performed using the same hyperparameters as in the first round.
 
 
 
@@ -194,18 +207,18 @@ In the final round of training, the model was trained on a dataset consisting of
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Production runs at different temperatures}
-To thoroughly sample the reaction space, production runs were performed at various temperatures (300~K, 320~K, and 340~K) using the neural network potential obtained in the final round of training. To run the simulations with the \ac{nnp}, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022}, compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip}, was utilised. First, the systems were equilibrated for 75 ps in \ac{nvt} ensemble, since it was previously shown that water fully relaxes in this timeframe~\citep{moronMacroNanoScale2016}. Then the simulations were carried out for 4~ns in the \ac{nvt} ensemble, with temperature regulated by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a frequency of 50~fs\textsuperscript{-1}.
+\section{Production runs at ambient temperature}
+To thoroughly sample the reaction space, the long production runs were performed at ambient temperature (300~K) using the neural network potential obtained in the final round of training. To run the simulations with the \ac{nnp}, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022}, compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip}, was utilised. First, the systems were equilibrated for 75 ps in \ac{nvt} ensemble, since it was previously shown that water fully relaxes in this timeframe~\citep{moronMacroNanoScale2016}. Then the simulations were carried out for 2~ns in the \ac{nvt} ensemble, with temperature regulated by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a frequency of 50~fs\textsuperscript{-1}.
 
-The biasing potential was applied every 50~fs to d\textsubscript{P-O}, C\textsubscript{P-O}, and C\textsubscript{O-H}, using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on d\textsubscript{P-O}, C\textsubscript{O-H}, C\textsubscript{P-O\textsubscript{nonbridging}}, and C\textsubscript{P-O\textsubscript{water}}, as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
+The biasing potential was applied every 50~fs to d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}} using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on the \acp{cv} as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
 
 To obtain the free energy profiles of the reactions, the Gaussian kernels applied during the simulations were summed using the \texttt{sum\_hills} utility provided in the PLUMED 2.9.3 package~\citep{tribelloPLUMED2New2014}. Afterwards, the \acp{mfep} were extracted using the MEPSA 1.4 software~\citep{marcos-alcaldeMEPSAMinimumEnergy2015}. 
 
-Having \acp{mfep} in hand and the barrier heights as a consequence, the corresponding rate constants (in s\textsuperscript{-1}) were calculated using the Eyring-Polanyi equation:
-\begin{equation}
-    k = \frac{\kappa k_B T}{h} e^{-\Delta G^\ddagger / RT}
-\end{equation}
-where the transmission coefficient $\kappa = 1$. Subsequently, the Arrhenius relationship was derived to obtain the activation energy barrier as the slope of the linear fit from the \(\log(k)\) versus \(1000/T\) plot.
+% Having \acp{mfep} in hand and the barrier heights as a consequence, the corresponding rate constants (in s\textsuperscript{-1}) were calculated using the Eyring-Polanyi equation:
+% \begin{equation}
+%     k = \frac{\kappa k_B T}{h} e^{-\Delta G^\ddagger / RT}
+% \end{equation}
+% where the transmission coefficient $\kappa = 1$. Subsequently, the Arrhenius relationship was derived to obtain the activation energy barrier as the slope of the linear fit from the \(\log(k)\) versus \(1000/T\) plot.
 
 % With the rate constants determined, the corresponding half-lives were then calculated using the following equation:
 % \begin{equation}
@@ -230,4 +243,4 @@ where the transmission coefficient $\kappa = 1$. Subsequently, the Arrhenius rel
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Data analysis and visualisation}
-Data analysis was performed using Python in Jupyter notebooks~\citep{grangerJupyterThinkingStorytelling2021}. All plots were generated using Matplotlib library~\citep{hunterMatplotlib2DGraphics2007}. The water oxygen-oxygen $g_\mathrm{O-O}(r)$ \ac{rdf} was calculated using the extension in VMD~\citep{humphreyVMDVisualMolecular1996} with the bin size of 0.0125~\AA.
+Data analysis was performed using Python in Jupyter notebooks~\citep{grangerJupyterThinkingStorytelling2021}. All plots were generated using Matplotlib library~\citep{hunterMatplotlib2DGraphics2007}. The water oxygen-oxygen $g_\mathrm{O-O}(r)$ \ac{rdf} was calculated using the extension in VMD~\citep{humphreyVMDVisualMolecular1996} with the bin size of 0.0125~\AA\ using the 2 ns of the production runs.

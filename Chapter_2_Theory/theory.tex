@@ -182,7 +182,7 @@ To address this challenge, various enhanced sampling techniques have been develo
 In metadynamics, a biasing (external) potential is added to the system's potential energy surface. This biasing potential takes the following form:
 
 \begin{equation}
-    V_{\text{G}}(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
+    V(S(x), t) = w \sum_{t' = \tau_{\text{G}}, 2\tau_{\text{G}}, \ldots}^{t' < t} \exp\left(-\frac{(S(x) - s(t'))^2}{2\delta s^2}\right)
     \label{eq:biasing_potential}
 \end{equation}
 
@@ -194,7 +194,7 @@ The assumption in metadynamics is that, after sufficiently long sampling, the bi
 
 \begin{equation}
     \label{eq:free_energy_from_metadynamics}
-    \lim_{t \to \infty} V_G(s,t) \sim -F(s)
+    \lim_{t \to \infty} V(s,t) \sim -F(s)
 \end{equation}
 
 Despite the many benefits that metadynamics offers, it is important to note that it has limitations. For example, obtaining a converged free energy surface is not straightforward, especially when multiple \acp{cv} are involved. In principle, Gaussian kernels can be deposited indefinitely, making it difficult to assess convergence. To address this issue, the well-tempered variant of metadynamics was developed~\citep{barducciWellTemperedMetadynamicsSmoothly2008}. In this method, a history-dependent potential is added, which is defined as:
@@ -489,7 +489,7 @@ Alongside the geometric information, usually encoded as distance-based features,
 \end{figure}
 
 \subsubsection{Embedding and interaction blocks}
-Once the input features have been defined, the network proceeds through an initial embedding layer. This layer maps the input features into a latent space, which may consist of scalars, vectors, or higher-order tensors, depending on the network’s level of geometric complexity. For instance, in NequIP, the input features are mapped into spherical tensors that are irreducible representations of $SO(3)$ thanks to the e3nn library \citep{geigerE3nnEuclideanNeural2022}, ensuring rotational equivariance, while translational invariance is built in by using relative positional features. In other words, the embedding layer constructs the initial learnable atomic representations that will be refined by the subsequent layers of the network.
+Once the input features have been defined, the network proceeds through an initial embedding layer. This layer maps the input features into a latent space, which may consist of scalars, vectors, or higher-order tensors $\ell$, depending on the network’s level of geometric complexity. For instance, in NequIP, the input features are mapped into spherical tensors $\ell$ that are irreducible representations of $SO(3)$ thanks to the e3nn library \citep{geigerE3nnEuclideanNeural2022}, ensuring rotational equivariance, while translational invariance is built in by using relative positional features. In other words, the embedding layer constructs the initial learnable atomic representations that will be refined by the subsequent layers of the network.
 
 The core of the network comprises a series of interaction, or message-passing, blocks. Within each block, nodes aggregate both scalar and vector information from their neighbours, often using edge features such as relative positions or spherical harmonics to guide the update. The aggregated messages are then passed through neural network layers. As a result, each node's feature vector is updated in a way that preserves the geometric structure of the system. By stacking multiple interaction blocks, the network gains the capacity to capture complex many-body interactions. Each layer builds upon the features extracted by the previous one, allowing the model to learn increasingly rich representations of atomic environments.
 
