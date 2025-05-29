@@ -115,7 +115,7 @@ As can be observed, it is rather difficult to clearly distinguish between the as
 
 
 \subsection{Diphosphates}
-Moving on to more complex systems, the hydrolysis of pyrophosphates (diphosphates), namely \ac{medp}, has also been thoroughly studied. It has been shown that the reaction mechanism can proceed through either associative or concerted pathways, just as in the case of methyl phosphate. In contrast, the associative mechanism has been demonstrated to be solely concerted. However, there is a twist to this story: the dissociative mechanism has also been observed, in both concerted and stepwise forms \citep{klahnMechanismHydrolysisPhosphate2006, kamerlinAssociativeDissociativeMechanisms2008, prasadAddressingOpenQuestions2013}. A schematic representation of the mechanisms can be found in Figures~\ref{fig:mfj_plot} and \ref{fig:reaction-mechanism}.
+Moving on to more complex systems, the hydrolysis of pyrophosphates (diphosphates) (e.g. \ac{medp}), which are the main focus of this thesis, has also been thoroughly studied. It has been shown that the reaction mechanism can proceed through either associative or concerted pathways, just as in the case of methyl phosphate. In contrast, the associative mechanism has been demonstrated to be solely concerted. However, there is a twist to this story: the dissociative mechanism has also been observed, in both concerted and stepwise forms \citep{klahnMechanismHydrolysisPhosphate2006, kamerlinAssociativeDissociativeMechanisms2008, prasadAddressingOpenQuestions2013}. A schematic representation of the mechanisms can be found in Figures~\ref{fig:mfj_plot} and \ref{fig:reaction-mechanism}.
 
 In the associative/concerted mechanism, the reaction undergoes the same steps as discussed in Subsection~\ref{subsec:phosphates}. The transition state has a similarly compact geometry: the distance between the phosphorus atom and the nucleophile is approximately 2.03--2.26~\AA, and the distance between the leaving group and the phosphorus atom is around 1.82--2.4~\AA, as shown in Table~\ref{tab:summary_ts_structures}. However, the calculated barrier heights are slightly lower in comparison to methyl phosphate, ranging from 34 to 38 kcal/mol (Table~\ref{tab:summary_comp_exp_barriers}).
 
@@ -523,16 +523,28 @@ When comparing the calculated and experimentally obtained $\Delta G^{\ddagger}$ 
 
 In summary, computational investigations reveal a nuanced and peculiar picture of phosphate hydrolysis. The preferred mechanism (associative, concerted, or dissociative) and the proton transfer route (1W, 2W, etc.) depend significantly on specific factors such as the pKa of the leaving group, the protonation state, the presence of metal ions like Mg$^{2+}$, and the surrounding solvent environment. 
 
-Moreover, it is important to keep in mind that in order to properly study the underlying free energy surface, adequate sampling of the reaction space is crucial. To achieve this, various free energy techniques such as metadynamics can be employed, provided that the level of theory is sufficient to describe a system of realistic size while allowing the results to be obtained within a reasonable timeframe. This is precisely the goal of the present project.
-
 
 
 \section{Research goals}
 
-To begin with, I'd like to quote the following line from Paul A. M. Dirac \citep{diracQuantumMechanicsManyelectron1997}, which I find particularly relevant to the topic of this thesis:
+To properly study the underlying free energy surface of the reaction mechanism, adequate sampling of the configurational space is crucial. To achieve this, various free energy techniques, such as metadynamics, can be employed - provided that the level of theory is sufficient to describe a system of realistic size while allowing results to be obtained within a reasonable timeframe. This is precisely the goal of the present project.
+
+As a model system, methyl diphosphate hydrolysis in water has been chosen. Methyl diphosphate is a relatively simple phosphate ester that can represent more complex molecules like \ac{adp} and \ac{atp}. The main focus of this thesis is to investigate the reaction mechanism of \ac{medp} hydrolysis in water using well-tempered metadynamics, and to explore the influence of the protonation state and the solvent environment on the reaction mechanism. To run the metadynamics simulations, a neural network potential will be trained, thus allowing \textit{ab initio} molecular dynamics simulations to be performed at low computational cost.
+
+Specifically, the following goals have been set for this thesis:
+\begin{itemize}
+    \item Compose a comprehensive dataset of molecular configurations covering all steps of the methyl diphosphate hydrolysis reaction mechanism.
+    \item Train the NequIP neural network to fit a neural network potential that serves as an engine for the \textit{ab initio} molecular dynamics simulations.
+    \item Assess the accuracy and performance of the neural network potential with respect to network complexity and the size of the training set.
+    \item Perform extensive well-tempered metadynamics simulations to obtain the free energy surface of the methyl diphosphate hydrolysis reaction mechanism.
+    \item Gain insights into the reaction mechanism, i.e. the kinetics and thermodynamics of the reaction, and compare the results with previously published data.
+    \item Gain insights into the proton transfer mechanism.
+\end{itemize}
+
+Taking the above-mentioned goals into account, the present thesis follows the idea of Paul A. M. Dirac~\citep{diracQuantumMechanicsManyelectron1997}, who emphasised the need for approximate practical methods in quantum mechanics to explain complex atomic systems without excessive computational demands: 
 
 \begin{displayquote}
     The underlying physical laws necessary for the mathematical theory of a large part of physics and the whole of chemistry are thus completely known, and the difficulty is only that the exact application of these laws leads to equations much too complicated to be soluble. \textit{It therefore becomes desirable that approximate practical methods of applying quantum mechanics should be developed, which can lead to an explanation of the main features of complex atomic systems without too much computation.}
 \end{displayquote}
 
-
+The use of neural network potentials in this thesis aims to achieve precisely that: to provide a practical and efficient approach to studying the reaction mechanism while maintaining a high level of accuracy.
