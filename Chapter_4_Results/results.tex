@@ -107,28 +107,39 @@ It is evident that the \ac{nnp} is in qualitative agreement with the experimenta
 
 One could argue that the accuracy of the fitted \ac{nnp} is inherently limited by the quality of the training data. In this study, the dataset was labelled at the PBE-D3(BJ)/TZV2P level of theory. Accordingly, the resulting oxygen-oxygen water \ac{rdf} is consistent with the \ac{aimd} study where the \ac{rdf} was calculated using the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016} as can be found in Figure~\ref{fig:water_rdf}.
 
-It has previously been shown that, in order to obtain a more accurate representation of bulk water structure, the system temperature should be increased. For instance, \citep{zhouQuantifyingStructureWater2022} reported that the PBE functional with the Grimme's D3 dispersion correction yields a more accurate \ac{rdf} at 390 K. A similar trend was observed for the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016}, with better agreement with experimental data achieved at 400 K.
+It has previously been shown that, in order to obtain a more accurate representation of the bulk water structure, the system temperature should be increased. For instance, \citep{zhouQuantifyingStructureWater2022} reported that the PBE functional with the Grimme's D3 dispersion correction yields a more accurate \ac{rdf} at 390 K. A similar trend was observed for the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016}, with better agreement with experimental data achieved at 400 K.
 
-In this work, the production runs were conducted at 300 K. Consequently, the resulting structure and dynamics of water will be less accurately captured than at elevated temperatures. Nevertheless, it remains in good agreement with what would be expected from the \ac{pbe} functional.
+In this work, the production runs were conducted at 300 K. Thus, the resulting structure and dynamics of water will be less accurately captured than at elevated temperatures. Nevertheless, it remains in good agreement with what would be expected from the \ac{pbe} functional.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Convergence of the free energy profiles}
 
-
-
-\begin{figure}[ht]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_fes_convergence.png}
-    \caption{FES convergence at 300K}
+    \caption{\ac{fes} convergence and the evolution of the applied Gaussian biasing potential during the production runs of \ac{medp} (left panel) and \ac{mehdp} (right panel). Free energy surfaces were projected on one \ac{cv}, namely the distance (first row) and the coordination number (second row). They were calculated every 250 ps. The third row shows the evolution of the Gaussian biasing potential with the initial height of 0.5 kcal/mol.}
     \label{fig:300k_fes_convergence}
 \end{figure}
+
+A vital aspect of any enhanced sampling-based study is the convergence of the \ac{fes}. In this work, convergence was monitored by examining the evolution of the free energy profiles and the height of the applied Gaussian kernels over time. The results for the production runs are presented in Figure~\ref{fig:300k_fes_convergence}.
+
+The left panel shows the convergence of the \ac{fes} for the \ac{medp} system, while the right panel shows the corresponding results for the \ac{mehdp} system. Gaussian kernels were deposited every 100 \ac{md} steps, i.e., every 50 fs. Over the course of the 2 ns simulations, a total of 40,000 Gaussian kernels were added.
+
+To evaluate the convergence of the \ac{fes}, the free energy profiles were calculated every 250 ps, i.e., after every 5,000 Gaussian kernels. One can clearly observe how the free energy profiles evolve over time. Initially, the \ac{fes} appears flatter and lies in higher energy regions. As the simulation progresses, the system explores a broader range of the \ac{fes}, including the reactant and product basins, as well as the \ac{ts}, and the free energy profile becomes more structured.
+
+By examining the 1D free energy profiles in Figure~\ref{fig:300k_fes_convergence}, it is clear that they are not fully converged even after 2 ns of simulation time. The \ac{fes} continues to evolve in the \ac{ts} regions ($C_\mathrm{P-O_{\mathrm{all}}}<3.5 \; \mathrm{and} >3.9$) and the product basin ($d_\mathrm{P-O_{\mathrm{lg}}}>4.0$ \AA). The reactant state, on the other hand, appears to be well sampled, as it did not change during the final 250 ps of the simulation.
+
+A similar trend can be observed in the evolution of the Gaussian biasing potential. Initially, the height of the Gaussian kernels is around 0.5 kcal/mol, as specified. As the simulation progresses, the Gaussian height gradually decreases. Occasional spikes in the height indicate that the system entered previously unexplored regions. In other words, when the system visits a new region of the \ac{fes}, the Gaussian height increases to ensure continued sampling in that region - an inherent feature of \ac{wtmd}.
+
+It is not surprising that 2 ns of simulation time is insufficient, given the complexity of the \ac{fes}, even when projected onto just two \acp{cv}. It is also worth noting that, despite the relatively high rate of bias deposition, the applied bias itself is small. These factors contribute to slow convergence over long timescales, leading to a smoother \ac{fes}. For reference, in other studies involving \ac{nnp}-driven reactive events - such as urea decomposition~\citep{yangUsingMetadynamicsBuild2022}, phosphoester bond formation between orthophosphate and methanol~\citep{benayadPrebioticChemicalReactivity2024}, and glycine tautomerisation~\citep{zhangIntramolecularWaterMediated2024} - convergence was only reached after at least 6, 10, and 30 ns, respectively.
+
+Although the free energy profiles obtained in this work are not fully converged, they show clear signs of progressing towards convergence. They are therefore expected to provide useful insights into the reaction pathways. It is important to keep this in mind when interpreting the results related to the reaction mechanism, particularly the kinetics and thermodynamics discussed in the following sections.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Evolution of the collective variables over time}
 
 \begin{figure}[ht]
