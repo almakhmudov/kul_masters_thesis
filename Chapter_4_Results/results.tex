@@ -142,17 +142,23 @@ Although the free energy profiles obtained in this work are not fully converged,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evolution of the collective variables over time}
 
-\begin{figure}[ht]
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_cv_evolution.png}
-    \caption{CV evolution at 300K}
+    \caption{Evolution of the \acp{cv} during the production runs of \ac{medp} (left panel) and \ac{mehdp} (right panel). The first row shows the evolution of $d_\mathrm{P-O_{\mathrm{lg}}}$, the second row shows the evolution of $C_\mathrm{P-O_{\mathrm{all}}}$, and the third row shows $C_\mathrm{O-H_{\mathrm{all}}}$. The first two \acp{cv} were biased. Recrossings are indicated by the dashed lines.}
     \label{fig:300k_cv_evolution}
 \end{figure}
 
+Another way to assess the convergence and quality of the \ac{fes} is to examine how the \acp{cv} evolve over time, as shown in Figure~\ref{fig:300k_cv_evolution}.
+
+The left panel presents the evolution of the \acp{cv} for the \ac{medp} system, while the right panel displays the corresponding results for the \ac{mehdp} system. The \acp{cv} depicted are: $d_\mathrm{P-O_{\mathrm{lg}}}$, $C_\mathrm{P-O_{\mathrm{all}}}$, and $C_\mathrm{O-H_{\mathrm{all}}}$. The first two \acp{cv} were biased during the \ac{wtmd} production runs, whereas the third was monitored to track the protonation state.
+
+Let us first relate the \acp{cv} to the respective reaction states. In the reactant state, $d_\mathrm{P-O_{\mathrm{lg}}}$ is approximately 1.75~\AA, $C_\mathrm{P-O_{\mathrm{all}}}$ is around 3.75, and $C_\mathrm{O-H_{\mathrm{all}}}$ is less than 1.0/2.0 (\ac{medp}/\ac{mehdp}). In the product state, $d_\mathrm{P-O_{\mathrm{lg}}}$ exceeds 4.0~\AA, $C_\mathrm{P-O_{\mathrm{all}}}$ remains around 3.75, and $C_\mathrm{O-H_{\mathrm{all}}}$ is greater than 1.0/2.0 (\ac{medp}/\ac{mehdp}). When the system passes through the dissociative transition state, $C_\mathrm{P-O_{\mathrm{all}}}$ drops to around 3.00, while for the associative transition state, it rises above 4.1.
+
+The \ac{fes} can be considered converged, or at least progressing towards convergence, when recrossings between the reactant and product states occur. These recrossings are indicated by grey dashed lines in Figure~\ref{fig:300k_cv_evolution}. Recrossings are observed in both systems, which is a promising indication that the \ac{fes} is being thoroughly sampled. This, in turn, increases confidence in using the resulting \ac{fes} to analyse the reaction mechanism.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Reaction mechanism for methyl diphosphate trianion}
 
 % MeDP
