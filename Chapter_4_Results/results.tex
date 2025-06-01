@@ -76,36 +76,54 @@ Taking both accuracy and performance into account, the \ac{nnp} with $\ell=1$ wa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Stability of the production runs}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_aimd_stability.png}
-%     \caption{Temperature and total energy fluctuations during the production runs at 300 K. The solid line represents the average, while the shaded area indicates the standard deviation. The average and the standard deviation were calculated using a sliding window of 2.5 ps.}
-%     \label{fig:temp_energy_fluctuations}
-% \end{figure}
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_aimd_stability.png}
+    \caption{Temperature and total energy fluctuations during the production runs at 300 K. The solid line represents the average, while the shaded area indicates the standard deviation. The average and the standard deviation were calculated using a sliding window of 1 ps.}
+    \label{fig:temp_energy_fluctuations}
+\end{figure}
+
+Before discussing the reaction mechanism and the free energy profiles, it is important to assess the quality of the fitted \ac{nnp} in a real world scenario. To do so, we can briefly touch upon the stability of the production runs. The stability of the \ac{aimd} simulations was assessed by monitoring temperature and total energy fluctuations over time. The corresponding results are presented in Figure~\ref{fig:temp_energy_fluctuations}.
+
+Temperature control was achieved using the Nos\'e--Hoover thermostat, while the total energy was calculated as the sum of potential and kinetic energies. The production runs were carried out at 300 K, and indeed, the average temperature remained close to this target, with a standard deviation of approximately 10 K. As expected for the \ac{nvt} ensemble, the total energy showed some fluctuations, yet remained within reasonable bounds in the simulations for both \ac{medp} and \ac{mehdp} systems.
+
+It was of particular interest to evaluate the stability of the simulations driven by the \ac{nnp}. These simulations remained stable, exhibiting neither system explosions nor any other artefacts over the 4,000,000 time steps corresponding to 2 ns. This indicates the absence of extreme force values that could have caused numerical instabilities. In a recent study~\citep{fuForcesAreNot2023}, the authors compared the stability of \ac{aimd} simulations driven by equivariant and invariant \acp{nnp}, and found that NequIP was among the most stable potentials tested across various systems. The robustness of the fitted by NequIP \ac{nnp} employed in this work is consistent with those findings.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Radial distribution function of water}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{Figures/4_Results/results_water_rdf.png}
-%     \caption{Oxygen-oxygen \ac{rdf} of water calculated from the production runs at 300 K. Experimental data was taken from~\citep{soperRadialDistributionFunctions2013}. The PBE and PBE-D3 data were taken from \citep{phamStructureDynamicsAqueous2016} and \citep{zhouQuantifyingStructureWater2022}, respectively.}
-%     \label{fig:water_rdf}
-% \end{figure}
+\begin{figure}[b!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/4_Results/results_water_rdf.png}
+    \caption{Oxygen-oxygen \ac{rdf} of water calculated from a production run at 300 K. Experimental data was taken from~\citep{soperRadialDistributionFunctions2013}. The PBE and PBE-D3 data were taken from \citep{phamStructureDynamicsAqueous2016} and \citep{zhouQuantifyingStructureWater2022}, respectively.}
+    \label{fig:water_rdf}
+\end{figure}
+
+The quality of the \ac{nnp} can be further assessed by comparing the \ac{rdf} of water calculated from the production runs with experimental data and previously reported computational findings. The oxygen-oxygen RDF obtained from the \ac{medp} production run is shown in Figure~\ref{fig:water_rdf}.
+
+It is evident that the \ac{nnp} is in qualitative agreement with the experimental data. However, it overestimates the heights of the first two peaks and underestimates the depth of the first minimum. For the \ac{nnp}, the first maximum occurs at 2.7188~\AA\ with a height of 3.8189, while the first minimum is located at 3.2813~\AA\ with a value of 0.2515. The second maximum appears at 4.4938~\AA\ with a height of 1.5725. There is also a slight shift to the left in the position of the peaks in comparison to the experimental data.
+
+One could argue that the accuracy of the fitted \ac{nnp} is inherently limited by the quality of the training data. In this study, the dataset was labelled at the PBE-D3(BJ)/TZV2P level of theory. Accordingly, the resulting oxygen-oxygen water \ac{rdf} is consistent with the \ac{aimd} study where the \ac{rdf} was calculated using the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016} as can be found in Figure~\ref{fig:water_rdf}.
+
+It has previously been shown that, in order to obtain a more accurate representation of bulk water structure, the system temperature should be increased. For instance, \citep{zhouQuantifyingStructureWater2022} reported that the PBE functional with the Grimme's D3 dispersion correction yields a more accurate \ac{rdf} at 390 K. A similar trend was observed for the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016}, with better agreement with experimental data achieved at 400 K.
+
+In this work, the production runs were conducted at 300 K. Consequently, the resulting structure and dynamics of water will be less accurately captured than at elevated temperatures. Nevertheless, it remains in good agreement with what would be expected from the \ac{pbe} functional.
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Convergence of the free energy profiles}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_fes_convergence.png}
-%     \caption{FES convergence at 300K}
-%     \label{fig:300k_fes_convergence}
-% \end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_fes_convergence.png}
+    \caption{FES convergence at 300K}
+    \label{fig:300k_fes_convergence}
+\end{figure}
 
 
 
@@ -113,12 +131,12 @@ Taking both accuracy and performance into account, the \ac{nnp} with $\ell=1$ wa
 \clearpage
 \section{Evolution of the collective variables over time}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_cv_evolution.png}
-%     \caption{CV evolution at 300K}
-%     \label{fig:300k_cv_evolution}
-% \end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_cv_evolution.png}
+    \caption{CV evolution at 300K}
+    \label{fig:300k_cv_evolution}
+\end{figure}
 
 
 
@@ -126,16 +144,27 @@ Taking both accuracy and performance into account, the \ac{nnp} with $\ell=1$ wa
 \clearpage
 \section{Reaction mechanism for methyl diphosphate trianion}
 
+% MeDP
+% RS -54.132690421
+% PS -50.382700415
+
+% TSassoc -20.983371369 29
+% CN d
+% 4.03 2.03
+
+% TSdissoc -25.917009928 100
+% CN d
+% 2.92 3.32
 
 
 \subsection{Minimum free energy path}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeDP_300K_fes_mfep.png}
-%     \caption{FES and MFEP MeDP 300K}
-%     \label{fig:medp_300k_fes_mfep}
-% \end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeDP_300K_fes_mfep.png}
+    \caption{FES and MFEP MeDP 300K}
+    \label{fig:medp_300k_fes_mfep}
+\end{figure}
 
 
 \subsection{Proton transfer mechanism}
@@ -146,16 +175,27 @@ Taking both accuracy and performance into account, the \ac{nnp} with $\ell=1$ wa
 \clearpage
 \section{Reaction mechanism for methyl diphosphate dianion}
 
+% MeHDP
+% RS -44.839340149
+% PS -57.088073014
+
+% TSassoc -14.408871871 31
+% CN d
+% 4.19 1.89
+
+% TSdissoc -15.936543814 141
+% CN d
+% 2.89 4.23
 
 
 \subsection{Minimum free energy path}
 
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeHDP_300K_fes_mfep.png}
-%     \caption{FES and MFEP MeHDP 300K}
-%     \label{fig:mehdp_300k_fes_mfep}
-% \end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeHDP_300K_fes_mfep.png}
+    \caption{FES and MFEP MeHDP 300K}
+    \label{fig:mehdp_300k_fes_mfep}
+\end{figure}
 
 
 \subsection{Proton transfer mechanism}
