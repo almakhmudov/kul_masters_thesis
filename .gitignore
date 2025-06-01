@@ -22,5 +22,6 @@
 *.snm
 *.nav
 *.synctex.gz
+*.synctex(busy)
 *.run.xml
 *.pdfsync
