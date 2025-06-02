@@ -92,7 +92,7 @@ It was of particular interest to evaluate the stability of the simulations drive
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Radial distribution function of water}
+\section{Radial distribution function of water} \label{sec:water_rdf}
 
 \begin{figure}[b!]
     \centering
@@ -161,35 +161,39 @@ The \ac{fes} can be considered converged, or at least progressing towards conver
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reaction mechanism for methyl diphosphate trianion}
 
-% MeDP
-% RS -54.132690421
-% PS -50.382700415
+There are two distinct reaction pathways connecting the reactant and product basins of the \ac{medp} hydrolysis: the associative and dissociative pathways, as illustrated in the left panel of Figure~\ref{fig:medp_300k_fes_mfep}. The global minimum of this \ac{fes} is located in the reactants basin. A 3D reconstruction of the \ac{fes} is shown in Figure~\ref{fig:fes_3d_medp_300k} in the Appendix.
 
-% TSassoc -20.983371369 29
-% CN d
-% 4.03 2.03
+Among the two, the dissociative pathway is more favourable, featuring a barrier height of 28.22 kcal/mol, which is significantly lower than the 37.13 kcal/mol barrier associated with the associative path, as shown in the right panel of Figure~\ref{fig:medp_300k_fes_mfep}. The dissociative pathway is characterised by the formation of a \ac{ts} at a $d_\mathrm{P-O_{\mathrm{lg}}}$ of 3.32~\AA\ and a low coordination number of 2.92. This indicates the formation of a metaphosphate species, PO$_3^-$, and the complete dissociation of the leaving group from the $\beta$-phosphorus. Additionally, there is no attacking water molecule within 2.1~\AA, suggesting a loose \ac{ts} as shown in Figure~\ref{fig:medp_reaction_mechanism}.
 
-% TSdissoc -25.917009928 100
-% CN d
-% 2.92 3.32
-
-
-\subsection{Minimum free energy path}
+In contrast, the associative pathway features a \ac{ts} at a $d_\mathrm{P-O_{\mathrm{lg}}}$ of 1.81~\AA\ with a high coordination number of 4.23. This implies that the leaving group remains bound to the $\beta$-phosphorus atom, and the attacking water molecule is positioned nearby. The associative \ac{ts} is tight, with the phosphorus atom adopting a pentacoordinated geometry as visualised in Figure~\ref{fig:medp_reaction_mechanism}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeDP_300K_fes_mfep.png}
-    \caption{FES and MFEP MeDP 300K}
+    \caption{(Left panel) \ac{fes} of the \ac{medp} hydrolysis at 300 K, projected on two \acp{cv}, and the corresponding \ac{mfep} with the evolution of the \acp{cv} along the path (right panel).}
     \label{fig:medp_300k_fes_mfep}
 \end{figure}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_medp_mechanism.pdf}
+    \caption{Associative and dissociative reaction pathways for the \ac{medp} hydrolysis with the corresponding reactant, \ac{ts}, and product structures.}
+    \label{fig:medp_reaction_mechanism}
+\end{figure}
 
-\subsection{Proton transfer mechanism}
+When comparing the two pathways, it is evident that, relative to one another, the dissociative pathway features a late, flatter barrier, while the associative one is early and steeper. To overcome the late barrier of the dissociative route, vibrational energy of the reactants plays a more significant role than translational energy, whereas the opposite is true for the associative pathway~\citep{polanyiConceptsReactionDynamics1987}.
+
+Moreover, the flat profile of the dissociative \ac{ts} suggests the potential existence of a transient intermediate. However, the current \ac{fes} does not provide evidence for such a species. This possibility could be further investigated with longer simulations.
+
+Mechanistically, the dissociative pathway proceeds as follows: the leaving group dissociates from the $\beta$-phosphorus atom, forming a planar metaphosphate species, PO$_3^-$. At this point, the attacking water molecule is still relatively distant ($>2.1$~\AA). Shortly thereafter, a water molecule approaches the $\beta$-phosphorus atom, deprotonates to form a strong nucleophile (OH$^-$), and rapidly forms a bond with the metaphosphate, yielding the product state. Concurrently, the proton is transferred to the newly formed monohydrogen phosphate via the water network in a hopping fashion, following the Grotthuss mechanism~\citep{degrotthussDecompositionLeauCorps1806, cukiermanTuGrotthussOther2006}. This dissociative mechanism is illustrated in Figure~\ref{fig:medp_reaction_mechanism}. Examination of the \ac{mfep} and the \ac{cv} evolution along the path (right panel of Figure~\ref{fig:medp_300k_fes_mfep}) shows that the water attack mainly occurs in the descending region following the flat \ac{ts}. Overall, the dissociative pathway closely resembles the dissociative/concerted D\textsubscript{N}A\textsubscript{N} mechanism (described in detail in Section~\ref{subsec:diphosphates_reaction_mechanism}), which involves departure of the leaving group (D\textsubscript{N}) followed by nucleophilic addition (A\textsubscript{N}) in one step.
+
+In the associative pathway, the mechanism is as follows: the leaving group remains attached to the $\beta$-phosphorus atom while the attacking water molecule approaches. Upon close contact, the water molecule deprotonates and forms a pentacoordinated \ac{ts}. The leaving group then departs, and the proton is transferred to the monohydrogen phosphate via the water network, again following a hopping mechanism. This associative mechanism is also depicted in Figure~\ref{fig:medp_reaction_mechanism}. The \ac{mfep} and \ac{cv} evolution along the pathway (Figure~\ref{fig:medp_300k_fes_mfep}, right panel) show that the maximum in the coordination number aligns closely with the highest point on the \ac{mfep}, consistent with the associative/concerted A\textsubscript{N}D\textsubscript{N} mechanism, which involves nucleophilic addition (A\textsubscript{N}) followed by departure (D\textsubscript{N}) in one step.
+
+The experimentally determined barrier height for \ac{medp} hydrolysis at 25\textdegree{C} (298 K) is 29.2 kcal/mol~\citep{wolfendenDegreesDifficultyWaterConsuming2006}, suggesting that the reaction proceeds via a dissociative/concerted D\textsubscript{N}A\textsubscript{N} mechanism. It is important to note that this conclusion is based on the model chemistry employed in this work: an \ac{nnp} trained on the PBE-D3(BJ)/TZV2P level of theory. This functional is known to have limitations in predicting reaction energies and barrier heights~\citep{burschBestPracticeDFTProtocols2022}, and in accurately describing the structure of bulk water at ambient temperature, as discussed in Section~\ref{sec:water_rdf}. Nevertheless, the long-timescale \ac{aimd} simulations driven by the \ac{nnp} predict a barrier height of 28.22 kcal/mol, which is in good agreement with the experimental value and within both the model’s error margin and the threshold of chemical accuracy. This suggests that the compromise approach adopted in this work is capable of capturing the reaction mechanism and kinetics of phosphate hydrolysis effectively.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\clearpage
 \section{Reaction mechanism for methyl diphosphate dianion}
 
 % MeHDP
@@ -204,18 +208,29 @@ The \ac{fes} can be considered converged, or at least progressing towards conver
 % CN d
 % 2.89 4.23
 
-
-\subsection{Minimum free energy path}
-
-\begin{figure}[ht]
+\begin{figure}[hb]
     \centering
     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeHDP_300K_fes_mfep.png}
-    \caption{FES and MFEP MeHDP 300K}
+    \caption{(Left panel) \ac{fes} of the \ac{mehdp} hydrolysis at 300 K, projected on two \acp{cv} and the corresponding \ac{mfep} with the evolution of the \acp{cv} along the path (right panel).}
     \label{fig:mehdp_300k_fes_mfep}
 \end{figure}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_mehdp_mechanism.pdf}
+    \caption{Associative reaction mechanism of the \ac{mehdp} hydrolysis with the corresponding reactant, \ac{ts}, and product structures.}
+    \label{fig:mehdp_reaction_mechanism}
+\end{figure}
 
-\subsection{Proton transfer mechanism}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Proton transfer mechanism}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_proton_transfer.pdf}
+    \caption{Proton transfer mechanism depicted step by step from the \ac{medp} D\textsubscript{N}A\textsubscript{N} dissociative mechanism.}
+    \label{fig:medp_proton_transfer}
+\end{figure}
