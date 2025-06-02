@@ -118,7 +118,7 @@ In this work, the production runs were conducted at 300 K. Thus, the resulting s
 
 \begin{figure}[t!]
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_fes_convergence.png}
+    \includegraphics[width=0.85\textwidth]{Figures/4_Results/results_300K_fes_convergence.png}
     \caption{\ac{fes} convergence and the evolution of the applied Gaussian biasing potential during the production runs of \ac{medp} (left panel) and \ac{mehdp} (right panel). Free energy surfaces were projected on one \ac{cv}, namely the distance (first row) and the coordination number (second row). They were calculated every 250 ps. The third row shows the evolution of the Gaussian biasing potential with the initial height of 0.5 kcal/mol.}
     \label{fig:300k_fes_convergence}
 \end{figure}
@@ -144,7 +144,7 @@ Although the free energy profiles obtained in this work are not fully converged,
 
 \begin{figure}[b!]
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_300K_cv_evolution.png}
+    \includegraphics[width=0.85\textwidth]{Figures/4_Results/results_300K_cv_evolution.png}
     \caption{Evolution of the \acp{cv} during the production runs of \ac{medp} (left panel) and \ac{mehdp} (right panel). The first row shows the evolution of $d_\mathrm{P-O_{\mathrm{lg}}}$, the second row shows the evolution of $C_\mathrm{P-O_{\mathrm{all}}}$, and the third row shows $C_\mathrm{O-H_{\mathrm{all}}}$. The first two \acp{cv} were biased. Recrossings are indicated by the dashed lines.}
     \label{fig:300k_cv_evolution}
 \end{figure}
@@ -169,14 +169,14 @@ In contrast, the associative pathway features a \ac{ts} at a $d_\mathrm{P-O_{\ma
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeDP_300K_fes_mfep.png}
+    \includegraphics[width=0.85\textwidth]{Figures/4_Results/results_MeDP_300K_fes_mfep.png}
     \caption{(Left panel) \ac{fes} of the \ac{medp} hydrolysis at 300 K, projected on two \acp{cv}, and the corresponding \ac{mfep} with the evolution of the \acp{cv} along the path (right panel).}
     \label{fig:medp_300k_fes_mfep}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_medp_mechanism.pdf}
+    \includegraphics[width=0.85\textwidth]{Figures/4_Results/results_medp_mechanism.pdf}
     \caption{Associative and dissociative reaction pathways for the \ac{medp} hydrolysis with the corresponding reactant, \ac{ts}, and product structures.}
     \label{fig:medp_reaction_mechanism}
 \end{figure}
@@ -196,31 +196,33 @@ The experimentally determined barrier height for \ac{medp} hydrolysis at 25\text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reaction mechanism for methyl diphosphate dianion}
 
-% MeHDP
-% RS -44.839340149
-% PS -57.088073014
-
-% TSassoc -14.408871871 31
-% CN d
-% 4.19 1.89
-
-% TSdissoc -15.936543814 141
-% CN d
-% 2.89 4.23
-
-\begin{figure}[hb]
-    \centering
-    \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_MeHDP_300K_fes_mfep.png}
-    \caption{(Left panel) \ac{fes} of the \ac{mehdp} hydrolysis at 300 K, projected on two \acp{cv} and the corresponding \ac{mfep} with the evolution of the \acp{cv} along the path (right panel).}
-    \label{fig:mehdp_300k_fes_mfep}
+\begin{figure}[b!]
+\centering
+\includegraphics[width=0.85\textwidth]{Figures/4_Results/results_MeHDP_300K_fes_mfep.png}
+\caption{(Left panel) \ac{fes} of the \ac{mehdp} hydrolysis at 300 K, projected on two \acp{cv} and the corresponding \ac{mfep} with the evolution of the \acp{cv} along the path (right panel).}
+\label{fig:mehdp_300k_fes_mfep}
 \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_mehdp_mechanism.pdf}
-    \caption{Associative reaction mechanism of the \ac{mehdp} hydrolysis with the corresponding reactant, \ac{ts}, and product structures.}
-    \label{fig:mehdp_reaction_mechanism}
+Turning to the hydrolysis of the protonated form of \ac{medp}, namely \ac{mehdp}, the corresponding \ac{fes} is shown in Figure~\ref{fig:mehdp_300k_fes_mfep}. The left panel presents the \ac{fes} projected onto two \acp{cv}, while the right panel shows the corresponding \ac{mfep} and the evolution of the \acp{cv} along the path.
+
+In this case, the \ac{fes} appears to be undersampled, as indicated by the flat and broad region along the potential dissociative pathway. In contrast, the associative pathway is better sampled and displays a well-defined \ac{ts} region. The global minimum of the \ac{fes} is located in the products basin. A 3D reconstruction of the \ac{fes} is available in Figure~\ref{fig:fes_3d_mehdp_300k} in the Appendix.
+
+The broad and flat nature of the dissociative pathway suggests the possible existence of an intermediate state that lies higher in energy than both the reactant and product states. This observation, together with the shape of the \ac{mfep}, implies that the hydrolysis mechanisms of \ac{medp} and \ac{mehdp} differ fundamentally. Furthermore, based on the barrier height of the associative pathway, the dissociative route is expected to be more favourable. This hypothesis can be further evaluated through extended \ac{wtmd} simulations.
+
+The associative pathway features a \ac{ts} at a $d_\mathrm{P-O_{\mathrm{lg}}}$ of 1.89~\AA\ and a coordination number of 4.19, which is consistent with the associative \ac{ts} observed for \ac{medp}. This tight \ac{ts} features a pentacoordinated phosphorus atom, as illustrated in Figure~\ref{fig:mehdp_reaction_mechanism}. The associated barrier height is 30.43 kcal/mol, which is notably lower than the 37.13 kcal/mol barrier observed for the associative pathway of \ac{medp} hydrolysis. This observation suggests that \ac{mehdp} is more reactive than the trianion. It further supports the fact that protonation of the phosphate group enhances its reactivity, which can be attributed to the effect of the leaving group's $\mathrm{pK}_\mathrm{a}$.
+
+\begin{figure}[b!]
+\centering
+\includegraphics[width=0.85\textwidth]{Figures/4_Results/results_mehdp_mechanism.pdf}
+\caption{Associative reaction mechanism of the \ac{mehdp} hydrolysis with the corresponding reactant, \ac{ts}, and product structures.}
+\label{fig:mehdp_reaction_mechanism}
 \end{figure}
+
+The mechanism of the associative pathway proceeds via the following steps: the leaving group remains attached to the $\beta$-phosphorus atom while the attacking water molecule approaches. Upon close contact, the water molecule deprotonates, forming a tight, pentacoordinated \ac{ts}, analogous to the case of \ac{medp}. In this state, the hydrogen of the terminal group is oriented towards the leaving group. Upon departure of the leaving group, a proton is first transferred from the newly formed dihydrogen phosphate to the leaving group. Shortly thereafter, the monohydrogen phosphate is protonated via the water network, again through a hopping mechanism. The final products are thus formed. This associative mechanism is also illustrated in Figure~\ref{fig:mehdp_reaction_mechanism}. The \ac{mfep} and the evolution of the \acp{cv} along the pathway (right panel of Figure~\ref{fig:mehdp_300k_fes_mfep}) reveal that the maximum in the coordination number aligns closely with the highest point on the \ac{mfep}, which is consistent with the associative/concerted A\textsubscript{N}D\textsubscript{N} mechanism, involving nucleophilic addition (A\textsubscript{N}) followed by nucleophilic departure (D\textsubscript{N}) in a single step.
+
+The experimentally determined barrier height for \ac{mehdp} hydrolysis at 25\textdegree{C} (298 K) is 27.7 kcal/mol~\citep{wolfendenDegreesDifficultyWaterConsuming2006}. To compare the results of this study with the experimental data, further calculations are necessary to obtain a fully converged dissociative pathway, which would allow a more balanced comparison with the associative mechanism.
+
+Finally, it is worth noting that neither the \ac{medp} nor the \ac{mehdp} 3D \ac{fes} (Figures~\ref{fig:fes_3d_medp_300k} and~\ref{fig:fes_3d_mehdp_300k}, respectively) displays a well-defined first-order saddle point. This limitation can be addressed by further converging the \ac{fes}, which would yield smoother surfaces and enable normal mode analysis on the selected points in the \ac{ts} regions to confirm whether they have a single imaginary frequency.
 
 
 
@@ -228,9 +230,19 @@ The experimentally determined barrier height for \ac{medp} hydrolysis at 25\text
 
 \section{Proton transfer mechanism}
 
-\begin{figure}[ht]
+\begin{figure}[b!]
     \centering
-    \includegraphics[width=0.95\textwidth]{Figures/4_Results/results_proton_transfer.pdf}
-    \caption{Proton transfer mechanism depicted step by step from the \ac{medp} D\textsubscript{N}A\textsubscript{N} dissociative mechanism.}
+    \includegraphics[width=0.85\textwidth]{Figures/4_Results/results_proton_transfer.pdf}
+    \caption{\Acf{pt} mechanism depicted step by step from the \ac{medp} D\textsubscript{N}A\textsubscript{N} dissociative mechanism and the \ac{mehdp} A\textsubscript{N}D\textsubscript{N} associative mechanism.}
     \label{fig:medp_proton_transfer}
 \end{figure}
+
+We now come to the dessert of this study - the proton transfer mechanism. As in any other study of a chemical reaction carried out using biased sampling, numerous reactive events occur during the simulations. In the production runs conducted in this work, several proton transfer events were observed, although only a few were analysed in detail. Specifically, two types of proton transfer events were identified: one in which a proton is transferred from a water molecule to the PO$_3^-$ species (and possibly to the monohydrogen phosphate), and another in which a proton is transferred from the dihydrogen phosphate to the leaving group. These events are illustrated in Figure~\ref{fig:medp_proton_transfer}.
+
+During the \ac{wtmd} production runs, the \ac{cv} associated with any hydrogen atom in the system was not biased. This implies that the proton transfer events occurred spontaneously.
+
+When the \ac{pt} takes place from a water molecule, it proceeds through the following steps: first, the water molecule approaches the reactive site; then, a neighbouring water molecule from the second solvation shell activates the former by deprotonating it, resulting in the formation of a Zundel complex (H$_5$O$_2^+$)~\citep{xantheasDancesHydrogenCations2009, zundelEnergiebanderTunnelndenUberschussProtonen1968}, which can be described as a proton shared between two water molecules. Subsequently, an Eigen complex (H$_7$O$_3^+$)~\citep{xantheasDancesHydrogenCations2009, eigenProtonTransferAcidBase1964} is formed with the involvement of a third water molecule from the second solvation shell. In this structure, the hydronium ion (H$_3$O$^+$) is typically stabilised by two or three water molecules. The proton is then transferred to the newly formed monohydrogen phosphate.
+
+In the case where the \ac{pt} occurs from the dihydrogen phosphate, the proton is transferred to the leaving group via a bridging water molecule, leading to the formation of the hydronium cation and the consequent proton transfer.
+
+In summary, proton transfer occurs with the assistance of either one or three water molecules. A more detailed analysis of the proton transfer mechanism would be a valuable direction for future work, particularly to determine the average number of water molecules involved in the proton transfer network.
