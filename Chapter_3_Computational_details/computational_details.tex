@@ -45,7 +45,7 @@ Subsequently, the system was equilibrated in the \ac{npt} ensemble for 45 ns. Th
     \end{tabular}
 \end{table}
 
-All simulations were carried out using GROMACS 2021.4~\citep{abrahamGROMACSHighPerformance2015} with CHARMM36m force field~\citep{huangCHARMM36mImprovedForce2017}. The leap-frog integrator was employed with a time step of 1 fs. All hydrogen-involving bonds were constrained using the LINCS algorithm. The equilibrated box dimensions used for subsequent simulations were taken from the output of the \ac{npt} run and are summarised in Table~\ref{tab:system-before-equilibration}. Unless otherwise stated, the last frame of the \ac{npt} simulations was used as the starting point for all further calculations.
+All simulations were carried out using GROMACS 2021.4~\citep{abrahamGROMACSHighPerformance2015} with CHARMM36 force field~\citep{huangCHARMM36mImprovedForce2017}. The leap-frog integrator was employed with a time step of 1 fs. All hydrogen-involving bonds were constrained using the LINCS algorithm. The equilibrated box dimensions used for subsequent simulations were taken from the output of the \ac{npt} run and are summarised in Table~\ref{tab:system-before-equilibration}. Unless otherwise stated, the last frame of the \ac{npt} simulations was used as the starting point for all further calculations.
 
 
 
@@ -61,22 +61,22 @@ The specific \acp{cv} used in this work are shown in Figure~\ref{fig:collective_
 
 \begin{itemize}
     \item Distance between the $\beta$-phosphorus and the bridging oxygen (d\textsubscript{P-O\textsubscript{lg}}),
-    \item Coordination number of all water oxygen atoms as well as the bridging oxygen surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{all}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$.
+    \item Coordination number of the $\beta$-phosphorus by all water O atoms as well as the bridging oxygen (C\textsubscript{P-O\textsubscript{all}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$.
 \end{itemize}
 
 \begin{figure}[b!]
     \centering
     \includegraphics[width=0.95\textwidth]{Figures/3_Computational_details/methods_collective_variables.pdf}
-    \caption{The definition of the collective variables (CVs) used in this work. d stands for distance and CN stands for coordination number.}
+    \caption{The definition of the collective variables (CVs) used in this work. \textit{d} stands for distance and CN stands for coordination number.}
     \label{fig:collective_variables}
 \end{figure}
 
-Additionally, the following \acp{cv} were monitored to check whether the system was in a reasonable region of the potential energy surface, e.g. to ensure that there is no oxygen exchange between the methyl diphosphate and the water molecules:
+Additionally, the following \acp{cv} were monitored to check whether the system was in a reasonable region of the potential energy surface, e.g.\ to ensure that there is no oxygen exchange between the methyl diphosphate and the water molecules:
 \begin{itemize}
-    \item Coordination number of 3 nonbridging phosphoryl oxygens surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{nb}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
-    \item Coordination number of 2 nonbridging oxygens from $\alpha$-phosphorus as well as the one forming a bond with the methyl group surrounding the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{nb-lg}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
-    \item Coordination number of water oxygens around the $\beta$-phosphorus (C\textsubscript{P-O\textsubscript{w}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
-    \item Coordination number of non-methyl hydrogen atoms around 5 non-bridging and 1 bridging oxygen atoms (C\textsubscript{O-H\textsubscript{all}}): $d_0 = 0$, $r_0 = 1.3$ \AA, $n = 8$, $m = 16$.
+    \item Coordination number of the $\beta$-phosphorus atom by the 3 non-bridging O atoms (C\textsubscript{P-O\textsubscript{nb}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of the $\beta$-phosphorus atom by the 2 non-bridging oxygens from $\alpha$-phosphorus as well as the one forming a bond with the methyl group (C\textsubscript{P-O\textsubscript{nb-lg}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of the $\beta$-phosphorus by the water oxygens (C\textsubscript{P-O\textsubscript{w}}): $d_0 = 0$, $r_0 = 2.1$ \AA, $n = 8$, $m = 16$,
+    \item Coordination number of the 5 non-bridging and 1 bridging oxygen atoms by the non-methyl hydrogen atoms (C\textsubscript{O-H\textsubscript{all}}): $d_0 = 0$, $r_0 = 1.3$ \AA, $n = 8$, $m = 16$.
 \end{itemize}
 
 To avoid sampling of unphysical regions of the potential energy surface, quadratic (harmonic-like) wall potentials were applied to softly constrain certain degrees of freedom. The mathematical form of these wall potentials is given below:
@@ -117,7 +117,7 @@ All \ac{cv}-related computations were performed using the built-in tools of CP2K
 \label{subsec:xtb-exploration-of-configuration-space}
 To generate the initial set of configurations for the training dataset, the system was subjected to molecular dynamics simulations using the semi-empirical GFN1-xTB~\citep{grimmeRobustAccurateTightBinding2017} level of theory. 
 
-Each system was first equilibrated for 5 ps in the \ac{nvt} ensemble at 300 K to allow the structures to relax at the GFN1-xTB level, including a Grimme's D3 dispersion correction~\citep{grimmeConsistentAccurateInitio2010}. Following equilibration, we performed 50 ps of \ac{wtmd}~\citep{barducciWellTemperedMetadynamicsSmoothly2008} simulations in the \ac{nvt} ensemble. In these simulations, a biasing potential was applied to encourage the system to explore regions of the configuration space beyond the reactant basin. This bias was introduced along two \acp{cv}: d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}}. No restraints were applied to the system during this stage.
+Each system was first equilibrated for 5 ps in the \ac{nvt} ensemble at 300 K to allow the structures to relax at the GFN1-xTB level. Following equilibration, we performed 50 ps of \ac{wtmd}~\citep{barducciWellTemperedMetadynamicsSmoothly2008} simulations in the \ac{nvt} ensemble. In these simulations, a biasing potential was applied to encourage the system to explore regions of the configuration space beyond the reactant basin. This bias was introduced along two \acp{cv}: d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}}. No restraints were applied to the system during this stage.
 
 All calculations were carried out using the CP2K 2023.1 package~\citep{kuhneCP2KElectronicStructure2020} on CPUs. Temperature control was achieved using the \ac{csvr} thermostat~\citep{bussiCanonicalSamplingVelocity2007}, with a time constant of 50 fs during equilibration and 100 fs during the \ac{wtmd} simulations. The \ac{scf} convergence threshold was set to $10^{-5}$ a.u. The biasing potential was updated every 25 fs, with a Gaussian hill height of 2 kcal mol\textsuperscript{-1} and a width of 0.07 for each \ac{cv}. The bias factor was set to 30. Finally, the integration time step was set to 0.5 fs. Throughout the simulations, \ac{pbc} were applied in all directions.
 
@@ -126,9 +126,9 @@ All calculations were carried out using the CP2K 2023.1 package~\citep{kuhneCP2K
 \subsection{Data labeling}
 All data points were labeled by performing single-point calculations to obtain the energy and force values. These single-point calculations were carried out using the \ac{pbe}~\citep{perdewGeneralizedGradientApproximation1996}, along with a Grimme's D3 dispersion correction and the Becke-Johnson damping function~\citep{grimmeConsistentAccurateInitio2010,grimmeEffectDampingFunction2011}. In all calculations, the \ac{gth}~\citep{goedeckerSeparableDualspaceGaussian1996,hartwigsenRelativisticSeparableDualspace1998} were used to represent the core electrons, in combination with the \ac{tzv2p}.
 
-The single-point calculations were performed using the \; \ac{gpw} implemented in the QUICKSTEP module~\citep{vandevondeleQuickstepFastAccurate2005} of the CP2K 2023.1 package~\citep{kuhneCP2KElectronicStructure2020}. The \ac{scf} convergence threshold was set to 10\textsuperscript{-6} a.u. A plane-wave cutoff of 800 Ry was applied for the total density, while a cutoff of 60 Ry was used for the Kohn-Sham orbitals.
+The single-point calculations were done using the \ac{gpw} method implemented in the QUICKSTEP module~\citep{vandevondeleQuickstepFastAccurate2005} of the CP2K 2023.1 package \citep{kuhneCP2KElectronicStructure2020}. The \ac{scf} convergence threshold was set to $10^{-6}$ a.u. A plane-wave cutoff of 800 Ry was applied for the total density, while a cutoff of 60 Ry was used for the Kohn-Sham orbitals.
 
-The aforementioned cutoffs were determined based on a convergence test performed on one of the configurations, as described in~\citep{cp2k_developersHowConvergeCUTOFF}. An error in total energy of less than 10\textsuperscript{-8} a.u. was considered acceptable for the convergence test. The test was conducted by varying the cutoff for the total density from 400 to 1500 Ry, and the cutoff for the Kohn-Sham orbitals from 10 to 200 Ry. The results of the convergence test are shown in Table~\ref{tab:cutoff-convergence-test}.
+The aforementioned cutoffs were determined based on a convergence test performed on one of the configurations, as described in~\citep{cp2k_developersHowConvergeCUTOFF}. An error in total energy of less than $10^{-8}$ a.u. was considered acceptable for the convergence test. The test was conducted by varying the cutoff for the total density from 400 to 1500 Ry, and the cutoff for the Kohn-Sham orbitals from 10 to 200 Ry. The results of the convergence test are shown in Table~\ref{tab:cutoff-convergence-test}.
 
 After the \ac{dft} labelling, the data were transformed into the extended XYZ format, which includes atomic positions, forces, total energies, cell dimensions, and whether \ac{pbc} were used or not. This format was chosen because it is compatible with neural network training, as explained in the next section. The data transformation was carried out using an in-house script, \texttt{cp2k2extxyz.py}, which is available in~\citep{makhmudovCp2k_to_extxyzScriptThat}.
 
@@ -159,7 +159,7 @@ The networks were trained using the following \ac{mse} loss function already imp
     \label{eq:loss_function}
 \end{equation}
 
-Here, $N$ is the number of atoms, $\hat{E}$ is the predicted energy, $E$ is the reference energy, $F_{i,\alpha}$ is the reference force on atom $i$ in direction $\alpha$, and $-\frac{\partial \hat{E}}{\partial r_{i,\alpha}}$ is the calculated force by means of autodifferentiating the predicted energy with respect to the atomic position. The hyperparameters $\lambda_E$ and $\lambda_F$ by default have a weighting of 1 to $N_{atoms}^2$, respectively.
+Here, $N$ is the number of atoms, $\hat{E}$ is the predicted energy, $E$ is the reference energy, $F_{i,\alpha}$ is the reference force on atom $i$ in direction $\alpha$, and $-\frac{\partial \hat{E}}{\partial r_{i,\alpha}}$ is the calculated force by means of autodifferentiating the predicted energy with respect to the atomic position.
 
 To thoroughly sample the reaction space, the training was performed in an iterative manner, where the model was first trained on a small set of data and then used to generate additional data points. This process was repeated until the model converged, with the \ac{rmse} of the atomic forces being less than 40 meV/\AA. The workflow is shown in Figure~\ref{fig:iterative-training}.
 
@@ -208,9 +208,9 @@ In the final round of training, the model was trained on a dataset consisting of
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Production runs at ambient temperature}
-To thoroughly sample the reaction space, the long production runs were performed at ambient temperature (300~K) using the neural network potential obtained in the final round of training. To run the simulations with the \ac{nnp}, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022}, compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip}, was utilised. First, the systems were equilibrated for 75 ps in \ac{nvt} ensemble, since it was previously shown that water fully relaxes in this timeframe~\citep{moronMacroNanoScale2016}. Then the simulations were carried out for 2~ns in the \ac{nvt} ensemble, with temperature regulated by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a frequency of 50~fs\textsuperscript{-1}.
+To thoroughly sample the reaction space, the long production runs were performed at ambient temperature (300~K) using the neural network potential obtained in the final round of training. To run the simulations with the \ac{nnp}, the LAMMPS package~\citep{thompsonLAMMPSFlexibleSimulation2022}, compiled with PLUMED 2.9.3~\citep{tribelloPLUMED2New2014} and \texttt{pair\_nequip}~\citep{MirgroupPair_nequip}, was utilised. First, the systems were equilibrated for 75 ps in the \ac{nvt} ensemble, since it was previously shown that water fully relaxes in this timeframe~\citep{moronMacroNanoScale2016}. Then the simulations were carried out for 2~ns in the \ac{nvt} ensemble, with temperature regulated by a Nos\'e--Hoover thermostat~\citep{noseUnifiedFormulationConstant1984, hooverCanonicalDynamicsEquilibrium1985} with a frequency of 50~fs\textsuperscript{-1}.
 
-The biasing potential was applied every 50~fs to d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}} using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on the \acp{cv} as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
+The biasing potential was incremented every 50~fs to d\textsubscript{P-O\textsubscript{lg}} and C\textsubscript{P-O\textsubscript{all}} using a Gaussian hill height of 0.5~kcal~mol\textsuperscript{-1} and a width of 0.07 for each collective variable. Additionally, restraints were imposed on the \acp{cv} as mentioned in Table~\ref{tab:wall_potentials}. The bias factor was set to 30, and the integration time step was maintained at 0.5~fs. All simulations were conducted on a single A100 GPU.
 
 To obtain the free energy profiles of the reactions, the Gaussian kernels applied during the simulations were summed using the \texttt{sum\_hills} utility provided in the PLUMED 2.9.3 package~\citep{tribelloPLUMED2New2014}. Afterwards, the \acp{mfep} were extracted using the MEPSA 1.4 software~\citep{marcos-alcaldeMEPSAMinimumEnergy2015}. 
 
@@ -243,4 +243,4 @@ To obtain the free energy profiles of the reactions, the Gaussian kernels applie
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Data analysis and visualisation}
-Data analysis was performed using Python in Jupyter notebooks~\citep{grangerJupyterThinkingStorytelling2021}. All plots were generated using Matplotlib library~\citep{hunterMatplotlib2DGraphics2007}. The water oxygen-oxygen $g_\mathrm{O-O}(r)$ \ac{rdf} was calculated using the extension in VMD~\citep{humphreyVMDVisualMolecular1996} with the bin size of 0.0125~\AA\ using the 2 ns of the production runs.
+Data analysis was performed using Python in Jupyter notebooks~\citep{grangerJupyterThinkingStorytelling2021}. All plots were generated using the Matplotlib library~\citep{hunterMatplotlib2DGraphics2007}. The water oxygen-oxygen $g_\mathrm{O-O}(r)$ \ac{rdf} was calculated using the extension in VMD~\citep{humphreyVMDVisualMolecular1996} with the bin size of 0.0125~\AA\ using the last 2 ns of the production runs. All structures were visualised using VMD~\citep{humphreyVMDVisualMolecular1996}.

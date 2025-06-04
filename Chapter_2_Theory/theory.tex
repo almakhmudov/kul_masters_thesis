@@ -1,5 +1,5 @@
 \chapter{Theory}
-This chapter provides a short and condensed introduction to the theoretical concepts of the methods used in this work. It begins with a discussion of statistical mechanics and free energy techniques, followed by an overview of density functional theory and \textit{ab initio} molecular dynamics. Finally, the chapter concludes with a brief introduction to graph neural networks and neural network potentials. The aim is to provide a comprehensive background to the methods used, while the technical details and derivations are left to the literature sources cited throughout the text.
+This chapter provides a short and condensed introduction to the theoretical concepts that serve as the basis for the methods used in this work. It begins with a discussion of statistical mechanics and free energy techniques, followed by an overview of density functional theory and \textit{ab initio} molecular dynamics. Finally, the chapter concludes with a brief introduction to graph neural networks and neural network potentials. The aim is to provide a comprehensive background to the methods used, while the technical details and derivations are left to the literature sources cited throughout the text.
 
 \section{A brief introduction to statistical mechanics}
 The discussion in this section is mostly based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Statistical Mechanics: Theory and Molecular Simulation'' by Tuckermann~\citep{tuckermanStatisticalMechanicsTheory2023}, and ``Understanding Molecular Simulation: From Algorithms to Applications'' by Frenkel and Smit~\citep{frenkelUnderstandingMolecularSimulation2002} unless stated otherwise.
@@ -52,7 +52,7 @@ Here, $M$ is the total molecular mass, and $V$ is the volume. Turning to the rot
     q_{\text{rot}} = \frac{8\pi^2IkT}{h^2\sigma}
 \end{equation}
 
-In this expression, $I$ denotes the moment of inertia, and $\sigma$ represents the symmetry factor, i.e. the order of the rotational subgroup within the molecular point group. For polyatomic molecules, writing an exact expression is more complex, but an approximate form can be used:
+In this expression, $I$ denotes the moment of inertia, and $\sigma$ represents the symmetry factor, i.e.\ the order of the rotational subgroup within the molecular point group. For polyatomic molecules, writing an exact expression is more complex, but an approximate form can be used:
 
 \begin{equation}
     q_{\text{rot}} = \frac{\sqrt{\pi}}{\sigma}\left(\frac{8\pi^2kT}{h^2}\right)^{3/2} \sqrt{I_1I_2I_3}
@@ -96,7 +96,7 @@ Turning to thermodynamic functions, namely enthalpy $H$, entropy $S$, and Gibbs 
     G &= H - TS = kTV\left(\frac{\partial \ln Q}{\partial V}\right)_T - kT\ln Q
 \end{align}
 
-This connection between macroscopic observables, thermodynamic functions, and the partition function once again highlights its fundamental importance in statistical thermodynamics.
+This connection between macroscopic observables, thermodynamic functions, and the partition function once again highlights the fundamental importance of the partition function in statistical thermodynamics.
 
 
 
@@ -186,7 +186,7 @@ In metadynamics, a biasing (external) potential is added to the system's potenti
     \label{eq:biasing_potential}
 \end{equation}
 
-where $s(t) = S(x(t))$ is the value of the \ac{cv} at time $t$. The height of the Gaussian kernel is denoted by $w$, $\delta s$ is its width, and $\tau_{\text{G}}$ is the deposition rate.
+Where $s(t) = S(x(t))$ is the value of the \ac{cv} at time $t$, $s(t')$ is the value of the \ac{cv} at time $t' < t$, and $x$ is the set of all coordinates. The height of the Gaussian kernel is denoted by $w$, $\delta s$ is its width, and $\tau_{\text{G}}$ is the deposition rate.
 
 The approach used in metadynamics can be explained using the Panama Canal as an analogy as illustrated in Figure~\ref{fig:metadynamics}. The idea is to fill the basins of the free energy landscape with a Gaussian potential, which can be thought of as water gradually filling the basins, lifting the system (like a ship in a lock) out of a free energy minimum and helping it traverse to other states.
 
@@ -269,7 +269,7 @@ The energy functional can be written as:
     \end{aligned}
 \end{equation}
 
-Here, the first three terms are “known” and represent the kinetic energy of the electrons, the Coulomb interaction between the electrons, and the electron-nucleus interaction, respectively. The final term, the exchange-correlation energy functional, is the unknown component. It contains all the effects that are not straightforward to treat exactly, for instance, the residual part of the kinetic energy and the non-classical electron-electron interactions:
+Here, the first three terms are “known” and represent the approximate kinetic energy of the electrons for the Kohn-Sham orbitals, the Coulomb interaction between the electrons, and the electron-nucleus interaction, respectively. The final term, the exchange-correlation energy functional, is the unknown component. It contains all the effects that are not straightforward to treat exactly, for instance, the residual part of the kinetic energy and the non-classical electron-electron interactions:
 
 \begin{equation}
     E_{\text{XC}}[\rho] \equiv (T[\rho] - T_{\text{s}}[\rho]) + (E_{\text{ee}}[\rho] - J[\rho])
@@ -278,7 +278,7 @@ Here, the first three terms are “known” and represent the kinetic energy of 
 
 The biggest challenge in \ac{dft} lies in the formulation of $E_{\text{XC}}$. This term is particularly important, as finding the minimum of the total energy functional, as expressed in Equation~\ref{eq:ks_energy}, depends on its accurate representation.
 
-To address this, the Kohn-Sham approach introduces a set of single-electron equations that can be solved iteratively to obtain the electron density and the total energy of the system. The Kohn-Sham equations are given by:
+The Kohn-Sham approach introduces a set of single-electron equations that can be solved iteratively to obtain the electron density and the total energy of the system. The Kohn-Sham equations are given by:
 
 \begin{equation}
     \left( -\frac{1}{2} \nabla^2 + V_{\text{eff}}(\mathbf{r}) \right) \phi_i = \varepsilon_i \phi_i
@@ -301,7 +301,7 @@ The iterative procedure to solve these equations proceeds as follows: first, a t
 \begin{figure}[t!]
     \centering
     \includegraphics[width=0.7\textwidth]{Figures/2_Theory/theory_jacobs_ladder.png}
-    \caption{Left panel: accuracy of the common quantum chemical methods as a function of the computatinal cost. Right panel: categorisation of the exchange-correlation functionals according to Perdew's ``Jacob's ladder''. The figure was reproduced from \citep{burschBestPracticeDFTProtocols2022}.}
+    \caption{Left panel: accuracy of the common quantum chemical methods as a function of the computational cost. Right panel: categorisation of the exchange-correlation functionals according to Perdew's ``Jacob's ladder''. The figure was reproduced from \citep{burschBestPracticeDFTProtocols2022}.}
     \label{fig:jacobs_ladder}
 \end{figure}
 
@@ -394,15 +394,19 @@ In addition to the adjacency matrix, each graph also has a matrix of scalar feat
 
 \Acp{gnn} are neural networks specifically designed to operate on graph-structured data. They learn representations of nodes, edges, or entire graphs by iteratively updating node features based on their neighbours $\mathcal{N}_i$. This iterative process is commonly referred to as message passing, illustrated in Figure~\ref{fig:graph_and_geometric_nns}~A. Conceptually, the process proceeds as follows:
 \begin{enumerate}
-    \item At iteration $t$, each node $i$ receives messages from its neighbours $\mathcal{N}_i$:
+    \item At iteration $t$, each node $i$ receives messages from its neighbours $\mathcal{N}_i$ by means of a message function $\underline{\text{MSG}}$:
     \begin{equation}
         \mathbf{m}_{ij}^{(t)} = \underline{\text{MSG}}\left(\mathbf{s}_i^{(t)}, \mathbf{s}_j^{(t)}\right)
         \label{eq:message_passing}
     \end{equation}
 
-    \item These messages are aggregated to update the node's features: $\bigoplus_{j \in \mathcal{N}_i} \mathbf{m}_{ij}^{(t)}$.
-        
-    \item At iteration $t + 1$, the node's representation is updated using the aggregated messages and its current state:
+    \item These messages are aggregated to update the node's features with the help of the aggregation operator $\bigoplus$:
+    \begin{equation}
+        \bigoplus_{j \in \mathcal{N}_i} \mathbf{m}_{ij}^{(t)}
+        \label{eq:aggregation}
+    \end{equation}
+    
+    \item At iteration $t + 1$, the node's representation is updated using the aggregated messages and its current state by applying an update function $\underline{\text{UPD}}$:
     \begin{equation}
         \mathbf{s}_i^{(t+1)} = \underline{\text{UPD}}\left(\mathbf{s}_i^{(t)}, \bigoplus_{j \in \mathcal{N}_i} \mathbf{m}_{ij}^{(t)}\right)
         \label{eq:representation_update}
@@ -475,7 +479,7 @@ Before learning atomic representations, the network constructs an input graph fr
     \label{eq:smooth_cutoff}
 \end{equation}
 
-Here, $d_{ij} = ||\vec{x}_i - \vec{x}_j||$ is the distance between atoms $i$ and $j$, and $c$ is the cutoff radius. The cutoff function smoothly transitions from 1 to 0 as the distance approaches the cutoff, ensuring that interactions are considered only within the specified range. This function is typically chosen to be continuous and differentiable, such as a cosine or polynomial function, to avoid discontinuities. The choice of cutoff radius is critical, as it determines the size of the local environment considered by the network. A cutoff that is too small may lead to the loss of important long-range interactions, while one that is too large may introduce noise and increase computational cost.
+Here, $d_{ij} = ||\vec{x}_i - \vec{x}_j||$ is the distance between atoms $i$ and $j$, and $c$ is the cutoff radius. The cutoff function smoothly transitions from 1 to 0 as the distance approaches the cutoff, ensuring that interactions are considered only within the specified range. This function is typically chosen to be continuous and differentiable, such as a cosine or polynomial function, to avoid discontinuities. The choice of cutoff radius is critical, as it determines the size of the local environment considered by the network, in other words the interactions between the atoms or molecules one is interested in to investigate.
 
 When working with periodic systems, \acp{pbc} must be respected during graph construction. Therefore, adjacent unit cells are considered within the cutoff distance to ensure that atomic environments are correctly represented.
 
@@ -489,7 +493,7 @@ Alongside the geometric information, usually encoded as distance-based features,
 \end{figure}
 
 \subsubsection{Embedding and interaction blocks}
-Once the input features have been defined, the network proceeds through an initial embedding layer. This layer maps the input features into a latent space, which may consist of scalars, vectors, or higher-order tensors $\ell$, depending on the network’s level of geometric complexity. For instance, in NequIP, the input features are mapped into spherical tensors $\ell$ that are irreducible representations of $SO(3)$ thanks to the e3nn library \citep{geigerE3nnEuclideanNeural2022}, ensuring rotational equivariance, while translational invariance is built in by using relative positional features. In other words, the embedding layer constructs the initial learnable atomic representations that will be refined by the subsequent layers of the network.
+Once the input features have been defined, the network proceeds through an initial embedding layer. This layer maps the input features into a latent space, which may consist of scalars, vectors, or higher-order tensors $\ell$, depending on the network's level of geometric complexity. For instance, in NequIP, the input features are mapped into spherical tensors $\ell$ that are irreducible representations of the spherical point group $SO(3)$ thanks to the e3nn library \citep{geigerE3nnEuclideanNeural2022}, ensuring rotational equivariance, while translational invariance is built in by using relative positional features. In other words, the embedding layer constructs the initial learnable atomic representations that will be refined by the subsequent layers of the network.
 
 The core of the network comprises a series of interaction, or message-passing, blocks. Within each block, nodes aggregate both scalar and vector information from their neighbours, often using edge features such as relative positions or spherical harmonics to guide the update. The aggregated messages are then passed through neural network layers. As a result, each node's feature vector is updated in a way that preserves the geometric structure of the system. By stacking multiple interaction blocks, the network gains the capacity to capture complex many-body interactions. Each layer builds upon the features extracted by the previous one, allowing the model to learn increasingly rich representations of atomic environments.
 
