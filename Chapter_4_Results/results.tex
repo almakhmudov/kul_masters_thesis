@@ -1,8 +1,9 @@
 \chapter{Results and discussion}
+In this chapter, the results of the \ac{aimd} simulations driven by the neural network potential are presented. The chapter is structured as follows: first, the final dataset composition is discussed, followed by an assessment of the accuracy and performance of the fitted neural network potential. The stability of the production runs is then evaluated, and the radial distribution function of water is compared with experimental data. The convergence of the free energy profiles is examined, and the evolution of the collective variables over time is analysed. Next, the reaction mechanisms for methyl diphosphate trianion and methyl diphosphate dianion are presented, along with a discussion on their kinetics and thermodynamics. Finally, the chapter concludes with the discussion of proton transfer mechanism.
 
 \section{Final dataset composition}
 
-\begin{figure}[ht]
+\begin{figure}[t!]
     \centering
     \includegraphics[width=0.9\textwidth]{Figures/4_Results/results_final_dataset_with_histograms.png}
     \caption{Left panel: final dataset composition projected on the two \acp{cv} space. RS stands for the reactant state, PS for the product state, and TS for the transition state. 50 bins were used to produce the histograms. Right panel: normalised densities of the two \acp{cv} for the training/validation and test sets.}
@@ -24,7 +25,7 @@ A particularly important aspect of dataset construction was the implementation o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Accuracy and performance of the neural network potential}
 
-\begin{figure}[t]
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_nnp_accuracy_l-1_l-2.png}
     \caption{Accuracy of the neural network potential trained on 12,000 data points. The left panel shows the errors in the forces and energy for the tensor rank $\ell=1$, and the right panel shows the errors for $\ell=2$. For the histograms, the number of bins was set to 50.}
@@ -41,7 +42,7 @@ The \acp{nnp} obtained in this work fall somewhere in between these two categori
 
 As shown in Figure~\ref{fig:nnp_accuracy}, the calculated forces lie along the diagonal, showing that errors are quite small in magnitude. The diagonal represents a perfect fit. The only points that are slightly scattered correspond to sodium cations (Na\textsuperscript{+}) jiggling and wiggling in solution. This fact makes it more challenging for the network to predict the forces on Na\textsuperscript{+}.
 
-\begin{figure}[t!]
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_nnp_loglog_energy_force.png}
     \caption{Log-log plot of the errors in the energy and forces for the neural network potential with respect to the training dataset size. In all cases, the errors were calculated on the final test set of 1,800 data points.}
@@ -52,18 +53,18 @@ Regarding the energy predictions, the potential with $\ell=1$ slightly overestim
 
 Overall, both potentials are very accurate, especially considering that they were trained on a fairly small dataset of 12,000 data points. This fact supports the idea that equivariant \acp{gnn} are indeed data-efficient. For instance, a related study~\citep{benayadPrebioticChemicalReactivity2024} investigated phosphoester bond formation between orthophosphate and methanol in bulk water. In that case, to achieve force errors on the order of 50~meV/\AA/atom, the authors had to train an invariant neural network, DeePMD~\citep{zengDeePMDkitV2Software2023}, on 220,000-400,000 data points.
 
-It is important to note that the potentials are only as accurate as can be assessed by the test set, which contains 1,800 points spanning the entire \ac{fes} of the reaction. The test set was not used during training nor clashes with the training points, which confirms that the \ac{nnp} generalises well to unseen data.
-
-The generalisability of the potentials can be further assessed by analysing how the errors in the energy and forces vary with the training dataset size. Figure~\ref{fig:nnp_log-log} shows a log-log plot of these errors for the \ac{nnp} at each iteration of the learning loop. The errors were evaluated \textit{a posteriori} on the final test set of 1,800 data points.
-
-By examining the slopes, it becomes evident that the dataset size significantly influences how well the network learns the energies. The errors in the forces, however, are less sensitive to dataset size, which can be explained by the fact that total energies are the global quantity while forces are the local quantities of the system. Therefore, the forces are going to undergo smaller changes with respect to the dataset size they are trained upon. Nevertheless, with better energies come better forces. Interestingly, the \acp{nnp} began producing sufficiently accurate results after the second training round, i.e., with 8,000 data points. This suggests that a dataset of 12,000 points is indeed sufficient to achieve a very good fit.
-
-\begin{figure}[t]
+\begin{figure}[b!]
     \centering
     \includegraphics[width=0.6\textwidth]{Figures/4_Results/results_performance_comparison.png}
     \caption{Comparison of the performance between the \textit{ab initio} molecular dynamics runs driven by GFN1-xTB and neural network potentials fitted with different tensor ranks. CPU = 2 Intel Xeon Platinum 8468 CPUs (Sapphire Rapids), 48 cores each. GPU = 1 NVIDIA A100 80~GB GPU.}
     \label{fig:performance_comparison}
 \end{figure}
+
+It is important to note that the potentials are only as accurate as can be assessed by the test set, which contains 1,800 points spanning the entire \ac{fes} of the reaction. The test set was not used during training nor clashes with the training points, which confirms that the \ac{nnp} generalises well to unseen data.
+
+The generalisability of the potentials can be further assessed by analysing how the errors in the energy and forces vary with the training dataset size. Figure~\ref{fig:nnp_log-log} shows a log-log plot of these errors for the \ac{nnp} at each iteration of the learning loop. The errors were evaluated \textit{a posteriori} on the final test set of 1,800 data points.
+
+By examining the slopes, it becomes evident that the dataset size significantly influences how well the network learns the energies. The errors in the forces, however, are less sensitive to dataset size, which can be explained by the fact that total energies are the global quantity while forces are the local quantities of the system. Therefore, the forces are going to undergo smaller changes with respect to the dataset size they are trained upon. Nevertheless, with better energies come better forces. Interestingly, the \acp{nnp} began producing sufficiently accurate results after the second training round, i.e., with 8,000 data points. This suggests that a dataset of 12,000 points is indeed sufficient to achieve a very good fit.
 
 The next question to address is which of the two \acp{nnp} should be used in subsequent calculations. To answer this, the performance of the potentials was compared in terms of computational time required to run \ac{aimd} simulations. The results are presented in Figure~\ref{fig:performance_comparison}. The \ac{aimd} simulations were performed on the \ac{medp} system.
 
@@ -75,31 +76,23 @@ Taking both accuracy and performance into account, the \ac{nnp} with $\ell=1$ wa
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Stability of the production runs}
-
-\begin{figure}[b!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_aimd_stability.png}
-    \caption{Temperature and total energy fluctuations during the production runs at 300 K. The solid line represents the average, while the shaded area indicates the standard deviation. The average and the standard deviation were calculated using a sliding window of 1 ps.}
-    \label{fig:temp_energy_fluctuations}
-\end{figure}
-
 Before discussing the reaction mechanism and the free energy profiles, it is important to assess the quality of the fitted \ac{nnp} in a real world scenario. To do so, we can briefly touch upon the stability of the production runs. The stability of the \ac{aimd} simulations was assessed by monitoring temperature and total energy fluctuations over time. The corresponding results are presented in Figure~\ref{fig:temp_energy_fluctuations}.
 
 Temperature control was achieved using the Nos\'e--Hoover thermostat, while the total energy was calculated as the sum of potential and kinetic energies. The production runs were carried out at 300 K, and indeed, the average temperature remained close to this target, with a standard deviation of approximately 10 K. As expected for the \ac{nvt} ensemble, the total energy showed some fluctuations, yet remained within reasonable bounds in the simulations for both \ac{medp} and \ac{mehdp} systems.
 
 It was of particular interest to evaluate the stability of the simulations driven by the \ac{nnp}. These simulations remained stable, exhibiting neither system explosions nor any other artefacts over the 4,000,000 time steps corresponding to 2 ns. This indicates the absence of extreme force values that could have caused numerical instabilities. In a recent study~\citep{fuForcesAreNot2023}, the authors compared the stability of \ac{aimd} simulations driven by equivariant and invariant \acp{nnp}, and found that NequIP was among the most stable potentials tested across various systems. The robustness of the fitted by NequIP \ac{nnp} employed in this work is consistent with those findings.
 
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/4_Results/results_aimd_stability.png}
+    \caption{Temperature and total energy fluctuations during the production runs at 300 K. The solid line represents the average, while the shaded area indicates the standard deviation. The average and the standard deviation were calculated using a sliding window of 1 ps.}
+    \label{fig:temp_energy_fluctuations}
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Radial distribution function of water} \label{sec:water_rdf}
-
-\begin{figure}[b!]
-    \centering
-    \includegraphics[width=0.6\textwidth]{Figures/4_Results/results_water_rdf.png}
-    \caption{Oxygen-oxygen \ac{rdf} of water calculated from a production run at 300 K. Experimental data was taken from~\citep{soperRadialDistributionFunctions2013}. The PBE and PBE-D3 data were taken from \citep{phamStructureDynamicsAqueous2016} and \citep{zhouQuantifyingStructureWater2022}, respectively.}
-    \label{fig:water_rdf}
-\end{figure}
 
 The quality of the \ac{nnp} can be further assessed by comparing the \ac{rdf} of water calculated from the production runs with experimental data and previously reported computational findings. The oxygen-oxygen RDF obtained from the \ac{medp} production run is shown in Figure~\ref{fig:water_rdf}.
 
@@ -108,6 +101,13 @@ It is evident that the \ac{nnp} is in qualitative agreement with the experimenta
 One could argue that the accuracy of the fitted \ac{nnp} is inherently limited by the quality of the training data. In this study, the dataset was labelled at the PBE-D3(BJ)/TZV2P level of theory. Accordingly, the resulting oxygen-oxygen water \ac{rdf} is consistent with the \ac{aimd} study where the \ac{rdf} was calculated using the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016} as can be found in Figure~\ref{fig:water_rdf}.
 
 It has previously been shown that, in order to obtain a more accurate representation of the bulk water structure, the system temperature should be increased. For instance, \citep{zhouQuantifyingStructureWater2022} reported that the PBE functional with the Grimme's D3 dispersion correction yields a more accurate \ac{rdf} at 390 K. A similar trend was observed for the \ac{pbe} functional~\citep{phamStructureDynamicsAqueous2016}, with better agreement with experimental data achieved at 400 K.
+
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Figures/4_Results/results_water_rdf.png}
+    \caption{Oxygen-oxygen \ac{rdf} of water calculated from a production run at 300 K. Experimental data was taken from~\citep{soperRadialDistributionFunctions2013}. The PBE and PBE-D3 data were taken from \citep{phamStructureDynamicsAqueous2016} and \citep{zhouQuantifyingStructureWater2022}, respectively.}
+    \label{fig:water_rdf}
+\end{figure}
 
 In this work, the production runs were conducted at 300 K. Thus, the resulting structure and dynamics of water will be less accurately captured than at elevated temperatures. Nevertheless, it remains in good agreement with what would be expected from the \ac{pbe} functional.
 

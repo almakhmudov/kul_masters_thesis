@@ -1,6 +1,9 @@
 \chapter{Theory}
 This chapter provides a short and condensed introduction to the theoretical concepts that serve as the basis for the methods used in this work. It begins with a discussion of statistical mechanics and free energy techniques, followed by an overview of density functional theory and \textit{ab initio} molecular dynamics. Finally, the chapter concludes with a brief introduction to graph neural networks and neural network potentials. The aim is to provide a comprehensive background to the methods used, while the technical details and derivations are left to the literature sources cited throughout the text.
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A brief introduction to statistical mechanics}
 The discussion in this section is mostly based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Statistical Mechanics: Theory and Molecular Simulation'' by Tuckermann~\citep{tuckermanStatisticalMechanicsTheory2023}, and ``Understanding Molecular Simulation: From Algorithms to Applications'' by Frenkel and Smit~\citep{frenkelUnderstandingMolecularSimulation2002} unless stated otherwise.
 
@@ -133,7 +136,9 @@ In classical \ac{md}, the evolution of a system of $N$ atoms is governed by Newt
 \label{eq:md_potential}
 \end{equation}
 
-Here, the total energy is decomposed into bonded interactions (bonds, angles, and torsions) and non-bonded interactions, including Lennard-Jones and Coulombic terms. Once the potential is specified, the force on each atom $i$ is obtained via:
+Here, the total energy is decomposed into bonded interactions (bonds, angles, and torsions) and non-bonded interactions, including Lennard-Jones and Coulombic terms. The bonds $r$ and angles $\theta$ related terms are described by harmonic potentials with the force constants $K_{\text{bond}}$ and $K_{\text{bend}}$, respectively. The torsional $\phi$ terms are described by a Fourier series expansion, where $A_n$, $C_n$, and $\delta_n$ are the coefficients for the different terms in the series. The non-bonded interactions include the Lennard-Jones potential, which describes van der Waals interactions, and the Coulombic potential, which describes electrostatic interactions between charged atoms. $\epsilon$ and $\sigma$ are the Lennard-Jones parameters, and $q_i$ and $q_j$ are the charges on atoms $i$ and $j$, respectively. The distance between atoms $i$ and $j$ is $r_{ij}$.
+
+Once the potential is specified, the force on each atom $i$ is obtained via:
 
 \begin{equation}
     \mathbf{F}_i = -\frac{\partial U}{\partial \mathbf{r}_i}
@@ -249,7 +254,7 @@ The advantage of \ac{wtmd} is that it enables more efficient exploration of the 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{The density functional theory tourist}
-The discussion in this section is primarily based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Density Functional Theory: a Practical Introduction'' by Scholl and Steckel~\citep{shollDensityFunctionalTheory2011}, and ``A Chemist's Guide to Density Functional Theory'' by Koch and Holthausen~\citep{kochChemistsGuideDensity2015} unless stated otherwise.
+The discussion in this section is primarily based on the ``Introduction to Computational Chemistry'' textbook written by Jensen~\citep{jensenIntroductionComputationalChemistry2017}, ``Density Functional Theory: a Practical Introduction'' by Scholl and Steckel~\citep{shollDensityFunctionalTheory2011}, and ``A Chemist's Guide to Density Functional Theory'' by Koch and Holthausen~\citep{kochChemistsGuideDensity2015} unless stated otherwise. The reason this chapter is called \textit{tourist} is that it provides only a very brief overview of density functional theory, a vast field in itself, much like a tourist who typically spends just a few days exploring a new place. This concise discussion is adopted for the sake of space.
 
 \subsection{The Kohn-Sham approach}
 In order to describe reactive events in relatively large systems, up to approximately 1,000 atoms, it is necessary to use methods that offer a good balance between accuracy and computational cost. One such method is \ac{dft}, which is based on the Hohenberg-Kohn theorems and the Kohn-Sham equations.
@@ -269,7 +274,7 @@ The energy functional can be written as:
     \end{aligned}
 \end{equation}
 
-Here, the first three terms are “known” and represent the approximate kinetic energy of the electrons for the Kohn-Sham orbitals, the Coulomb interaction between the electrons, and the electron-nucleus interaction, respectively. The final term, the exchange-correlation energy functional, is the unknown component. It contains all the effects that are not straightforward to treat exactly, for instance, the residual part of the kinetic energy and the non-classical electron-electron interactions:
+Here, the first three terms are “known” and represent the approximate kinetic energy of the electrons for the Kohn-Sham orbitals, the Coulomb interaction between the electrons, and the electron-nucleus interaction, respectively. $\phi_i$ and $\phi_j$ are the Kohn-Sham orbitals, $N$ is the number of electrons, $M$ is the number of nuclei, $r_1$ and $r_2$ are the positions of electrons 1 and 2, respectively, and $r_{12}$ is the distance between these two electrons, $Z_A$ is the charge of nucleus $A$, and $r_{1A}$ is the distance between electron 1 and nucleus A. The final term, the exchange-correlation energy functional, is the unknown component. It contains all the effects that are not straightforward to treat exactly, for instance, the residual part of the kinetic energy and the non-classical electron-electron interactions:
 
 \begin{equation}
     E_{\text{XC}}[\rho] \equiv (T[\rho] - T_{\text{s}}[\rho]) + (E_{\text{ee}}[\rho] - J[\rho])
@@ -371,6 +376,7 @@ It is important to note that the GFNn-xTB methods are parametrised for 86 elemen
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Neural network potentials}
 The discussion in this section is mainly based on the textbook ``Deep Learning: Foundations and Concepts'' by C. M. Bishop and H. Bishop~\citep{bishopDeepLearningFoundations2023}, the excellent review by Duval, Mathis, Joshi, and Schmidt et al.~\citep{duvalHitchhikersGuideGeometric2024}, the research paper by Batatia and Batzner et al.~\citep{batatiaDesignSpaceE3Equivariant2022}, and the research paper by Batzner et al.~\citep{batznerE3equivariantGraphNeural2022}, unless stated otherwise.
 
@@ -423,7 +429,14 @@ Geometric \acp{gnn} are tailored to work with data that has an inherent geometri
 
 \subsection{Invariance and equivariance}
 
-In the context of geometric \acp{gnn}, the concepts of invariance and equivariance play a fundamental role in ensuring that models respect the symmetries of the data they are trained on. These properties are especially crucial when working with molecules, where rotations or translations should not change the outcome of the prediction or should change it in a predictable way.
+\begin{figure}[t!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/invariance_equivariance.png}
+    \caption{Invariance and equivariance. This figure was taken from \citep{duvalHitchhikersGuideGeometric2024}.}
+    \label{fig:invariance_equivariance}
+\end{figure}
+
+In the context of geometric \acp{gnn}, the concepts of invariance and equivariance play a fundamental role in ensuring that models respect the symmetries of the data they are trained on. These properties are especially crucial when working with molecules, where rotations or translations should not change the outcome of the prediction or should change it predictably.
 
 Mathematically, a function $f$ is said to be invariant to a transformation $g$ if applying $g$ to the input $x$ does not affect the output of the function:
 
@@ -444,13 +457,6 @@ f(g \cdot x) = g \cdot f(x)
 A familiar example of equivariance is the behaviour of vector quantities such as velocity or force. If we rotate a coordinate system (or the object within it), the velocity or force vectors will also rotate accordingly. In the context of molecular systems, atomic forces are equivariant under rotations: if the molecule is rotated, the directions of the forces rotate in the same way. Both concepts of invariance and equivariance are illustrated in Figure~\ref{fig:invariance_equivariance}.
 
 Designing \acp{gnn} that are invariant or equivariant helps reduce the amount of data needed for training. Geometric neural networks, for instance, are explicitly constructed to respect such symmetries, making them particularly well-suited for chemical modelling.
-
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/invariance_equivariance.png}
-    \caption{Invariance and equivariance. This figure was taken from \citep{duvalHitchhikersGuideGeometric2024}.}
-    \label{fig:invariance_equivariance}
-\end{figure}
 
 
 
@@ -487,7 +493,7 @@ Alongside the geometric information, usually encoded as distance-based features,
 
 \begin{figure}[t!]
     \centering
-    \includegraphics[width=0.9\textwidth]{Figures/2_Theory/equivariant_gnns.png}
+    \includegraphics[width=0.8\textwidth]{Figures/2_Theory/equivariant_gnns.png}
     \caption{(A) The timeline of the development of geometric \acp{gnn} aimed at computational chemistry problems. (B) A general architecture of geometric \acp{gnn}. This figure was reproduced from \citep{duvalHitchhikersGuideGeometric2024}.}
     \label{fig:equivariant_gnns}
 \end{figure}
