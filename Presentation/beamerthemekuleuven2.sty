@@ -94,8 +94,8 @@
 	%head frametitle	
 	\setbeamertemplate{frametitle}
 	{
-		\vspace{18pt}
-		{\large\textbf{\thesection ~ ~ \insertframetitle}} 
+		\vspace{1pt} % CHANGED FROM 18 TO THE CURRENT VALUE
+		{\large\textbf{\insertframetitle}} % USED TO LOOK AS FOLLOWS {\thesection ~ ~ \insertframetitle}}
 		% section number -- frame title	
 	}
 
@@ -237,15 +237,15 @@
  %%		
  %%  TABLE OF CONTENTS (displayed before each section)
  %%
-	\AtBeginSection[] {
-		\begin{frame}
-	    	\frametitle{Outline} 
-		    	{
-		    	\hypersetup{hidelinks} %disable link colors
-				\hfill	{\large\parbox{.95\textwidth}{\tableofcontents[currentsection,hideothersubsections]}}
-				}
-		\end{frame}
-	}
+	% \AtBeginSection[] {
+	% 	\begin{frame}
+	%     	\frametitle{Outline} 
+	% 	    	{
+	% 	    	\hypersetup{hidelinks} %disable link colors
+	% 			\hfill	{\large\parbox{.95\textwidth}{\tableofcontents[currentsection,hideothersubsections]}}
+	% 			}
+	% 	\end{frame}
+	% }
 
 
 \mode
