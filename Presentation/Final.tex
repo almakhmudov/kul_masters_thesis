@@ -28,7 +28,7 @@
 }
 \author{Albert Makhmudov}
 \institute{Supervisor: Prof. J. Harvey}
-\date{June 2025}
+\date{June 30, 2025}
 
 
 
@@ -56,10 +56,10 @@
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.9\textwidth]{Figures/introduction_background.png}
-		\small
-		\flushleft
-		Would be nice to include a take-home message.
 	\end{figure}
+	\vspace{-10pt}
+	\small
+	The ongoing debate about the reaction mechanism served as a motivation to revisit phosphate hydrolysis in this project.
 \end{frame}
 
 
@@ -79,7 +79,7 @@
 
 
 \begin{frame}
-	\vspace{0.5cm}
+	\vspace{-5pt}
 	\begin{figure}
 		\centering
 		\includegraphics[width=0.23\textwidth]{Figures/introduction_paul_dirac.jpg}
@@ -105,7 +105,7 @@
 		\includegraphics[width=0.9\textwidth]{Figures/theory_geometric_gnns.png}
 	\end{figure}
 	\small
-	Would be nice to include a take-home message.
+	NequIP was named one of the most accurate and stable neural network potentials to run the extensive molecular dynamics simulations. NequIP is based on the equivariant graph neural network architecture.
 \end{frame}
 
 
@@ -130,10 +130,14 @@
 	\vspace{-10pt}
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.9\textwidth]{Figures/theory_metadynamics.png}
+		\includegraphics[width=0.85\textwidth]{Figures/theory_metadynamics.png}
 	\end{figure}
 	\small
-	Would be nice to include a take-home message.
+	The beauty of metadynamics is that, after sufficiently long sampling, the biasing potential converges to the negative of the underlying free energy surface:
+	\vspace{-5pt}
+	\begin{gather*}
+    	\lim_{t \to \infty} V(s,t) \sim -F(s)
+	\end{gather*}
 \end{frame}
 
 
@@ -267,7 +271,8 @@
 		\includegraphics[width=0.95\textwidth]{Figures/results_MeDP_reaction_mechanism_steps.pdf}
 	\end{figure}
 	\small
-	Would be nice to include a take-home message.
+	\vspace{-10pt}
+	In the associative TS phosphorus is pentacoordinated. In the dissociative TS, there is clearly no bond between the phosphorus and the leaving group.
 \end{frame}
 
 
@@ -279,7 +284,7 @@
 		\includegraphics[width=0.9\textwidth]{Figures/results_proton_transfer.pdf}
 	\end{figure}
 	\small
-	Would be nice to include a take-home message.
+	From the limited number of inspected proton transfer (PT) events, it was found that the PT mechanism involves 1 or 3 water molecules and happens from either H$_2$O or H$_2$PO$_4^-$.
 \end{frame}
 
 
@@ -309,7 +314,7 @@
 			\end{figure}
 			\centering
 			\scriptsize
-			More O'Ferral Jencks diagram for MeDP$^{3-}$ hydrolysis.
+			More O'Ferrall-Jencks diagram for MeDP$^{3-}$ hydrolysis.
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -353,9 +358,9 @@
 	\footnotesize
 	Acknowledgments:
 	\begin{itemize}
-	\item Jeremy Harvey and all members of the research group, as well as the QCPC division;
-	\item Ehsan Moravveji (VSC), Hans Vansweevelt (KUL), and Anders Johansson (Harvard) for technical assistance;
-	\item TCCM cohort for the coffee breaks, lunches, and a lot of fun times we shared in 2 years;
+	\item Jeremy Harvey and all members of the research group, as well as the QCPC division.
+	\item Ehsan Moravveji (VSC), Hans Vansweevelt (KUL), and Anders Johansson (Harvard) for technical assistance.
+	\item TCCM cohort for the coffee breaks, lunches, and a lot of fun times (in Aspet and beyond) we shared in 2 years.
 	\item EMJMD TCCM for the financial support by means of Erasmus+ scholarship.
 	\end{itemize}
 	\begin{figure}
